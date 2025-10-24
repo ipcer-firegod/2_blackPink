@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>练习编辑器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .editor-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 400px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #764ba2;
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        
+        .preview-section {
+            border-top: 2px solid #eee;
+            padding-top: 30px;
+        }
+        
+        .preview-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .preview-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            min-height: 300px;
+        }
+        
+        .preview-header {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .preview-url {
+            color: #666;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+        }
+        
+        .preview-content {
+            padding: 20px;
+            min-height: 280px;
+        }
+        
+        .saved-files {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .saved-files h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .files-list {
+            list-style: none;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-name {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .file-name:hover {
+            color: #667eea;
+            text-decoration: underline;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .action-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回主索引</a>
+        
+        <header>
+            <h1>练习编辑器</h1>
+            <p>在这里编写HTML代码，并保存到对应章节的练习文件夹中</p>
+        </header>
+        
+        <div class="success-message" id="successMessage">文件保存成功！</div>
+        
+        <div class="editor-section">
+            <div class="form-group">
+                <label for="fileName">文件名:</label>
+                <input type="text" id="fileName" placeholder="请输入文件名（包含.html扩展名）" value="练习.html">
+            </div>
+            
+            <div class="form-group">
+                <label for="chapter">章节选择:</label>
+                <!-- <select id="chapter" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px;"> -->
+                <select id="chapter">
+                    <option value="01-HTML5语义标签">01-HTML5语义标签</option>
+                    <option value="02-CSS3核心技术">02-CSS3核心技术</option>
+                    <option value="03-现代网页布局">03-现代网页布局</option>
+                    <option value="04-交互动效设计">04-交互动效设计</option>
+                    <option value="05-前沿技术拓展">05-前沿技术拓展</option>
+                    <option value="06-移动网页开发">06-移动网页开发</option>
+                    <option value="07-响应网页开发">07-响应网页开发</option>
+                    <option value="08-前端网页托管">08-前端网页托管</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="editor">HTML代码:</label>
+                <textarea id="editor"><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的练习</title>
+    <style>
+        /* 在这里添加CSS样式 */
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>我的练习页面</h1>
+    <p>在这里编写你的HTML代码...</p>
+    
+    <!-- 在这里添加你的HTML内容 -->
+</body>
+</html></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button id="saveBtn" class="btn">保存文件</button>
+                <button id="previewBtn" class="btn btn-secondary">预览</button>
+                <button id="resetBtn" class="btn btn-secondary">重置</button>
+            </div>
+        </div>
+        
+        <div class="preview-section">
+            <h3 class="preview-title">实时预览</h3>
+            <div class="preview-container">
+                <div class="preview-header">
+                    <span>预览</span>
+                    <span class="preview-url">about:blank</span>
+                </div>
+                <div class="preview-content" id="previewContent">
+                    <p>点击预览按钮查看效果</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="saved-files">
+            <h3>已保存的文件</h3>
+            <p>提示：由于浏览器安全限制，无法直接列出本地文件。请前往对应的章节练习文件夹查看已保存的文件。</p>
+        </div>
+    </div>
+    
+    <script>
+        // 获取URL参数
+        function getUrlParams() {
+            const params = {};
+            const queryString = window.location.search.slice(1);
+            if (queryString) {
+                queryString.split('&').forEach(param => {
+                    const [key, value] = param.split('=');
+                    params[decodeURIComponent(key)] = decodeURIComponent(value);
+                });
+            }
+            return params;
+        }
+        
+        // 初始化章节选择
+        const params = getUrlParams();
+        if (params.chapter) {
+            const chapterSelect = document.getElementById('chapter');
+            for (let i = 0; i < chapterSelect.options.length; i++) {
+                if (chapterSelect.options[i].value === params.chapter) {
+                    chapterSelect.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+        
+        // 保存文件功能
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            const fileName = document.getElementById('fileName').value;
+            const chapter = document.getElementById('chapter').value;
+            const htmlContent = document.getElementById('editor').value;
+            
+            // 验证文件名
+            if (!fileName) {
+                alert('请输入文件名');
+                return;
+            }
+            
+            if (!fileName.endsWith('.html')) {
+                alert('文件名必须包含.html扩展名');
+                return;
+            }
+            
+            // 创建Blob对象
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            
+            // 创建下载链接
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            
+            // 模拟点击下载
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 显示成功消息
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+            
+            // 提示保存路径
+            alert(`文件将被下载到浏览器默认下载位置，请手动将其移动到：${chapter}/练习/ 文件夹中`);
+        });
+        
+        // 预览功能
+        document.getElementById('previewBtn').addEventListener('click', function() {
+            const htmlContent = document.getElementById('editor').value;
+            const previewContent = document.getElementById('previewContent');
+            
+            // 使用iframe进行预览
+            const iframe = document.createElement('iframe');
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.style.border = 'none';
+            
+            // 清空预览区域
+            previewContent.innerHTML = '';
+            previewContent.appendChild(iframe);
+            
+            // 写入内容到iframe
+            iframe.srcdoc = htmlContent;
+        });
+        
+        // 重置功能
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('确定要重置编辑器内容吗？')) {
+                document.getElementById('editor').value = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的练习</title>
+    <style>
+        /* 在这里添加CSS样式 */
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>我的练习页面</h1>
+    <p>在这里编写你的HTML代码...</p>
+    
+    <!-- 在这里添加你的HTML内容 -->
+</body>
+</html>`;
+                
+                document.getElementById('fileName').value = '练习.html';
+                document.getElementById('previewContent').innerHTML = '<p>点击预览按钮查看效果</p>';
+            }
+        });
+    </script>
+</body>
+</html>

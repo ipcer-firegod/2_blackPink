@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: #24252d;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    .card {
+      width: 80%;
+      margin: 100px auto;
+    }
+
+    .card ul {
+      display: flex;
+      /* <!-- !最后一行两个中间空一个的效果 由此产生 */
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .card ul li img {
+      width: 100%;
+      height: 100%;
+      filter: saturate(50%);
+      border-radius: 15px;
+    }
+
+    .card ul li {
+      /* 添加透视效果 */
+      perspective: 1000px;
+      position: relative;
+      width: 350px;
+      height: 250px;
+      border-radius: 15px;
+      /* 让里面的两个盒子保持3d状态 */
+      transform-style: preserve-3d;
+      margin-bottom: 35px;
+    }
+
+    /* 注意是让两个frong和back子盒子旋转，不是li哦 */
+
+    .card ul li:hover .front {
+      transform: rotateY(-180deg);
+
+    }
+
+    .card ul li:hover .back {
+      transform: rotateY(0deg);
+
+    }
+
+    /* 两个盒子定位 */
+    .card .front,
+    .card .back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transform-style: preserve-3d;
+      /* 旋转到背部不可见 */
+      backface-visibility: hidden;
+      color: #fff;
+      transition: all 3.7s;
+      border-radius: 15px;
+    }
+
+    .card .front {
+      z-index: 1;
+    }
+
+    .card .front p {
+      font-size: 30px;
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      border-bottom: 1px solid #fff;
+      padding-bottom: 20px;
+      transform: translateX(-50%) translateZ(60px);
+      backface-visibility: hidden;
+    }
+
+    .card .front span {
+      position: absolute;
+      top: 150px;
+      left: 50%;
+      transform: translateX(-50%) translateZ(60px);
+      backface-visibility: hidden;
+    }
+
+    /* 卡片背面 */
+    .card .back {
+      background: linear-gradient(45deg, #cedce7 0, #596a72 100%);
+      /* 旋转180度 */
+      transform: rotateY(180deg);
+      padding-top: 40px;
+      line-height: 35px;
+      z-index: 0;
+    }
+
+    .card .back p {
+      transform: translateZ(50px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <ul>
+      <li>
+        <div class="front">
+          <img src="./images/1.webp" alt="">
+          <p>上海滩</p>
+          <span>刘德华</span>
+        </div>
+        <div class="back">
+          <p>浪奔浪流</p>
+          <p>万里涛涛江水永不休</p>
+          <p> 淘尽了世间事</p>
+          <p>混作滔滔一片潮流</p>
+          <p>是喜是愁</p>
+        </div>
+      </li>
+      <li>
+        <div class="front">
+          <img src="./images/2.webp" alt="">
+          <p>忘情水</p>
+          <span>刘德华</span>
+        </div>
+        <div class="back">
+          <p>曾经年少爱追梦</p>
+          <p>一心只想往前飞</p>
+          <p>行遍千山和万水 </p>
+          <p>一路走来不能回</p>
+          <p>蓦然回首情已远</p>
+        </div>
+      </li>
+      <li>
+        <div class="front">
+          <img src="./images/3.webp" alt="">
+          <p>世界第一等</p>
+          <span>刘德华</span>
+        </div>
+        <div class="back">
+          <p>人生的风景</p>
+          <p>亲像大海的风涌</p>
+          <p> 有时猛有时平 这个季节</p>
+          <p>亲爱朋友你着小心</p>
+          <p>人生的环境</p>
+        </div>
+      </li>
+      <li>
+        <div class="front">
+          <img src="./images/2.jpg" alt="">
+          <p>冰雨</p>
+          <span>刘德华</span>
+        </div>
+        <div class="back">
+          <p>我是在等待一个女孩</p>
+          <p>还是在等待沉沦苦海</p>
+          <p> 一段情默默灌溉 </p>
+          <p>没有人去管花谢花开</p>
+          <p>无法肯定的爱</p>
+
+        </div>
+      </li>
+      <li>
+        <div class="front">
+          <img src="./images/3.jpg" alt="">
+          <p>上海滩</p>
+          <span>刘德华</span>
+        </div>
+        <div class="back">
+          <p>浪奔浪流</p>
+          <p>万里涛涛江水永不休</p>
+          <p> 淘尽了世间事</p>
+          <p>混作滔滔一片潮流</p>
+          <p>是喜是愁</p>
+        </div>
+      </li>
+      <li>
+        <div class="front">
+          <img src="./images/4.jpg" alt="">
+          <p>忘情水</p>
+          <span>刘德华</span>
+        </div>
+        <div class="back">
+          <p>曾经年少爱追梦</p>
+          <p>一心只想往前飞</p>
+          <p>行遍千山和万水 </p>
+          <p>一路走来不能回</p>
+          <p>蓦然回首情已远</p>
+        </div>
+      </li>
+
+
+      <li>
+        <div class="front">
+          <img src="./images/5.jpg" alt="">
+          <p>世界第一等1</p>
+          <span>刘德华</span>
+        </div>
+        <div class="back">
+          <p>人生的风景</p>
+          <p>亲像大海的风涌</p>
+          <p> 有时猛有时平 这个季节</p>
+          <p>亲爱朋友你着小心</p>
+          <p>人生的环境</p>
+        </div>
+      </li>
+      <li>
+        <div class="front">
+          <img src="./images/6.jpg" alt="">
+          <p>冰雨2</p>
+          <span>刘德华</span>
+        </div>
+        <div class="back">
+          <p>我是在等待一个女孩</p>
+          <p>还是在等待沉沦苦海</p>
+          <p> 一段情默默灌溉 </p>
+          <p>没有人去管花谢花开</p>
+          <p>无法肯定的爱</p>
+
+        </div>
+      </li>
+    </ul>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+/* layout.css
+   页面总体布局与响应式规则
+   包含站点结构（header/main/footer）、容器宽度和响应式栅格。
+*/
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  padding: var(--container-pad)
+}
+
+/* 站点头部 */
+.site-header {
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent), #ff9fb0);
+  color: #fff;
+  padding: 18px;
+  border-radius: 10px
+}
+
+.site-brand {
+  display: flex;
+  flex-direction: column
+}
+
+.site-title {
+  margin: 0;
+  font-size: 1.4rem
+}
+
+.site-title a {
+  color: #fff
+}
+
+.site-tagline {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  opacity: 0.95
+}
+
+/* 导航 */
+.main-nav {
+  margin-top: 12px
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 12px
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.95);
+  padding: 6px 8px;
+  border-radius: 6px
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.08)
+}
+
+/* 页脚 */
+.site-footer {
+  width: 100%;
+  margin-top: 18px
+}
+
+.footer-container {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95));
+  padding: 14px;
+  border-radius: 8px;
+  text-align: left
+}
+
+.site-footer a {
+  color: var(--accent)
+}
+
+/* 响应式：窄屏时调整 */
+@media (max-width:420px) {
+  .site-header {
+    padding: 12px
+  }
+
+  .container {
+    padding: 10px
+  }
+}

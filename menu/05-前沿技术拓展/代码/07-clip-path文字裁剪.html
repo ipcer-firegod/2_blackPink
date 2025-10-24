@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clip-path文字裁剪</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #222222;
+    }
+
+    h1 {
+      color: #292929;
+      font-size: 200px;
+      position: relative;
+
+    }
+
+    h1::after {
+      content: "HOLLOWORLD";
+      /** 透明颜色 */
+      /* <!--!这里为什么需要设置为透明？因为需要让背景显示出来 */
+      color: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: linear-gradient(to right, #ff69b3, #fe0000, #ffa401, #ffff01, #008102, #40e1d2, #410898, #9400d4);
+      /** 以文字范围裁剪背景图片 讲解背景的时候讲过 */
+      background-clip: text;
+      /* 裁剪 clip path */
+      clip-path: circle(100px at 100% 50%);
+
+      animation: move 5s linear infinite;
+
+    }
+
+    @keyframes move {
+      0% {
+        /* 左侧 */
+        clip-path: circle(100px at 0% 50%);
+      }
+
+      /* 右侧 */
+      50% {
+        clip-path: circle(100px at 100% 50%);
+      }
+
+      100% {
+        clip-path: circle(100px at 0% 50%);
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>HOLLOWORLD</h1>
+
+</body>
+
+</html>

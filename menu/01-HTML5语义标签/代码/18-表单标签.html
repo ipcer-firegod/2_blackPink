@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表单标签</title>
+</head>
+
+<body>
+  <!-- 表单容器，主要作用是包裹所有的表单控件 -->
+  <form action="">
+    <!-- 1. 单行文本框和密码框 -->
+    <ul>
+      <li>
+        <label>
+          账号： <input type="text" placeholder="请输入账号" name="username" accesskey="s" autocomplete="off">
+        </label>
+      </li>
+      <li>
+        密码： <input type="password" placeholder="请输入密码" name="pwd" maxlength="6">
+      </li>
+      <!-- 2. 单选框 复选框和文件域 -->
+      <li>
+        性别：
+        <!-- label 方式一   for  id 关联 -->
+         <!-- name、value是必须的，作用是唯一标识 -->
+        <input type="radio" name="gender" value="0" checked id="nv">
+        <label for="nv">女</label>
+        <input type="radio" name="gender" value="1" id="nan">
+        <label for="nan">男</label>
+      </li>
+      <li>
+        爱好：
+        <!-- label 方式二 -->
+        <label>
+          <input type="checkbox" name="hobby" value="0" checked> 足球
+        </label>
+        <label>
+          <input type="checkbox" name="hobby" value="1"> 篮球
+        </label>
+        <label>
+          <input type="checkbox" name="hobby" value="2"> 双色球
+        </label>
+
+      </li>
+      <li>
+        头像：
+        <input type="file" name="file" multiple accept=".exe,.jpg">
+      </li>
+      <!-- 文本域 下拉列表和button按钮 -->
+      <li>
+        <label>
+          留言：
+          <textarea name="msg" cols="30" rows="10" placeholder="请输入留言"></textarea>
+        </label>
+      </li>
+      <li>
+        城市：
+        <select name="city" id="">
+          <option value="北京">北京</option>
+          <option value="上海" selected>上海</option>
+          <option value="广州">广州</option>
+        </select>
+      </li>
+      <li>
+        <button disabled>注册</button>
+      </li>
+    </ul>
+
+  </form>
+</body>
+
+</html>

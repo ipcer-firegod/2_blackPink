@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>流光渐变边框按钮</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1e1f26;
+    }
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+
+    /* 方式一 */
+    .btn1 {
+      overflow: hidden;
+      position: relative;
+      display: block;
+      width: 140px;
+      height: 60px;
+      margin: 100px;
+      padding: 3px;
+      border-radius: 6px;
+      text-align: center;
+      line-height: 57px;
+      /* background-color: pink; */
+      /* border: 2px solid pink; */
+    }
+
+    /* 彩色盒子 */
+    .btn1::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* ？ */
+      width: 200%;
+      height: 100%;
+      background-color: #fff;
+      /* 添加线性渐变 */
+      background: linear-gradient(115deg, #4fcf70, #fad648, #a767e5, #12bcfe, #44ce7b);
+      /* 背景缩放？因为之前放大为200%了，所以要用50% */
+      background-size: 50% 100%;
+      /* 动画 */
+      animation: move .75s linear infinite;
+    }
+
+    @keyframes move {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .btn1 span {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      border-radius: 3px;
+    }
+
+    /* 方式2 */
+    .btn2 {
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 300px;
+      height: 200px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      margin: 50px;
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 200px;
+    }
+
+    /* 镜像渐变的盒子 before */
+    .btn2::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background-image: conic-gradient(transparent, transparent, transparent, #00ccff);
+      /* 动画 */
+      animation: rotate 1s linear infinite;
+      z-index: -1;
+    }
+
+    /* 黑色遮挡的盒子 */
+    .btn2::after {
+      content: '';
+      position: absolute;
+      /* top: 3px;
+      left: 3px;
+      right: 3px;
+      bottom: 3px; */
+      /* 新的写法！就是上面的简写 */
+      inset: 3px;
+      background-color: #000;
+      border-radius: 10px;
+      z-index: -1;
+    }
+
+    @keyframes rotate {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 方式1 -->
+  <a href="#" class="btn1">
+    <span>开始按钮</span>
+  </a>
+
+
+
+  <!-- 方式2 -->
+
+  <div class="btn2">渐变边框</div>
+</body>
+
+</html>

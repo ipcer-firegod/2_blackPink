@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>css filter滤镜效果</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    ul {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    ul li {
+      width: 200px;
+      text-align: center;
+    }
+
+    ul img {
+      width: 100%;
+    }
+
+    ul li:nth-child(2) img {
+      filter: blur(5px);
+    }
+
+    ul li:nth-child(3) img {
+      filter: brightness(150%);
+
+    }
+
+    ul li:nth-child(4) img {
+      filter: contrast(150%);
+
+    }
+
+    ul li:nth-child(5) img {
+      filter: saturate(150%);
+
+    }
+
+    ul li:nth-child(6) img {
+      filter: grayscale(100%);
+
+    }
+
+    ul li:nth-child(7) img {
+      filter: hue-rotate(90deg);
+    }
+
+    ul li:nth-child(8) img {
+      filter: sepia(100%);
+    }
+
+    ul li:nth-child(9) img {
+      filter: drop-shadow(5px 5px 5px pink);
+    }
+
+    .box {
+      position: relative;
+      width: 250px;
+      height: 100px;
+      background-color: pink;
+      border-radius: 15px;
+      margin: 100px;
+      /* 盒子阴影 */
+      /* box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); */
+      /* 滤镜阴影 */
+      filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+
+    }
+
+    .box .arr {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 30px;
+      height: 30px;
+      transform: translate(-50%, -50%) rotate(45deg);
+      background: pink;
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li>
+      <img src="./img/bgimg.png" alt="">
+      <p>正常图片</p>
+    </li>
+    <li>
+      <img src="./img/bgimg.png" alt="">
+      <p>filter: blur(5px);</p>
+      <p>高斯模糊</p>
+    </li>
+    <li>
+      <img src="./img/bgimg.png" alt="">
+      <p>filter: brightness(150%);</p>
+      <p>亮度</p>
+    </li>
+    <li>
+      <img src="./img/bgimg.png" alt="">
+      <p>filter: contrast(150%);</p>
+      <p>对比度</p>
+    </li>
+    <li>
+      <img src="./img/bgimg.png" alt="">
+      <p>filter: saturate(150%);</p>
+      <p>饱和度</p>
+    </li>
+    <li>
+      <img src="./img/bgimg.png" alt="">
+      <p>filter: grayscale(100%);</p>
+      <p>灰度</p>
+    </li>
+    <li>
+      <img src="./img/bgimg.png" alt="">
+      <p>filter: hue-rotate(90deg);</p>
+      <p>色相旋转</p>
+    </li>
+    <li>
+      <img src="./img/bgimg.png" alt="">
+      <p>filter: sepia(100%);</p>
+      <p>褐色复古效果</p>
+    </li>
+    <li>
+      <img src="./img/bgimg.png" alt="">
+      <p>filter: drop-shadow(5px 5px 5px red);</p>
+      <p>阴影</p>
+    </li>
+
+  </ul>
+  <div class="box">
+    <div class="arr"></div>
+  </div>
+
+</body>
+
+</html>

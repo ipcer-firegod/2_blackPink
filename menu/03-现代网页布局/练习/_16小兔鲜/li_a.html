@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ul,
+    li {
+      list-style: none;
+    }
+
+    .box {
+      width: 500px;
+      height: 100px;
+      border: 1px solid #000;
+      margin: 50px auto;
+    }
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ccc;
+    }
+
+    li {
+      background-color: skyblue;
+      text-align: center;
+      line-height: 50px;
+      /* 1. 添加 line-height 后才能让ul、li变为box的一半高度 */
+      /* line-height 在ul中添加也行 */
+    }
+
+    a {
+      /* 2. 添加 block 后，a标签的高度会撑满li，点击li中的任一位置，都可以触发 */
+      display: block;
+      border: 2px solid pink;
+      text-decoration: none;
+      color: #000;
+    }
+
+    /* 3. 下面这三个的区别是：
+     * li:hover a 是当鼠标悬停在li上时，a的背景色变化
+     * a:hover 是当鼠标悬停在a上时，a的背景色变化
+     * li:hover 是当鼠标悬停在li上时，li的背景色变化
+     对于用户来说，三者的效果是一样的，因为a标签已经撑满了li标签
+     */
+    /* li:hover a {
+      background-color: orange;
+    } */
+    /* li:hover {
+      background-color: orange;
+    } */
+    a:hover {
+      background-color: yellow;
+      color: pink;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="box">
+    <ul>
+      <li><a href="#">12345667</a></li>
+      <li><a href="#">12345634</a></li>
+      <li><a href="#">123456</a></li>
+    </ul>
+  </div>
+
+  <br><br>
+  <div class="box">
+    <ul>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+    </ul>
+  </div>
+  <div class="box">
+    <ul>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+    </ul>
+  </div>
+  <div class="box">
+    <ul>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+    </ul>
+  </div>
+  <div class="box">
+    <ul>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+    </ul>
+  </div>
+  <div class="box">
+    <ul>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+    </ul>
+  </div>
+  <div class="box">
+    <ul>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+    </ul>
+  </div>
+  <div class="box">
+    <ul>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+      <li><a href="#">123456</a></li>
+    </ul>
+  </div>
+</body>
+
+</html>

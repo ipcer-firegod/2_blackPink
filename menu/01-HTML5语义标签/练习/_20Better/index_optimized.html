@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>科技日报 — 综合案例（语义化重构）</title>
+  <!-- 模块化样式：reset -> layout -> components -->
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/components.css">
+</head>
+<body>
+  <!-- 全局页面容器 -->
+  <div class="page" id="page-news">
+
+    <!-- 站点页眉 -->
+    <header class="site-header" id="site-header">
+      <div class="site-brand">
+        <h1 class="site-title"><a href="#" rel="home">科技日报</a></h1>
+        <p class="site-tagline">探索未来科技，传递创新力量</p>
+      </div>
+
+      <!-- 主导航：使用 aria-label 指定用途 -->
+      <nav class="main-nav" aria-label="主导航">
+        <ul class="nav-list">
+          <li class="nav-item"><a class="nav-link" href="#">首页</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">国际科技</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">科技论坛</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">科技动态</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- 主内容区 -->
+    <main id="main-content" class="site-main" role="main">
+      <div class="container">
+        <h2 class="page-heading">今日要闻</h2>
+
+        <!-- 新闻列表 -->
+        <section class="news-list" aria-label="新闻列表">
+
+          <article class="news-item" id="news-1">
+            <header class="news-header">
+              <h3 class="news-title">1. 量子计算机取得突破性进展</h3>
+            </header>
+            <div class="news-body">
+              <p>这次中国自主量子计算机“本源悟空”全球首次运行十亿级AI微调大模型，标志着国内已经开始通过量子-经典混合框架，将大模型参数优化转化为量子退火问题，实现量子计算机对AI大模型任务的协助。......</p>
+              <figure class="news-figure">
+                <img src="./img/1.webp" alt="人工智能在医疗领域的最新应用" class="responsive-img">
+                <figcaption>人工智能在医疗领域的最新应用</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="news-item" id="news-2">
+            <header class="news-header">
+              <h3 class="news-title">2. AI辅助诊断准确率突破95%</h3>
+            </header>
+            <div class="news-body">
+              <p>近日，美国科技公司DeepHealth宣布，其研发的AI医疗诊断系统在乳腺癌筛查中的准确率超过95%，远超人类医生的平均水平。......</p>
+              <figure class="news-figure">
+                <img src="./img/2.webp" alt="这是医疗AI发展的里程碑" class="responsive-img">
+                <figcaption>这是医疗AI发展的里程碑 — 引自《科技报告》</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="news-item" id="news-3">
+            <header class="news-header">
+              <h3 class="news-title">3. 行业数据</h3>
+            </header>
+            <div class="news-body">
+              <div class="table-wrap">
+                <table class="data-table" aria-describedby="industry-desc">
+                  <caption id="industry-desc">主要领域投资数据（亿美元与增长率）</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">领域</th>
+                      <th scope="col">投资额（亿美元）</th>
+                      <th scope="col">增长率</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>人工智能</td>
+                      <td>580</td>
+                      <td>+42%</td>
+                    </tr>
+                    <tr>
+                      <td>人工智能</td>
+                      <td>580</td>
+                      <td>+42%</td>
+                    </tr>
+                    <tr>
+                      <td>人工智能</td>
+                      <td>580</td>
+                      <td>+42%</td>
+                    </tr>
+                    <tr>
+                      <td>人工智能</td>
+                      <td>580</td>
+                      <td>+42%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </article>
+
+          <article class="news-item" id="news-4">
+            <header class="news-header">
+              <h3 class="news-title">4. 读者互动</h3>
+            </header>
+            <div class="news-body">
+              <form class="feedback-form" action="#" method="post" aria-labelledby="feedback-title">
+                <h4 id="feedback-title">您最关注的科技领域是？</h4>
+                <fieldset class="choice-list">
+                  <legend class="visually-hidden">选择您关注的领域</legend>
+                  <ul>
+                    <li><label><input type="radio" name="field" value="quantum_computing" checked> 量子计算</label></li>
+                    <li><label><input type="radio" name="field" value="artificial_intelligence"> 人工智能</label></li>
+                    <li><label><input type="radio" name="field" value="blockchain"> 区块链</label></li>
+                    <li><label><input type="radio" name="field" value="other"> 其他</label></li>
+                  </ul>
+                </fieldset>
+
+                <div class="form-group">
+                  <label for="comment">留下您的观点：</label>
+                  <textarea id="comment" name="comment" rows="8" cols="40" placeholder="请输入您的意见..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn-submit">提交</button>
+                </div>
+              </form>
+            </div>
+          </article>
+
+          <article class="news-item" id="news-5">
+            <header class="news-header">
+              <h3 class="news-title">5. 科技大讲堂</h3>
+            </header>
+            <div class="news-body">
+              <figure class="video-figure">
+                <video class="responsive-video" controls muted loop poster="./img/poster.jpg">
+                  <source src="./img/video.mp4" type="video/mp4">
+                  您的浏览器不支持视频播放。
+                </video>
+                <figcaption>《未来十年科技趋势》讲座节选</figcaption>
+              </figure>
+            </div>
+          </article>
+
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container footer-container">
+        <p>&copy;2025 科技日报社 版权所有</p>
+        <p>京ICP备20250001号-1</p>
+        <p>联系我们：<a href="mailto:123@qq.com">123@qq.com</a></p>
+        <address>地址：北京市大厦</address>
+        <p><a href="#site-header">返回内容顶部</a></p>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>

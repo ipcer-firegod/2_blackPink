@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: #2c3e50;
+    }
+
+    :root {
+      /* 全局变量 */
+      --awidth: 150px;
+    }
+
+    nav {
+      margin: 100px auto;
+      position: relative;
+      width: calc(var(--awidth) * 5);
+      height: 50px;
+      background-color: #34495e;
+      border-radius: 8px;
+      font-size: 0;
+      box-shadow: 2px 2px 2px #000;
+    }
+
+    nav a {
+      width: var(--awidth);
+      height: 100%;
+      line-height: 50px;
+      font-size: 15px;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+      text-decoration: none;
+      text-transform: uppercase;
+      text-align: center;
+      color: white;
+      cursor: pointer;
+    }
+
+    nav .animation {
+      position: absolute;
+      height: 100%;
+      top: 0;
+      z-index: 0;
+      transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 8px;
+      width: var(--awidth);
+      left: 0;
+      background-color: #1abc9c;
+    }
+
+    /* 动画效果 */
+    /* 鼠标经过 某个 a，让他的兄弟 (animtion)移动位置 */
+    /* 第一个a 做动画效果 */
+    nav a:nth-child(1):hover~.animation {
+      left: calc(var(--awidth) * 0);
+
+    }
+
+    /* 第二个a 做动画效果 */
+    nav a:nth-child(2):hover~.animation {
+      left: calc(var(--awidth) * 1);
+      background-color: #e74c3c;
+    }
+
+    /* 第三个a 做动画效果 */
+    nav a:nth-child(3):hover~.animation {
+      left: calc(var(--awidth) * 2);
+      background-color: #3498db;
+    }
+
+    /* 第四个a 做动画效果 */
+    nav a:nth-child(4):hover~.animation {
+      left: calc(var(--awidth) * 3);
+      background-color: #9b59b6;
+    }
+
+    /* 第五个a 做动画效果 */
+    nav a:nth-child(5):hover~.animation {
+      left: calc(var(--awidth) * 4);
+      background-color: #e67e22;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Blog</a>
+    <a href="#">News</a>
+    <a href="#">Contact</a>
+    <div class="animation"></div>
+  </nav>
+
+</body>
+
+</html>

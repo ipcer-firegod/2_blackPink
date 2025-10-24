@@ -1,0 +1,122 @@
+/* components.css
+   组件样式：文章、媒体、表格、表单、按钮等
+*/
+
+.page-heading {
+  font-size: 1.25rem;
+  margin: 18px 0
+}
+
+.news-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px
+}
+
+.news-item {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(15, 20, 30, 0.06)
+}
+
+.news-title {
+  margin: 0 0 8px;
+  font-size: 1.05rem
+}
+
+.news-body p {
+  color: var(--muted);
+  line-height: 1.7
+}
+
+/* 图片与媒体 */
+.news-figure,
+.video-figure {
+  margin: 12px 0
+}
+
+.news-figure img {
+  border-radius: 6px
+}
+
+.responsive-video {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  background: #000
+}
+
+/* 表格 */
+.table-wrap {
+  overflow: auto
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse
+}
+
+.data-table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+  padding: 6px 0
+}
+
+.data-table th,
+.data-table td {
+  padding: 8px 10px;
+  border: 1px solid #eee;
+  text-align: left
+}
+
+/* 表单 */
+.feedback-form {
+  display: block
+}
+
+.choice-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px
+}
+
+.choice-list li {
+  margin: 6px 0
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px
+}
+
+.form-actions {
+  margin-top: 10px
+}
+
+.btn-submit {
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer
+}
+
+.btn-submit:hover {
+  opacity: 0.95
+}
+
+/* 响应式列布局：在更宽屏幕上显示多列 */
+@media (min-width:900px) {
+  .news-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width:1200px) {
+  .news-list {
+    grid-template-columns: 1fr 1fr 1fr
+  }
+}

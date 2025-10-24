@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定位布局-表格的粘性定位</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .box {
+      width: 800px;
+      height: 600px;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+      margin: auto;
+      background-color: white;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      padding-left: 10px;
+      border-left: 4px solid #ff6700;
+    }
+
+    .table {
+      width: 100%;
+      height: calc(100% - 60px);
+      overflow-y: auto;
+      border-radius: 6px;
+      border: 1px solid #eee;
+    }
+
+    .table-header {
+      position: sticky;
+      top: 0;
+      display: flex;
+      background-color: #f8f9fa;
+      border-bottom: 2px solid #e0e0e0;
+      font-weight: bold;
+    }
+
+    .table-cell {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      transition: background-color 0.2s;
+    }
+
+    .table-body {
+      display: flex;
+      flex-direction: column;
+
+    }
+
+    .table-row {
+      display: flex;
+      background-color: #fff;
+      transition: all 0.3s;
+    }
+
+    .table-row:hover {
+      background-color: #f5f5f5;
+      padding-left: 5px;
+    }
+
+    /* 为涨跌幅添加颜色 */
+    .table-row .table-cell:nth-child(4),
+    .table-row .table-cell:nth-child(5) {
+      color: #ff4d4f;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h2>今日行情</h2>
+    <div class="table">
+      <div class="table-header">
+        <div class="table-cell">股票代码</div>
+        <div class="table-cell">股票名称</div>
+        <div class="table-cell">现价</div>
+        <div class="table-cell">涨跌</div>
+        <div class="table-cell">涨幅</div>
+      </div>
+      <div class="table-body">
+        <div class="table-row">
+          <div class="table-cell">000001</div>
+          <div class="table-cell">平安银行</div>
+          <div class="table-cell">10.00</div>
+          <div class="table-cell">+1.00</div>
+          <div class="table-cell">10.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000002</div>
+          <div class="table-cell">万科A</div>
+          <div class="table-cell">20.00</div>
+          <div class="table-cell">+2.00</div>
+          <div class="table-cell">20.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000003</div>
+          <div class="table-cell">中国平安</div>
+          <div class="table-cell">30.00</div>
+          <div class="table-cell">+3.00</div>
+          <div class="table-cell">30.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000004</div>
+          <div class="table-cell">中国石化</div>
+          <div class="table-cell">40.00</div>
+          <div class="table-cell">+4.00</div>
+          <div class="table-cell">40.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000005</div>
+          <div class="table-cell">贵州茅台</div>
+          <div class="table-cell">50.00</div>
+          <div class="table-cell">+5.00</div>
+          <div class="table-cell">50.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000006</div>
+          <div class="table-cell">格力电器</div>
+          <div class="table-cell">60.00</div>
+          <div class="table-cell">+6.00</div>
+          <div class="table-cell">60.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000007</div>
+          <div class="table-cell">招商银行</div>
+          <div class="table-cell">70.00</div>
+          <div class="table-cell">+7.00</div>
+          <div class="table-cell">70.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000008</div>
+          <div class="table-cell">农业银行</div>
+          <div class="table-cell">80.00</div>
+          <div class="table-cell">+8.00</div>
+          <div class="table-cell">80.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000009</div>
+          <div class="table-cell">建设银行</div>
+          <div class="table-cell">90.00</div>
+          <div class="table-cell">+9.00</div>
+          <div class="table-cell">90.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000010</div>
+          <div class="table-cell">中国银行</div>
+          <div class="table-cell">100.00</div>
+          <div class="table-cell">+10.00</div>
+          <div class="table-cell">100.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000011</div>
+          <div class="table-cell">交通银行</div>
+          <div class="table-cell">110.00</div>
+          <div class="table-cell">+11.00</div>
+          <div class="table-cell">110.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000012</div>
+          <div class="table-cell">浦发银行</div>
+          <div class="table-cell">120.00</div>
+          <div class="table-cell">+12.00</div>
+          <div class="table-cell">120.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000013</div>
+          <div class="table-cell">民生银行</div>
+          <div class="table-cell">130.00</div>
+          <div class="table-cell">+13.00</div>
+          <div class="table-cell">130.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000014</div>
+          <div class="table-cell">兴业银行</div>
+          <div class="table-cell">140.00</div>
+          <div class="table-cell">+14.00</div>
+          <div class="table-cell">140.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000015</div>
+          <div class="table-cell">中信银行</div>
+          <div class="table-cell">150.00</div>
+          <div class="table-cell">+15.00</div>
+          <div class="table-cell">150.00%</div>
+        </div>
+        <div class="table-row">
+          <div class="table-cell">000016</div>
+          <div class="table-cell">光大银行</div>
+          <div class="table-cell">160.00</div>
+          <div class="table-cell">+16.00</div>
+          <div class="table-cell">160.00%</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

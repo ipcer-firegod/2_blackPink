@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音视频标签</title>
+</head>
+
+<body>
+  <h2>视频标签</h2>
+  <!-- 在h5中如果属性的 键 和值是相同的，则可以省略值 -->
+  <!-- <video src="./media/yu7.mp4" width="400" controls="controls"></video> -->
+  <!-- 想要自动播放 autoplay，需要先静音 muted ， 循环播放loop -->
+  <!-- <video src="./media/yu7.mp4" width="400" controls autoplay muted loop poster="./media/yu7.jpg"></video> -->
+  <!-- <video src="./media/yu7.mp4" width="400" controls muted loop poster="./media/yu7.jpg"></video> -->
+
+  <!-- 兼容性写法 -->
+  <video width="400" controls muted loop poster="./media/yu7.jpg">
+    <source src="./media/yu7.mp4" type="video/mp4">
+    <p> 您的浏览器不支持视频播放 </p>
+  </video>
+
+
+  <h2>音频标签</h2>
+  <!-- 音频标签浏览器不让自动播放 后续可以用js实现 -->
+  <audio src="./media/ldh.mp3" controls muted autoplay></audio>
+  <!-- 兼容性写法 -->
+  <audio controls>
+    <source src="./media/ldh.mp3" type="audio/mp3">
+    <p> 您的浏览器不支持音频播放 </p>
+  </audio>
+</body>
+
+</html>

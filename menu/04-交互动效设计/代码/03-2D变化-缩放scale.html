@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2D变化-位移translate</title>
+  <style>
+    .box1 {
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+      transition: all 1s;
+    }
+
+    .box1:hover {
+      transform: scale(1.5);
+      /* width: 230px;
+      height: 230px; */
+    }
+
+    .box2 {
+      width: 200px;
+      height: 200px;
+      background-color: skyblue;
+      transition: all 1s;
+    }
+    .box2:hover {
+      transform: scaleX(0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box1"></div>
+  <div class="box2"></div>
+</body>
+
+</html>

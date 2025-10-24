@@ -1,0 +1,163 @@
+body {
+  font-family: 'Microsoft YaHei', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f7fa;
+}
+a {
+  text-decoration: none;
+}
+header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5em;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: 1.1em;
+  opacity: 0.9;
+}
+
+/* 给nav添加粘性定位 */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background-color: white;
+  padding: 15px;
+  border: 1px solid #667eea;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.nav a {
+  position: relative;
+  
+  color: #667eea;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.nav a:hover {
+  background-color: #667eea;
+  color: white;
+}
+
+.section {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.section h2 {
+  color: #667eea;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-top: 0;
+}
+
+.note-card {
+  background-color: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 0 5px 5px 0;
+  transition: transform 0.2s ease;
+}
+
+.note-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.note-card h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.note-card p {
+  margin: 0;
+  color: #666;
+}
+
+.note-card a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.note-card a:hover {
+  text-decoration: none;
+}
+
+.meta {
+  font-size: 0.9em;
+  color: #999;
+  margin-top: 10px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  color: #777;
+  font-size: 0.9em;
+}
+
+.tag {
+  display: inline-block;
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #999;
+}
+
+.empty-state p {
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #667eea;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #5a67d8;
+}

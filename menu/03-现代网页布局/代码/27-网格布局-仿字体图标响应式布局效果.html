@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>网格布局-仿字体图标响应式布局效果</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .box {
+      display: grid;
+      /* 自动填充，设置了最小值是210px */
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      /* 最大宽度是1350，但是我们可以变小 */
+      max-width: 1350px;
+      margin: 30px auto;
+      gap: 18px;
+    }
+
+    .box video {
+      width: 100%;
+      height: 100%;
+      border-radius: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+    <video src="./img/video.mp4"></video>
+  </div>
+</body>
+
+</html>

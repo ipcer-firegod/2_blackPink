@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS背景滤镜</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 3000px;
+    }
+
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+
+
+    .navbar {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height:120px;
+      /* background: pink; */
+    }
+
+    .navbar1 {
+      top: 0;
+      background: transparent;
+      backdrop-filter: saturate(150%) blur(28px);
+    }
+/* background-image: radial-gradient(transparent 1px, #fff 1px); 
+- 这是最有趣的部分，创建了一个径向渐变背景：
+<!--!从中心开始1像素内是透明色(transparent) 
+<!--!从1像素处开始到外面都是白色(#fff)(中间那个点是透明的，向外就是白色)
+这种效果创造了一种类似点阵的纹理图案
+
+background-size: 4px 4px; - 将上述背景图案的重复单元设置为4x4像素大小，使点状图案按此规格重复排列
+
+backdrop-filter: saturate(50%) blur(4px); - 这是现代CSS的一个强大特性：
+saturate(50%) - 降低背后元素50%的色彩饱和度
+blur(4px) - 对元素背后的内容应用4像素的高斯模糊
+这使得该元素后面的内容看起来更柔和、朦胧，产生磨砂玻璃般的效果 */
+    .navbar2 {
+      top: 130px;
+      border-bottom: 1px solid #ccc;
+      background-image: radial-gradient(transparent 1px, pink 1px);
+      background-size: 10px 10px;
+      backdrop-filter: saturate(50%) blur(4px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar navbar1">头部导航栏</div>
+  <div class="navbar navbar2">头部导航栏</div>
+  <img src="./img/dh.jpg" alt="">
+  <img src="./img/bgimg.png" alt="">
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D变化-透视效果</title>
+  <style>
+    /* 给父元素添加透视效果 */
+    /* body {
+      perspective: 500px;
+    } */
+
+    img {
+      display: block;
+      margin: 0 auto;
+      width: 230px;
+      transition: all 4.5s;
+    }
+
+    .ldhx {
+      transform: rotateX(-30deg);
+    }
+
+    /* 给子元素添加透视，但是一定要写到最前面 */
+    .ldhy:hover {
+      transform: perspective(200px) rotateY(360deg);
+    }
+  </style>
+</head>
+
+<body>
+  <img src="./img/ldhx.png" alt="" class="ldhx">
+  <br>
+  <img src="./img/ldhy.jpg" alt="" class="ldhy">
+  <br>
+  <img src="./img/ldhz.webp" alt="" class="ldhz">
+</body>
+
+</html>

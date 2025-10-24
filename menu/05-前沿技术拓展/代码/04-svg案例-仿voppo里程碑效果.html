@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>仿vivo线条效果</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .box {
+      width: 1300px;
+      margin: 100px auto;
+      border: 1px solid red;
+    }
+
+
+
+    .box .scroll {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      /* overflow的作用是：滚动条 */
+    }
+
+    .box .scroll svg {
+      width: 3858px;
+      stroke-dasharray: 3858px;
+      stroke-dashoffset: 3858px;
+    }
+
+    .box .scroll svg path {
+      animation: move 20s linear forwards;
+    }
+
+    @keyframes move {
+      0% {
+        stroke-dashoffset: 3858px;
+      }
+
+      100% {
+        stroke-dashoffset: 0px;
+      }
+    }
+
+    .item {
+      position: absolute;
+      left: 30px;
+      top: 120px;
+      width: 258px;
+      font-size: 14px;
+    }
+
+    .item img {
+      width: 12px;
+    }
+
+    .item h5 {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .item2 {
+      left: 450px;
+      /* forwards 停到最后一帧 */
+      animation: translate1 1s linear forwards 1s;
+      opacity: 0;
+    }
+
+    .item3 {
+      left: 888px;
+      top: 40px;
+      animation: translate2 1s linear forwards 2s;
+      opacity: 0;
+
+    }
+
+    .item3 h5 {
+      margin-bottom: 5px;
+      margin-top: 15px;
+    }
+
+    /* 第一个item 往上走 */
+    @keyframes translate1 {
+      0% {
+        transform: translateY(0);
+
+      }
+
+      100% {
+        transform: translateY(-40px);
+        opacity: 1;
+      }
+
+    }
+
+    /* 第三个盒子往下走 */
+    @keyframes translate2 {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(40px);
+        opacity: 1;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="box">
+    <div class="scroll">
+      <svg class="pc-only absolute left-0 top-0 pc:w-3520px pc:h-301px" viewBox="0 0 3520 301" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path class="svg-path" opacity="0.2" id="line"
+          d="M2 98.3546C177.569 -2.32258 469.504 -49.999 637.698 90.2674C742.655 177.796 841.5 348.045 1112.5 285.447C1296.5 242.945 1377 82.9804 1653.5 18.4478C1967.5 -54.8368 2072 134.055 2258 244.947C2494.5 385.947 2692.5 221.947 2883.5 96.9453C3059.07 -3.73182 3349.5 -49.999 3517.7 90.2674"
+          stroke="#00D700" stroke-width="3" stroke-linecap="round" style="stroke-dashoffset: 2509.12px;"></path>
+      </svg>
+      <div class="item item1">
+        <img src="./img/star.avif" alt="">
+        <p>2025</p>
+        <h5>AI 战略升级</h5>
+        <div>OPPO 在 2025 年移动通信大会（MWC2025）期间宣布升级 AI 战略，旨在通过自研创新和开放合作，为全球用户带来全面、安全、持续焕新的 AI 解决方案，成为“AI 体验引领者”。</div>
+      </div>
+      <div class="item item2">
+        <img src="./img/star.avif" alt="">
+        <p>2024</p>
+        <h5>AI 手机战略</h5>
+        <div>OPPO 承诺生成式 AI 功能将进入全产品系列，今年要让近 5 千万 OPPO 用户的手机搭载 GenAI 功能。</div>
+      </div>
+      <div class="item item3">
+        <div>OPPO 联合 IDC 发布首个《 AI手机白皮书》，宣布 AI 手机时代已经到来。</div>
+        <p>2024</p>
+        <h5>AI 白皮书</h5>
+        <img src="./img/star.avif" alt="">
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定位布局-绝对定位</title>
+  <style>
+    .father {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      background-color: pink;
+      margin: 50px;
+    }
+
+    .son1 {
+      position: absolute;
+      /* top: 150px;
+      left: 150px; */
+      right: 20px;
+      bottom: 50px;
+      width: 150px;
+      height: 150px;
+      background-color: skyblue;
+    }
+
+    .son2 {
+      width: 120px;
+      height: 120px;
+      background-color: purple;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="father">
+    <div class="son1">第一个盒子</div>
+    <div class="son2">第二个盒子</div>
+  </div>
+</body>
+
+</html>

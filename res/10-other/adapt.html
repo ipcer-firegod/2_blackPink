@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>自适应整体缩放示例（按比例缩放并裁切）</title>
+	<style>
+		/* 页面基础，撑满窗口 */
+		html, body {
+			height: 100%;
+			margin: 0;
+			background: #ddd;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		/* 视口：始终与窗口等大，隐藏超出的舞台部分 */
+		#viewport {
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center; /* 让缩放后的舞台居中显示 */
+			position: relative;
+		}
+
+			/* 固定设计尺寸的舞台：宽高会在首次加载时设为当前窗口大小（作为设计尺寸） */
+			#stage {
+				/* 初始宽高通过 JS 设定 */
+				width: auto;
+				height: auto;
+			background: linear-gradient(180deg,#ffffff,#f7f9fc);
+			box-shadow: 0 6px 30px rgba(0,0,0,0.15);
+			border-radius: 6px;
+			transform-origin: center center; /* 以中心为缩放基点 */
+			position: relative;
+			box-sizing: border-box;
+			padding: 24px;
+			overflow: hidden; /* 舞台内部也可裁切 */
+			font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+		}
+
+		/* 简单示例布局：头部、侧边栏、主内容 */
+			header {
+				height: 64px;
+				background: linear-gradient(90deg,#ff8a80,#ff80ab);
+				color: white;
+				display: flex;
+				align-items: center;
+				padding: 0 16px;
+				border-radius: 4px;
+				box-shadow: inset 0 -2px rgba(0,0,0,0.06);
+			}
+
+			.header-title { font-weight:700; font-size:18px }
+
+		.container {
+			display: flex;
+			gap: 16px;
+			margin-top: 16px;
+			height: calc(100% - 64px - 16px);
+		}
+
+		nav {
+			width: 220px;
+			background: #fff;
+			border-radius: 4px;
+			padding: 12px;
+			box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+			box-sizing: border-box;
+		}
+
+		main {
+			flex: 1;
+			background: #fff;
+			border-radius: 4px;
+			padding: 16px;
+			box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+			box-sizing: border-box;
+			overflow: auto;
+		}
+
+		.card {
+			background: linear-gradient(180deg,#ffffff,#fbfdff);
+			border-radius: 6px;
+			padding: 12px;
+			margin-bottom: 12px;
+			box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+		}
+
+		/* 顶部控制面板（只为示例方便） */
+		#controls {
+			position: absolute;
+			right: 12px;
+			top: 12px;
+			background: rgba(255,255,255,0.9);
+			padding: 6px 8px;
+			border-radius: 6px;
+			box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+			font-size: 13px;
+			z-index: 40;
+		}
+
+		#controls label { margin-right: 8px }
+
+		/* 小屏下美观处理（舞台内部元素不会随窗口改变布局，只缩放） */
+		@media (max-width:400px) {
+			header { font-size: 14px }
+		}
+	</style>
+</head>
+<body>
+	<!-- 说明：设计尺寸为 1200 x 800。页面整体按比例缩放，布局不改变；当窗口长宽比与设计不同时，多余部分将被裁切（cover 模式）。 -->
+
+	<div id="viewport">
+		<div id="stage" aria-label="设计舞台">
+					<header>
+						<div class="header-title" id="title">示例页面（设计： — ）</div>
+					</header>
+
+			<div class="container">
+				<nav>
+					<div class="card">侧边导航</div>
+					<div class="card">菜单项 1</div>
+					<div class="card">菜单项 2</div>
+					<div class="card">菜单项 3</div>
+				</nav>
+
+				<main>
+					<div class="card"><strong>主内容区域</strong><p>这个布局在任何窗口尺寸下都保持相同结构；页面整体通过缩放保持比例。</p></div>
+					<div class="card">示例卡片 A</div>
+					<div class="card">示例卡片 B</div>
+					<div class="card">示例卡片 C</div>
+					<div class="card">底部信息</div>
+				</main>
+			</div>
+		</div>
+
+			<div id="controls">
+				<label for="mode">模式：</label>
+				<select id="mode" aria-label="缩放模式">
+					<option value="cover">cover（裁切）</option>
+					<option value="contain" selected>contain（完整显示，居中）</option>
+				</select>
+				<button id="fitBtn">适应到窗口</button>
+				<button id="setDesign">设为当前窗口为设计</button>
+			</div>
+	</div>
+
+	<script>
+			(function(){
+				// designW/H 将在首次加载时设置为窗口的像素尺寸（表示你的“设计尺寸”），并显示在标题中。
+				let designW = window.innerWidth;
+				let designH = window.innerHeight;
+				const stage = document.getElementById('stage');
+				const viewport = document.getElementById('viewport');
+				const modeSelect = document.getElementById('mode');
+				const fitBtn = document.getElementById('fitBtn');
+				const setDesignBtn = document.getElementById('setDesign');
+				const title = document.getElementById('title');
+
+				function applyDesignSize(w, h){
+					designW = Math.round(w);
+					designH = Math.round(h);
+					// 将舞台尺寸设为设计尺寸（像素）——舞台内部布局以该像素为基准
+					stage.style.width = designW + 'px';
+					stage.style.height = designH + 'px';
+					title.textContent = `示例页面（设计：${designW}×${designH}）`;
+				}
+
+				// 首次使用当前窗口作为设计尺寸（满足你的要求：初始窗口比例即为设计比例）
+				applyDesignSize(window.innerWidth, window.innerHeight);
+
+				function updateScale(){
+					const vw = window.innerWidth;
+					const vh = window.innerHeight;
+					const sx = vw / designW;
+					const sy = vh / designH;
+
+					// 默认行为：contain（完整显示并居中），这样当窗口变为 15cm×20cm 时，舞台会变为 15cm×10cm 并居中。
+					const mode = modeSelect.value || 'contain';
+					const scale = mode === 'contain' ? Math.min(sx, sy) : Math.max(sx, sy);
+
+					// 应用缩放
+					stage.style.transform = `scale(${scale})`;
+
+					// 居中已由 viewport 的 flex 布局保证
+				}
+
+				fitBtn.addEventListener('click', ()=> updateScale());
+				modeSelect.addEventListener('change', updateScale);
+				window.addEventListener('resize', updateScale);
+
+				// 手动把当前窗口设为设计尺寸（可重复使用）
+				setDesignBtn.addEventListener('click', ()=>{
+					applyDesignSize(window.innerWidth, window.innerHeight);
+					// 切换回 contain 模式以便直观验证
+					modeSelect.value = 'contain';
+					updateScale();
+				});
+
+				// 初始执行一次
+				updateScale();
+			})();
+	</script>
+</body>
+</html>
+

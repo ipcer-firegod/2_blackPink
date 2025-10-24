@@ -1,0 +1,17 @@
+ :root {
+   --vivo-blue: #1976d2;
+   --vivo-cyan: #00e5ff;
+   --vivo-purple: #7b1fa2;
+   --vivo-dark: #121212;
+   --vivo-card-bg: #1e1e1e;
+   --neon-glow: 0 0 10px rgba(0, 229, 255, 0.7),
+     0 0 20px rgba(0, 229, 255, 0.5),
+     0 0 30px rgba(0, 229, 255, 0.3);
+ }
+
+ body {
+   font-family: 'Montserrat', sans-serif;
+   background-color: var(--vivo-dark);
+   color: #fff;
+   overflow-x: hidden;
+ }

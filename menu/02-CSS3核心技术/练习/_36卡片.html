@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_36卡片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #ccc;
+        }
+        .cart {
+            width: 234px;
+            height: 300px;
+            background-color: #fff;
+            margin: 100px auto;
+            text-align: center;
+            transition: .4s;
+        }
+        .cart:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        .cart img {
+            width: 160px;
+            margin-top: 20px;
+        }
+        .cart .title {
+            font-size: 14px;
+            font-weight: normal;
+            color: #333;
+            margin-top: 18px;
+        }
+        .cart .desc {
+            font-size: 12px;
+            color: #b0b0b0;
+            padding: 0 10px;
+            /* 单行文本溢出省略 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            /* white-space: nowrap; */
+            /* 多行 */
+            -webkit-line-clamp: 2;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+        }
+        .cart .price {
+            font-size: 14px;
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
+        .cart .price span {
+            color: #ff6700;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="cart">
+        <img src="../代码/img/mi.webp" alt="">
+        <h3 class="title">Xiaomi Buds 5</h3>
+        <P class="desc">舒适无感佩戴 | 高通全链路无损音质省略省省略省略通全链路无损音质省略省省略省</P>
+        <p class="price">
+            <span>699</span><del>199</del>
+        </p>
+    </div>
+</body>
+</html>

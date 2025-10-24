@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      /* 全局样式 */
+      /* 效果是去除默认的边距和内边距 */
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ! 因为设置了全局样式，将margin初始化为0，所以下面的margin如果只初始化上、右，下和左不会自动跟随初始 */
+    /* ! 上面错了，会一起初始化的 */
+
+    .box1 {
+      width: 400px;
+      height: 400px;
+      background-color: pink;
+
+      /* ! margin auto可以让盒子整体左右居中（水平居中）（当为相对定位时。如果是绝对定位就不行）（这只是让盒子左右外边距距离相等）！ */
+      margin: 100px auto 200px;
+
+      /* 方法1：使用Flexbox。使子盒子 水平居中+垂直居中。 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+
+      /* 方法2：使用Grid布局 */
+      /* display: grid;
+      place-items: center; */
+
+      /* 方法3：使用绝对定位和变换 */
+      /* position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); */
+
+      /* 方法4：使用表格布局 */
+      /* display: table;
+      margin: auto;
+      line-height: 200px; */
+      /* 仅适用于单行文本垂直居中 */
+
+    }
+
+    .box2 {
+      /* ! 文字居中。文字 水平居中；文字行高=盒子高度 垂直居中 */
+      /* ！这是只对单行文本有效 */
+      text-align: center;
+      line-height: 150px;
+      /* ！多行文字垂直居中需要使用其他方法，比如放进一个div（盒子）里，再使用Flexbox布局 */
+
+
+      /* ! 也可以使用Flexbox让文字居中 */
+      /* display: flex;
+      justify-content: center;
+      align-items: center; */
+
+      width: 150px;
+      height: 150px;
+      background-color: skyblue;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 各种居中的案例 -->
+  <div class="box1">
+    <div class="box2">居中内容</div>
+    <div class="box2">居中内容</div>
+  </div>
+  <div class="box1">
+    <div class="box2">居中内容</div>
+    <div class="box2">居中内容</div>
+  </div>
+</body>
+
+</html>

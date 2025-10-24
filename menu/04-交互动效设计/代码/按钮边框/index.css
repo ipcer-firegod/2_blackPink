@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #171723;
+}
+
+/* 定义边框粗细变量 */
+:root {
+  --border-size: 2px;
+}
+
+.buttons {
+  display: flex;
+  width: 650px;
+  justify-content: space-between;
+  margin: 100px auto;
+}
+
+.button {
+  width: 200px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  color: #fff;
+  font-size: 20px;
+  /* background-color: pink; */
+  /* 背景圆形渐变 */
+  background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 20%, #08f, #f03);
+
+  /* 背景缩放 */
+  background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /* 添加动画 */
+  animation: bg-spin 1s linear infinite;
+}
+
+@keyframes bg-spin {
+  to {
+    --border-angle: 1turn;
+  }
+}
+
+/* 定义角度边框 可以让背景渐变动画 */
+@property --border-angle {
+  /* 语法结构 角度*/
+  syntax: "<angle>";
+  /* 是否继承 */
+  inherits: true;
+  /* 起始值 */
+  initial-value: 0turn;
+}

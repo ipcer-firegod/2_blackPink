@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #222;
+    }
+
+    .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 200px auto;
+    }
+
+    .box .item {
+
+      width: 120px;
+      height: 120px;
+      margin: 0 2px;
+      cursor: pointer;
+      /* 添加倒影 */
+      -webkit-box-reflect: below 1px linear-gradient(transparent, #0002);
+      transition: all .6s;
+    }
+
+    .box .item img {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
+
+    .box .item:hover {
+      transform: scale(1.2);
+      z-index: 1;
+    }
+
+    /*  <!-- !不能是 .item:hover .item:not(:hover) */
+    .box:hover .item:not(:hover) {
+      transform: perspective(500px) scale(0.9) rotateY(45deg);
+      /* margin: 0 -20px; */
+    }
+
+    /*  <!-- !这里也必须加上 .box */
+    .box .item:hover~.item {
+      transform: perspective(500px) scale(0.9) rotateY(-45deg);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="item"><img src="img/1.png"></div>
+    <div class="item"><img src="img/2.png"></div>
+    <div class="item"><img src="img/3.png"></div>
+    <div class="item"><img src="img/4.png"></div>
+    <div class="item"><img src="img/5.png"></div>
+  </div>
+
+</body>
+
+</html>

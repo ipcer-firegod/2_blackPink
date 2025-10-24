@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>旋转turn使用以及旋转花瓣案例</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f5f5f5;
+
+    }
+
+    .box {
+      position: relative;
+      width: 600px;
+      /* <!--!如果不设高度，子元素又都是绝对定位，那么父元素高度就会为0，就会没有内容显示 */
+      height: 600px;
+      margin: 100px auto;
+      border: 3px solid red;
+    }
+
+    .box img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    .box img:nth-child(1) {
+      border-radius: 50%;
+      
+    }
+
+    .box img:nth-child(2) {
+      /* 放大，以此完全盖住背景图片 */
+      transform: scale(1.1);
+      /* 也是一个缩放属性，写了这个下面的transform就不用谢scale了。但是部分浏览器不支持 */
+      /* scale: 1.1; */
+      animation: rotate 10s linear infinite;
+      /* border: 3px solid blue; */
+    }
+
+    /* 旋转效果 */
+    @keyframes rotate {
+      0% {
+        transform: scale(1.1) rotate(0deg);
+      }
+
+      100% {
+        transform: scale(1.1) rotate(360deg);
+      }
+
+    }
+
+    /* @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(1turn);
+
+      }
+    } */
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <img src="./img/bgimg.png" alt="">
+    <img src="./img/rotate.png" alt="">
+  </div>
+</body>
+
+</html>

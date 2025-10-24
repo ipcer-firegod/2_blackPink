@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #577ad4, #ad3d88);
+    }
+
+    .nav {
+      width: 250px;
+      height: 50px;
+      background-color: #fff;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+      line-height: 50px;
+
+    }
+
+    .toggle {
+      width: 100%;
+      cursor: pointer;
+      color: #ff216d;
+      padding-left: 20px;
+    }
+
+
+    ul {
+      position: relative;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    ul li {
+      height: 50px;
+      padding-left: 20px;
+      background-color: #fff;
+      color: #333;
+      cursor: pointer;
+      position: relative;
+      opacity: 0;
+      transform: translateX(-250px);
+      /* transition: 过渡属性 持续时间 过渡曲线 延迟时间; */
+      transition: all 0.5s calc(0.1s * var(--i));
+
+      /* 单写的属性，延迟时间 */
+      /* transition-delay: calc(0.1s * var(--i)); */
+
+    }
+
+    ul li:hover {
+      background-color: #ebe7e7;
+    }
+
+    .nav:hover ul li {
+      transform: translateX(0);
+      opacity: 1;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav">
+    <!-- 菜单 -->
+    <div class="toggle">
+      菜单
+    </div>
+    <!-- 二级菜单 -->
+    <ul>
+      <li style="--i:0;">主页</li>
+      <li style="--i:1;">关于我们</li>
+      <li style="--i:2;">售后服务</li>
+      <li style="--i:3;">产品介绍</li>
+      <li style="--i:4;">联系我们</li>
+    </ul>
+  </div>
+
+</body>
+
+</html>

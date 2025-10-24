@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>flex项目伸缩尺寸</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .box {
+      display: flex;
+      /* justify-content: space-between; */
+      width: 80%;
+      border: 1px solid blue;
+      margin: 0 auto;
+      /* 在容器上面写 gap  间隙 */
+      gap: 10px;
+    }
+
+    .box .item {
+      /* 子盒子身上写 flex: 1; */
+      flex: 1;
+      width: 80px;
+      height: 100px;
+      background-color: pink;
+      /* margin-right: 10px; */
+
+    }
+
+    .box .item:nth-child(odd) {
+      background-color: purple;
+    }
+
+    /* .box .item:nth-child(2) {
+      flex: 2;
+      background-color: purple;
+    } */
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+    <div class="item">4</div>
+  </div>
+</body>
+
+</html>

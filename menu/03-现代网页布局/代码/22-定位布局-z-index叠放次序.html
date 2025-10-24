@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定位布局-z-index叠放次序</title>
+  <style>
+    .box img {
+      position: absolute;
+    }
+
+    .tel1 {
+      left: 30px;
+    }
+
+    .tel2 {
+      left: 90px;
+
+    }
+
+    .tel3 {
+      left: 150px;
+
+    }
+
+    .tel4 {
+      left: 210px;
+
+    }
+
+    .box img:hover {
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <img src="./img/tel1.png" alt="" class="tel1">
+    <img src="./img/tel2.png" alt="" class="tel2">
+    <img src="./img/tel3.png" alt="" class="tel3">
+    <img src="./img/tel4.png" alt="" class="tel4">
+  </div>
+</body>
+
+</html>

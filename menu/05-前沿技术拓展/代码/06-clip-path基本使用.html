@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clip-path基本使用</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    .nav {
+      width: 200px;
+      height: 60px;
+      background-color: #141e37;
+      margin: 100px;
+      text-align: center;
+      line-height: 60px;
+      color: #fff;
+      font-size: 16px;
+
+
+      -webkit-clip-path: polygon(10% 0, 100% 1%, 90% 100%, 0% 100%);
+      clip-path: polygon(10% 0, 100% 1%, 90% 100%, 0% 100%);
+    }
+
+    .box {
+      position: relative;
+      border: 3px solid red;
+    }
+
+    .box img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 700px;
+      transition: all 2s;
+    }
+
+    .box img:nth-child(2) {
+      /* width: 0; */
+
+
+      -webkit-clip-path: polygon(0% 0%, 0 0, 0 53%, 0% 100%, 0 100%);
+      clip-path: polygon(0% 0%, 0 0, 0 53%, 0% 100%, 0 100%);
+    }
+
+    .box:hover img:nth-child(2) {
+      -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+      clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav">电竞专属客户端</div>
+  <div class="box">
+    <img src="./img/blue.png" alt="">
+    <img src="./img/orange.png" alt="">
+  </div>
+
+
+</body>
+
+</html>

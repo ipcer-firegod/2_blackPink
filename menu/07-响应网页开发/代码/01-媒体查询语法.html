@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>媒体查询语法</title>
+  <style>
+    /* 
+    媒体查询语法 
+     @media 媒体类型 and (媒体特征) { 
+       样式 
+     } 
+     */
+
+    /* 当屏幕尺寸大于等于1200 像素， 页面背景显示为 绿色
+      当屏幕尺寸在 768像素到1200像素，页面显示为 橙色
+      当屏幕尺寸小于 768 像素， 页面显示为 红色 */
+    @media screen and (min-width: 1200px) {
+      body {
+        background-color: green;
+
+      }
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1200px) {
+      body {
+        background-color: orange;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      body {
+        background-color: red;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+</body>
+
+</html>

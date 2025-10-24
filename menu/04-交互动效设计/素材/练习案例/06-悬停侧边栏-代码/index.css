@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #231f2e;
+	height: 580px;
+  padding: 20px 12px;
+  border-radius: 10px;
+  box-shadow: 0 10px 50px rgba(6, 5, 59, 0.25);
+}
+
+ul li:nth-child(6) {
+  margin-top: 80px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+ul a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+}
+
+ul a {
+	position: relative;
+}
+
+ul a span {
+  position: absolute;
+  left: calc(100% + 24px);
+  background-color: #fa5c51;
+  white-space: nowrap;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transform-origin: center left;
+  transition: 0.15s ease;
+}
+
+
+ul a span::before {
+	content: "";
+  width: 12px;
+  height: 12px;
+  background-color: #fa5c51;
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  border-radius: 3px;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+ul a span {
+	opacity: 0;
+}
+
+ul a:hover,
+ul a:focus,
+ul a:active {
+  background-color: #fa5c51;
+  outline: none;
+}
+
+ul a:hover span,
+ul a:focus span,
+ul a:active span {
+  transform: scale(1);
+  opacity: 1;
+}

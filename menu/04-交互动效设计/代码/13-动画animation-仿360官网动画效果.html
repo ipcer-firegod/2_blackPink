@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动画animation-仿360官网动画效果</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      /* 隐藏了滚动条. 因为图片超出屏幕导致滚动条出现，直接隐藏超出的部分，滚动条会消失 */
+      overflow: hidden;
+      /* background-color: #000; */
+      /* 注意center/cover、以及设置图片有关（详见视频p104）。回忆background有关属性 */
+      background: url(./img/bg.jpg) no-repeat center/cover #000;
+    }
+
+    .ball1 {
+      position: absolute;
+      left: 20%;
+      top: 22%;
+      width: 13%;
+    }
+
+    .ball2 {
+      position: absolute;
+      left: 65%;
+      top: 50%;
+      width: 22%;
+    }
+
+    .wx {
+      position: absolute;
+      width: 8%;
+      left: 64%;
+      top: 40%;
+    }
+
+    /* 定义球体的运动动画 */
+    @keyframes ballanimation {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-45px);
+      }
+    }
+
+    /* 球体调用动画 */
+    /* animation: 动画名称 动画时长  速度曲线  延迟时间（默认0）  播放次数  播放方向  执行完毕状态； */
+    .ball1 {
+      animation: ballanimation 5s linear infinite alternate;
+    }
+
+    .ball2 {
+      animation: ballanimation 6s linear infinite alternate;
+    }
+
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(-45deg);
+      }
+    }
+
+    .wx {
+      animation: rotate 30s linear infinite alternate;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="./img/ball1.png" alt="" class="ball1">
+  <img src="./img/ball2.png" alt="" class="ball2">
+  <img src="./img/wx.png" alt="" class="wx">
+</body>
+
+</html>

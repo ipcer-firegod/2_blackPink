@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1a252c;
+    }
+
+    .box {
+      margin: 200px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box .item {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 2px;
+      cursor: pointer;
+      /* 添加倒影 */
+      -webkit-box-reflect: below 1px linear-gradient(transparent, #0002);
+      transition: all .6s;
+    }
+
+    .box .item img {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
+
+    /* 核心代码 */
+    /* 鼠标经过某个盒子，当前盒子变大 */
+    .box .item:hover {
+      transform: scale(1.2);
+      z-index: 1;
+    }
+
+    /* 鼠标经过某个盒子，其余的子盒子都变形，当前盒子保持不变 */
+    .box:hover .item:not(:hover) {
+      transform: perspective(500px) scale(0.9) rotateY(45deg);
+      margin: 0 -20px;
+      /* 滤镜模糊 */
+      filter: blur(5px);
+
+    }
+
+    /* 鼠标经过的盒子，后面的兄弟（姐妹） 修改下变形 */
+    .box .item:hover~.item {
+      transform: perspective(500px) scale(0.9) rotateY(-45deg);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <div class="item"><img src="img/1.png"></div>
+    <div class="item"><img src="img/2.png"></div>
+    <div class="item"><img src="img/3.png"></div>
+    <div class="item"><img src="img/4.png"></div>
+    <div class="item"><img src="img/5.png"></div>
+  </div>
+
+</body>
+
+</html>

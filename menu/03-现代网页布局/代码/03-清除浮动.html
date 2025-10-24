@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>清除浮动</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .main {
+      overflow: hidden;
+      width: 300px;
+      border: 1px solid red;
+      margin: 0 auto;
+      /* height: 100px; */
+    }
+
+    .main .son1 {
+      float: left;
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+    }
+
+    .main .son2 {
+      float: left;
+      width: 100px;
+      height: 100px;
+      background-color: skyblue;
+    }
+
+    .footer {
+      width: 500px;
+      height: 100px;
+      background-color: black;
+      margin: 0 auto;
+    }
+
+    /* 额外标签法 */
+    /* .clear {
+      clear: both;
+    } */
+
+    /* 清除浮动单伪元素方法 */
+    /* .clearfix::after {
+      content: '';
+      display: block;
+      clear: both;
+    } */
+
+    /* 清除浮动双伪元素方法 */
+    /* .clearfix:after,
+    .clearfix:before {
+      content: " ";
+      display: table
+    }
+
+    .clearfix:after {
+      clear: both
+    } */
+  </style>
+</head>
+
+<body>
+  <div class="main clearfix">
+    <div class="son1"></div>
+    <div class="son2"></div>
+    <!--  额外标签法。 添加一个块级盒子 -->
+    <!-- <div class="clear"></div> -->
+  </div>
+  <div class="footer"></div>
+</body>
+
+</html>

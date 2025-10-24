@@ -1,0 +1,125 @@
+/* 原先第一章的css，和后面其他的css不一样，保留下来。现在都统一使用后面几章的css风格 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Microsoft YaHei', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #667eea;
+}
+
+h1 {
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.quick-links {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.quick-link-btn {
+  padding: 8px 16px;
+  background: #667eea;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+}
+
+.quick-link-btn:hover {
+  background: #764ba2;
+}
+
+.quick-link-btn-secondary {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.quick-link-btn-secondary:hover {
+  background: #d0d0d0;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  margin-bottom: 15px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+li:hover {
+  background: #f0f0f0;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+
+a:hover {
+  color: #667eea;
+}
+
+.file-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #667eea;
+}
+
+.file-desc {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 1.3em;
+  margin-bottom: 15px;
+  color: #555;
+  padding-left: 10px;
+  border-left: 4px solid #667eea;
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动画animation-完整写法</title>
+  <style>
+    body {
+      background-color: #000;
+    }
+
+    /* 1. 定义动画 */
+
+
+    @keyframes move {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(400px, 0);
+      }
+    }
+
+    /* 2. 使用动画 */
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+    }
+
+    /* 值得一提的是，这里需要一直hover在原始位置，才能触发动画 */
+    .box:hover {
+      /* animation: 动画名称 动画时长  速度曲线  延迟时间  播放次数  播放方向  执行完毕状态； */
+      /* 各个参数：播放方向：默认normal，可选reverse，reverse-playback 倒序播放，alternate 正序反复播放，alternate-reverse 反序正序反复播放
+       执行完毕状态：默认none，可选forwards，backwards*/
+      /* alternate 跑马灯效果 */
+      /* animation: move 2s ease 0s infinite alternate forwards; */
+      animation: move 2s ease 0s 4 alternate backwards;
+      /* animation: move 2s ease 0s backwards; */
+    }
+
+
+    /* 第一定义动画 */
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* 第二调用动画 */
+    .circle {
+      /* 动画匀速并且无限次播放 */
+      animation: rotate 1s linear infinite;
+    }
+
+    .circle:hover {
+      /* 鼠标经过暂停动画，鼠标离开继续播放动画 */
+      /* 不能写到 animation里面，要单独写 */
+      animation-play-state: paused;
+    }
+
+    /* 1. 定义动画 */
+    @keyframes scrollTip {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(15px);
+      }
+    }
+
+    .scrollTip {
+      animation: scrollTip .5s linear infinite alternate;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+  <img src="./img/circle.png" alt="" class="circle">
+  <img src="./img/scrollTip.png" alt="" class="scrollTip">
+</body>
+
+</html>

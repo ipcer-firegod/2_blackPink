@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>svg描边动画效果</title>
+  <style>
+    svg {
+      fill: none;
+      stroke: red;
+      stroke-width: 5px;
+      stroke-dasharray: 2783;
+      stroke-dashoffset: 2783;
+      animation: heart 2s linear infinite; 
+    }
+    /* 或者：
+     svg path {
+      animation: heart 2s linear forwards;
+    } */
+
+    /* 我们想要做一画心形的效果 */
+    @keyframes heart {
+      0% {
+        stroke-dashoffset: 2783;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <svg class="heart" t="1754555014655" class="icon" viewBox="0 0 1024 1024" version="1.1"
+    xmlns="http://www.w3.org/2000/svg" p-id="6244" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">
+    <path id="heart"
+      d="M32 407.584a279.584 279.584 0 0 1 480-194.944 279.584 279.584 0 0 1 480 194.944 278.144 278.144 0 0 1-113.024 224.512L562.592 892.8a96 96 0 0 1-124.416-1.952l-308.16-270.688A278.976 278.976 0 0 1 32 407.584z"
+      p-id="6245"></path>
+  </svg>
+
+
+</body>
+
+</html>

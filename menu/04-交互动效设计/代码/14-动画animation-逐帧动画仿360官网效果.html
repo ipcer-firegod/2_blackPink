@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>逐帧动画-仿360官网效果</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      background: url(./img/bg2.png) no-repeat center/cover;
+    }
+
+    /* 定义动画 */
+    @keyframes move {
+      0% {
+        background-position: 0 0;
+      }
+
+      100% {
+        background-position: -13700px 0;
+      }
+    }
+
+    .box {
+      width: 548px;
+      height: 513px;
+      background-color: pink;
+      margin: 200px;
+      background: url(./img/step.png) no-repeat left/13700px 513px;
+      /* 使用动画 */
+      animation: move 1s steps(25) infinite;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+</body>
+
+</html>

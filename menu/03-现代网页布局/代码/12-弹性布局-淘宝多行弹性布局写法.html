@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>淘宝多行弹性布局写法</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .w {
+      width: 80%;
+      margin: 20px auto;
+    }
+
+    .box {
+      display: flex;
+      flex-wrap: wrap;
+      border: 1px solid red;
+      margin-left: -8px;
+      margin-right: -8px;
+    }
+
+    .box .item {
+      /* width: 80px; */
+      /* flex: 1; */
+      flex: 0 0 16.666666%;
+      height: 120px;
+      /* background-color: pink; */
+      margin-bottom: 16px;
+      /* margin-right: 16px; */
+      padding: 0 8px;
+    }
+
+    .item .content {
+      height: 100%;
+      width: 100%;
+      background-color: pink;
+    }
+
+    .footer {
+      width: 80%;
+      height: 120px;
+      background-color: black;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="w">
+    <div class="box">
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+      <div class="item">
+        <div class="content"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer"></div>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    .box {
+      overflow: hidden;
+      max-width: 1320px;
+      height: 527px;
+      margin: 100px auto;
+      background-color: skyblue;
+    }
+
+    .box ul {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      grid-template-rows: 527px;
+      gap: 10px;
+      transition: all .5s;
+    }
+
+    .box .item {
+      position: relative;
+      /* （顺序无关，推荐顺序：颜色 图片 重复 固定 位置/尺寸） */
+      background: pink url(./img/pic1.jpg) no-repeat 50%/cover;
+    }
+
+    .box .item:nth-child(2) {
+      background-image: url(./img/pic2.jpg);
+    }
+
+    .box .item:nth-child(3) {
+      background-image: url(./img/pic3.jpg);
+    }
+
+    .box .item:nth-child(4) {
+      background-image: url(./img/pic4.jpg);
+    }
+
+    .box ul:has(.item:nth-child(1):hover) {
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+    }
+
+    .box ul:has(.item:nth-child(2):hover) {
+      grid-template-columns: 1fr 2fr 1fr 1fr;
+    }
+
+    .box ul:has(.item:nth-child(3):hover) {
+      grid-template-columns: 1fr 1fr 2fr 1fr;
+    }
+
+    .box ul:has(.item:nth-child(4):hover) {
+      grid-template-columns: 1fr 1fr 1fr 2fr;
+    }
+
+    .item p {
+      position: absolute;
+      left: 0;
+      bottom: -100px;
+
+      padding: 20px;
+      /* 如果box没有hidden，这里放在p上会造成 抖动 ！ */
+      /* background-color: pink; */
+      color: #fff;
+    }
+    .item:hover p {
+      /* bottom: 0; */
+      transform: translateY(-100px);
+      transition: all .5s;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <ul>
+      <li class="item">
+        <p>超长质保</p>
+      </li>
+      <li class="item">
+        <p>超长质保</p>
+      </li>
+      <li class="item">
+        <p>超长质保</p>
+      </li>
+      <li class="item">
+        <p>超长质保</p>
+      </li>
+    </ul>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>变量var的使用</title>
+  <style>
+    /* 全局作用域里面的变量是 全局变量 */
+    :root {
+      --color: blue;
+    }
+
+    a {
+      list-style: none;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .box {
+      width: 200px;
+      height: 200px;
+      /* background-color: pink; */
+      color: var(--color);
+      text-align: center;
+      line-height: 200px;
+      font-size: 23px;
+      border: 1px solid var(--color);
+
+    }
+
+    .nav {
+      /* 局部作用域定义的变量是局部变量  只能在当前作用域里面使用 */
+
+      --fz: 20px;
+    }
+
+    .nav a:hover {
+      color: var(--color);
+      font-size: var(--fz);
+    }
+
+    .content {
+      font-size: var(--fz);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">文字内容</div>
+  <div class="nav">
+    <ul>
+      <li><a href="#">首页</a></li>
+      <li><a href="#">关于我们</a></li>
+      <li><a href="#">联系我们</a></li>
+      <li><a href="#">产品展示</a></li>
+      <li><a href="#">客户案例</a></li>
+    </ul>
+  </div>
+  <div class="content">文字若干</div>
+</body>
+
+</html>

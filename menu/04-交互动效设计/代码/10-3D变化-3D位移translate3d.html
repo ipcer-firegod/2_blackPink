@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D变化-3D位移translate3d</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ccc;
+    }
+
+    .box {
+      position: relative;
+      width: 300px;
+      height: 450px;
+      border: 1px solid blue;
+      margin: 100px auto;
+      /* 添加透视效果 */
+      perspective: 1000px;
+    }
+
+    .box>div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: pink;
+      text-align: center;
+      font-size: 30px;
+      color: #fff;
+      line-height: 450px;
+      transition: all 5s;
+      /* 转到后面要隐藏盒子 */
+      backface-visibility: hidden;
+      /* 找到亲爸爸，开启子元素的3d空间效果 */
+      transform-style: preserve-3d;
+    }
+
+    .box .front {
+      z-index: 1;
+    }
+
+    .box .front h3 {
+      /* 沿着z轴往我们眼前走来 */
+      transform: translateZ(100px);
+      /* 转到后面要隐藏盒子 */
+      backface-visibility: hidden;
+    }
+
+    .box:hover .front {
+      transform: rotateY(-180deg);
+    }
+
+    .box .back {
+      padding-top: 100px;
+      background-color: skyblue;
+      transform: rotateY(180deg);
+    }
+
+    .box .back p {
+      line-height: 40px;
+      font-size: 20px;
+      /* transform: translateZ(60px); */
+      transform: translate3d(0, 0, 60px);
+      /* 转到后面要隐藏盒子 */
+      backface-visibility: hidden;
+    }
+
+    .box:hover .back {
+      transform: rotateY(0deg);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="front">
+      <h3>17岁-刘德华</h3>
+    </div>
+    <div class="back">
+      <p>唱情歌齐齐来一遍</p>
+      <p>无时无刻都记住掌声响遍天</p>
+      <p>来唱情歌由从头再一遍</p>
+      <p>如情浓有点泪流难避免</p>
+    </div>
+  </div>
+
+
+
+  <div class="box">
+    <div class="front">
+      <h3>17岁-刘德华</h3>
+    </div>
+    <div class="back">
+      <p>唱情歌齐齐来一遍</p>
+      <p>无时无刻都记住掌声响遍天</p>
+      <p>来唱情歌由从头再一遍</p>
+      <p>如情浓有点泪流难避免</p>
+    </div>
+  </div>
+  <div class="box">
+    <div class="front">
+      <h3>17岁-刘德华</h3>
+    </div>
+    <div class="back">
+      <p>唱情歌齐齐来一遍</p>
+      <p>无时无刻都记住掌声响遍天</p>
+      <p>来唱情歌由从头再一遍</p>
+      <p>如情浓有点泪流难避免</p>
+    </div>
+  </div>
+</body>
+
+</html>

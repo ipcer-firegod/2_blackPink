@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2D变化-斜切skew</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 55px;
+      text-align: center;
+      line-height: 55px;
+      color: #fff;
+      background-color: pink;
+      /* 倾斜效果 */
+      transform: skewX(-16deg);
+    }
+
+
+
+
+
+
+
+
+    .card {
+      position: relative;
+      width: 240px;
+      height: 280px;
+      margin: 50px;
+    }
+
+    .card div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 280px;
+      border-radius: 0px 30px 40px 40px;
+
+      transform-origin: top left;
+      transition: 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+
+    .card .front {
+      z-index: 1;
+      /* background-color: rgba(0, 0, 0, 0.4); */
+      background-color: rgba(255, 255, 255, 0.4);
+      /* 添加滤镜效果，这里只是演示，后期我会交给小伙们 */
+
+      backdrop-filter: blur(30px);
+    }
+
+    .card .back {
+      background-color: purple;
+
+      transform: skewY(8deg);
+    }
+
+    /* 鼠标经过card 里面的 back 倾斜变大 */
+    .card:hover .back {
+      transform: skewY(15deg);
+      
+      width: 200px;
+    }
+
+    .card:hover .front {
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"> 英雄联盟 </div>
+
+
+
+
+  <!-- 案例效果 -->
+  <div class="card">
+    <div class="front"></div>
+    <div class="back"></div>
+  </div>
+</body>
+
+</html>

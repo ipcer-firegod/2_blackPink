@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clip应用</title>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="cart-box">
+    <div class="box box1">
+      <img src="./img/orange.png" alt="">
+    </div>
+    <div class="box box2">
+      <img src="./img/blue.png" alt="">
+    </div>
+  </div>
+  <script>
+    // 得到box1元素
+    const cart = document.querySelector('.cart-box')
+    // 得到box2元素
+    const box2 = document.querySelector('.box2')
+    // 注册鼠标移动事件
+    cart.onmousemove = function (e) {
+      // 得到鼠标在box2中的坐标
+      const x = e.offsetX
+      // 设置box1的clip-path属性
+      box2.style.clipPath = `circle(25vh at ${x}px 50%)`
+    }
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>弹性布局-修改主轴方向</title>
+  <link rel="stylesheet" href="./iconfont/iconfont.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    .sanlian {
+      display: flex;
+      margin: 20px;
+      font-size: 13px;
+    }
+
+    .iconfont {
+      font-size: 30px;
+    }
+
+    .sanlian li {
+      width: 60px;
+      height: 80px;
+      /* border: 1px solid red; */
+    }
+
+    .sanlian li a {
+      display: flex;
+      /* 改变主轴的方向 */
+      flex-direction: column;
+      /* 主轴居中对齐 */
+      justify-content: center;
+      /* 交叉轴居中对齐 */
+      align-items: center;
+      /* a 如果给了flex布局，则可以直接设置宽度和高度 */
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <ul class="sanlian">
+    <li>
+      <a href="#">
+        <i class="iconfont icon-dianzan"></i>
+        <p>点赞</p>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <i class="iconfont icon-yingbi"></i>
+        <p>硬币</p>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <i class="iconfont icon-shoucang"></i>
+        <p>收藏</p>
+      </a>
+    </li>
+  </ul>
+</body>
+
+</html>

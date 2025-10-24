@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #222;
+  }
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  /* 方式一 */
+  /* btn1是一个a 标签，需要转为block*/
+  .btn1 {
+    overflow: hidden;
+    position: relative;
+    display: block;
+    width: 100px;
+    height: 50px;
+    margin: 100px auto;
+    /* 添加内边距后，内部的span盒子会被往里压，因此有彩色边框显露 */
+    padding: 3px;
+    border-radius: 10px;
+    background-color: pink;
+    text-align: center;
+    /* 加了3px的padding，所以高度是47px，但是实际上高度是50px居中 */
+    line-height: 47px;
+  }
+
+  /* line 跑哪里去了？ */
+  /* line 在父盒子top50px处，离开父盒子范围，被hidden了 */
+  .line {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 50px;
+    height: 100px;
+    background-color: skyblue;
+  }
+
+  .btn1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* 使用绝对定位后，自动转为块级元素 */
+    /* display: block; */
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(115deg, #4fcf70, #fad648, #a767e5, #12bcfe, #44ce7b);
+    /* 把图片背景尺寸缩放。又因为默认repeat，所有会有两个图片 */
+    background-size: 50% 100%;
+    /* 后设置的color不会覆盖前面的 background: linear-gradient */
+    background-color: #fff;
+    animation: move 1s linear infinite;
+  }
+
+  /* 如果想要hover后才开始动画？似乎不行，因为动画是针对元素自身的，而不是元素内部的盒子 */
+
+
+  @keyframes move {
+
+    /* from 默认是 0，可以不写 */
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .btn1 span {
+    /* 未添加相对定位前，span会被覆盖。加了相对定位后，span就不会被覆盖？ */
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    border-radius: 10px;
+  }
+
+  /* 方式二 */
+  /* btn2是一个div盒子，本身就是块级元素 */
+  .btn2 {
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 75px;
+    margin: 100px auto;
+    border: 1px solid #333;
+    border-radius: 10px;
+    /* background-color: pink; */
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    /* line-height 在这里没有用。因为？ */
+    /* line-height: 100px; */
+  }
+
+  /* absolute 绝对定位有默认值吗？top、left的默认？ */
+  /* 父盒子使用了flex来调整子盒子布局，只需要添加absolute，不加top、left，可以直接定在中间 */
+  .btn2::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background-image: conic-gradient(transparent, transparent, transparent, #00ccff);
+    /* 设置的color会和 background-image 同时显示 */
+    /* background-color: #fff; */
+    animation: rotate 1s linear infinite;
+    z-index: -1;
+  }
+
+  /*   .bnt2::after { */
+  /* 之前出问题，是因为写错了 类名 ！！！ */
+  .btn2::after {
+    content: '';
+    position: absolute;
+    /* 不设置宽高，使用 inset （简化t/l/r/b），达到自动拉伸盒子的效果 */
+    inset: 5px;
+    border-radius: 10px;
+    background-color: #000;
+    z-index: -1;
+  }
+
+  @keyframes rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<body>
+
+  <a href="#" class="btn1">
+    <span>开始按钮</span>
+    <div class="line"></div>
+  </a>
+
+  <!-- ! flex弹性布局会让子盒子横向排列。div中的字也算一个盒子？ -->
+  <div class="btn2">渐变边框</div>
+</body>
+
+</html>
