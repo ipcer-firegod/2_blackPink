@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="base.css">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #577ad4, #ad3d88);
+    }
+
+    .nav {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      line-height: 50px;
+
+      /* border: 3px solid pink; */
+    }
+
+    .toggle {
+      width: 250px;
+      height: 50px;
+      padding-left: 20px;
+      background-color: #fff;
+      color: #ff216d;
+      z-index: 100;
+      cursor: pointer;
+
+      /* border: 3px solid pink; */
+    }
+
+    ul {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      /* border: 3px solid pink; */
+    }
+
+    ul li {
+      position: relative;
+      /* <!--!没有设置宽度，默认会撑满父元素?高度去掉有没有影响？ */
+      height: 50px;
+      padding-left: 20px;
+      background-color: #fff;
+      color: #333;
+      cursor: pointer;
+
+      opacity: 0;
+      transform: translateX(-250px);
+      /* transition: 过渡属性 持续时间 过渡曲线 延迟时间; */
+      transition: all 0.5s calc(0.1s * var(--i));
+
+      /* 单写的属性，延迟时间 */
+      /* transition-delay: calc(0.1s * var(--i)); */
+
+    }
+
+    ul li:hover {
+      /* <!--!hover后改变颜色有点拖沓了，怎么优化？ */
+      background-color: #ebe7e7;
+    }
+
+    /* <!--!如果nav盒子设置为两个子盒子撑开，这里在“菜单”下方hover后也会弹出。所以只能设置第一个盒子撑满nav，第二个被放在nav下面 */
+      /* 不对啊，原来这样也是会有这种情况啊。。 */
+    .nav:hover ul li {
+      transform: translateX(0);
+      opacity: 1;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav">
+    <div class="toggle">菜单</div>
+
+    <ul>
+      <li style="--i:0;">主页</li>
+      <li style="--i:1;">关于我们</li>
+      <li style="--i:2;">售后服务</li>
+      <li style="--i:3;">产品介绍</li>
+      <li style="--i:4;">联系我们</li>
+    </ul>
+
+  </div>
+</body>
+
+</html>

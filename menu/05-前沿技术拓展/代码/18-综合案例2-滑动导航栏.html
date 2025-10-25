@@ -31,6 +31,7 @@
       height: 100%;
       line-height: 50px;
       font-size: 15px;
+      /* <!--!a默认是行内元素，默认宽度是内容宽度，所以要设置宽度，需要转为block元素 */
       display: inline-block;
       position: relative;
       z-index: 1;
@@ -55,6 +56,8 @@
 
     /* 动画效果 */
     /* 鼠标经过 某个 a，让他的兄弟 (animtion)移动位置 */
+
+    /* <!--!怎么优化？ */
     /* 第一个a 做动画效果 */
     nav a:nth-child(1):hover~.animation {
       left: calc(var(--awidth) * 0);
