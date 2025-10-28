@@ -1,0 +1,193 @@
+:root {
+  --text1: #121826;
+  --text2: #3C3E42;
+  --text3: #848484;
+  --text4: #C3C3C5;
+  --text-green: #16C2A3;
+  --padding15: .4rem;
+}
+
+body {
+  padding-top: 1.1733rem;
+}
+
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* !垂直居中可以使用上下两种方法 */
+  /* line-height: 1.1733rem; */
+  width: 100%;
+  height: 1.1733rem;
+  z-index: 999;
+  background-color: #fff;
+  /* 添加阴影效果 */
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+
+  /* border: .0533rem solid pink; */
+}
+
+.nav-bar .back {
+  padding-left: var(--padding15);
+  color: #000;
+}
+
+/* ?这里a也没有转为block，这种情况是否应该转？ */
+/* .nav-bar .back a {
+  display: block;
+  border: .0533rem solid skyblue;
+} */
+
+.nav-bar .back i {
+  font-size: .48rem;
+}
+
+.nav-bar .register {
+  padding-right: var(--padding15);
+  font-size: .4533rem;
+  color: var(--text-green);
+}
+
+/* 登录头部模块 */
+.login-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: .6667rem var(--padding15) 1.2rem;
+
+  /* border: .0533rem solid skyblue; */
+}
+
+.login-header h1 {
+  font-size: .64rem;
+  color: var(--text1);
+  font-weight: 500;
+}
+
+.login-header a {
+  font-size: .4rem;
+  color: var(--text2);
+}
+
+.login-header a i {
+  font-size: .5067rem;
+}
+
+/* 表单模块 */
+.login-form {
+  padding: 0 var(--padding15);
+}
+
+.login-form .row {
+  position: relative;
+  padding: var(--padding15) 0;
+  border-bottom: 1.0012px solid #EDEDEDE5;
+
+  /* border: .0533rem solid skyblue; */
+}
+
+.login-form .row input {
+  font-size: .3733rem;
+}
+
+/* ! input的placeholder字体颜色需要专门使用placeholder设置，字体大小可以直接在input中设置 */
+.login-form .row input::placeholder {
+  color: var(--text4);
+}
+
+.login-form .row img {
+  position: absolute;
+  top: .48rem;
+  right: var(--padding15);
+  width: var(--padding15);
+  height: var(--padding15);
+}
+
+.login-form .agree {
+  border-bottom: 0;
+  font-size: .3467rem;
+  color: var(--text2);
+
+  /* border: .0533rem solid pink; */
+}
+
+.login-form .agree i {
+  font-size: var(--padding15);
+  color: var(--text4);
+}
+
+.login-form .agree a {
+  color: var(--text-green);
+}
+
+.login-btn {
+  display: block;
+  width: 100%;
+  height: 1.1733rem;
+  border-radius: .5867rem;
+  background: #FAFAFA;
+  font-size: .4267rem;
+  color: #D9DBDE;
+}
+
+.forget {
+  padding-top: .4rem;
+  text-align: center;
+}
+
+.forget a {
+  font-size: .3733rem;
+  color: var(--text3);
+}
+
+/* 第三方登录模块 */
+.third-login {
+  width: 5.3333rem;
+  margin: 5.3333rem auto 1.8667rem;
+  /* background-color: pink; */
+  text-align: center;
+
+  /* border: .0533rem solid pink; */
+}
+
+.third-login p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: .48rem;
+  font-size: .32rem;
+  color: var(--text4);
+
+  /* border: .0267rem solid skyblue; */
+}
+
+.third-login p span {
+  width: 2.4rem;
+
+  /* border: .0267rem solid pink; */
+}
+
+/* !注意这种方法，添加span文字左右的 线段   */
+.third-login p::before,
+.third-login p::after {
+  content: '';
+  flex: 1;
+  height: .0267rem;
+  background-color: var(--text4);
+}
+
+/* !依旧是这个问题，a需要转为block，否则a的宽度为0。这里会让 m-t 丢失 */
+.third-login a {
+  display: inline-block;
+  margin-top: var(--padding15);
+
+  /* border: .0267rem solid skyblue; */
+}
+
+.third-login a img {
+  width: .8rem;
+  height: .8rem;
+}

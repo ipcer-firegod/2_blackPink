@@ -1,0 +1,242 @@
+.topbar {
+  height: 42px;
+  line-height: 42px;
+  font-size: 15px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+}
+
+/* *准备背景盒子 */
+/* !需要渐变背景时，可以用一个-1层级的盒子 */
+.bg {
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 1200px;
+  background: linear-gradient(189.16deg, rgb(57, 15, 199) 13.57%, rgb(40, 35, 77) 98.38%);
+}
+/* *头部盒子制作 */
+.w {
+  /* !如果只写width，则无法缩放，所以设置最大宽度 */
+  max-width: 1234px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 60px;
+}
+
+.header .logo img {
+  width: 44px;
+  height: 44px;
+  margin: 0;
+}
+
+.nav {
+  display: grid;
+  /* !1->auto根据内容分配分数 */
+  grid-template-columns: repeat(7, auto);
+  gap: 26px;
+}
+
+.nav a button {
+  display: flex;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.nav a button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: rgba(31, 47, 71, 0.25) 0px 20px 40px, rgba(0, 0, 0, 0.1) 0px 1px 5px, rgba(255, 255, 255, 0.4) 0px 0px 0px 0.5px inset;
+}
+
+.nav a button img {
+  width: 24px;
+  height: 24px;
+}
+
+.nav a button p {
+  margin-left: 10px;
+  font-size: 15px;
+  color: #fff;
+}
+
+.mobile-nav {
+  /* 隐藏盒子 */
+  /* ?display:none，是隐藏该盒子，其他盒子视若无物 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(15, 14, 71, 0.3);
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 0.5px inset;
+  backdrop-filter: blur(40px);
+}
+
+/* 导航栏的响应式效果 */
+@media screen and (max-width: 1024px) {
+  .nav {
+    grid-template-columns: repeat(6, auto);
+  }
+  .nav a:nth-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav {
+    grid-template-columns: repeat(5, auto);
+  }
+
+  .nav a:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    grid-template-columns: repeat(4, auto);
+  }
+
+  .nav a:nth-child(2) {
+    display: none;
+  }
+}
+
+@media (max-width: 550px) {
+  /* 2. 由显示盒子变为隐藏盒子 */
+  .nav {
+    display: none;
+  }
+
+  .header {
+    padding-top: 20px;
+  }
+
+  /* 1. 由隐藏盒子变为显示盒子 */
+  .mobile-nav {
+    display: flex;
+  }
+}
+
+/* *课程模块 */
+.course {
+  display: grid;
+  grid-template-columns: 380px auto;
+  align-items: end;
+  gap: 80px;
+  margin-top: 60px;
+}
+
+.course-l {
+  color: #fff;
+}
+
+.course-l .time {
+  line-height: 18px;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.course-l h2 {
+  margin: 20px 0;
+  line-height: 48px;
+  font-size: 40px;
+}
+
+.course-l p {
+  line-height: 24px;
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.course-r {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.icon ul {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 20px;
+}
+
+.icon li {
+  list-style: none;
+}
+
+.icon li img {
+  width: 44px;
+  height: 44px;
+}
+
+.search {
+  position: relative;
+}
+
+.search img {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+}
+
+.search input {
+  width: 204px;
+  height: 44px;
+  padding: 10px 42px;
+  /* ?outline和border两个都用吗，何意味？ */
+  outline: 0;
+  border: 0;
+  border-radius: 30px;
+  background: linear-gradient(rgba(99, 106, 150, 0.8) 0%, rgba(182, 186, 214, 0.6) 100%);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 20px 40px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
+  color: #fff;
+}
+
+.search input:focus {
+  box-shadow: rgba(47, 184, 255, 0.3) 0px 10px 40px, rgb(47, 184, 255) 0px 0px 0px 1px inset;
+  background: linear-gradient(rgba(24, 32, 79, 0.4) 0%, rgba(24, 32, 79, 0.25) 100%);
+}
+
+/* 小于1280px时，将课程模块的列数改为1列 */
+@media (max-width: 1280px) {
+  .course {
+    grid-template-columns: 1fr;
+  }
+
+  .course-l {
+    max-width: 380px;
+  }
+}
+
+/* ?grid布局默认一列还是一行？一列！ */
+/* 小于700px时，将flex布局改为grid布局，也就是1列 */
+@media (max-width: 700px) {
+  .course-r {
+    /* grid布局 */
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+    gap: 20px;
+  }
+}
+
+
+
+
+
