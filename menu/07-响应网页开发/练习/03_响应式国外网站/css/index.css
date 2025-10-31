@@ -10,6 +10,7 @@
 /* *准备背景盒子 */
 /* !需要渐变背景时，可以用一个-1层级的盒子 */
 .bg {
+  /* 这个hidden是隐藏跑出去的两个小球，避免产生水平滚动条 */
   overflow: hidden;
   position: absolute;
   z-index: -1;
@@ -17,6 +18,43 @@
   height: 1200px;
   background: linear-gradient(189.16deg, rgb(57, 15, 199) 13.57%, rgb(40, 35, 77) 98.38%);
 }
+
+/* 两个小球的动画 */
+.ball1 {
+  position: absolute;
+  top: 250px;
+  left: 200px;
+  width: 500px;
+  height: 500px;
+  /* !b-c只是background的一个参数，请回忆background有关的知识 */
+  /* background-color: pink; */
+  background: linear-gradient(rgba(186, 117, 255, 0.49) 26.56%, rgb(57, 19, 184) 100%);
+  animation: move 30s infinite alternate;
+}
+
+.ball2 {
+  position: absolute;
+  top: 250px;
+  left: 200px;
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(rgba(47, 184, 255, 0.42) 31.77%, rgb(158, 236, 217) 100%);
+  animation: move 25s infinite alternate;
+}
+
+/* !动画有关知识：translate、rotate；更丰富的圆角：水平、垂直 */
+@keyframes move {
+  0% {
+    transform: translate(-200px, 0px) rotate(-90deg);
+    border-radius: 51% 49% 58% 42% / 34% 78% 22% 66%;
+  }
+
+  100% {
+    transform: translate(400px, 100px) rotate(-120deg);
+    border-radius: 22% 78% 73% 27% / 67% 31% 69% 33%;
+  }
+}
+
 /* *头部盒子制作 */
 .w {
   /* !如果只写width，则无法缩放，所以设置最大宽度 */
@@ -84,7 +122,7 @@
   backdrop-filter: blur(40px);
 }
 
-/* 导航栏的响应式效果 */
+/* !导航栏的响应式效果：小于某个宽度时，将grid布局减少列数，并隐藏减少的项目 */
 @media screen and (max-width: 1024px) {
   .nav {
     grid-template-columns: repeat(6, auto);
@@ -114,6 +152,7 @@
   }
 }
 
+/* !隐藏前面的nav栏，显示手机导航栏 */
 @media (max-width: 550px) {
   /* 2. 由显示盒子变为隐藏盒子 */
   .nav {
@@ -213,6 +252,7 @@
   background: linear-gradient(rgba(24, 32, 79, 0.4) 0%, rgba(24, 32, 79, 0.25) 100%);
 }
 
+/* !这里响应式效果的大概是：大盒子分两列、大盒子的右列（小盒子）再分两列。遇到需要响应改变时，将两列改为1列 */
 /* 小于1280px时，将课程模块的列数改为1列 */
 @media (max-width: 1280px) {
   .course {
@@ -221,6 +261,14 @@
 
   .course-l {
     max-width: 380px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .course-l {
+    max-width: 380px;
+    margin: auto;
+    text-align: center;
   }
 }
 
@@ -236,7 +284,399 @@
   }
 }
 
+/* *课程卡片模块 */
+.course-card {
+  display: grid;
+  /* !列数自动填充，响应式布局的一种方法 */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 40px;
+  max-width: 1254px;
+  margin: 40px auto 0px;
+  padding: 0px 40px;
+}
+
+.course-card .item {
+  height: 360px;
+  border-radius: 20px;
+  padding: 20px;
+  background: linear-gradient(209.21deg, rgb(73, 79, 254) 13.57%, rgb(15, 19, 36) 98.38%);
+  cursor: pointer;
+  transition: 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.course-card .item figure {
+  position: relative;
+  height: 150px;
+  text-align: center;
+}
+
+.course-card .item:hover {
+  transform: scale(1.1);
+  box-shadow: rgba(15, 19, 36, 0.3) 0px 20px 40px, rgba(0, 0, 0, 0.05) 0px 1px 3px;
+}
+
+.course-card .item:hover figure>img {
+  transform: scale(0.9);
+}
+
+.course-card .item figure .icon1,
+.course-card .item figure .icon2 {
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.course-card .item figure .icon1 {
+  top: 0;
+}
+
+.course-card .item figure .icon2 {
+  top: 42px;
+}
+
+.course-card .item figure>img {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+  transition: 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.course-card .item h3 {
+  height: 100px;
+  margin: 10px 0;
+  text-align: center;
+  line-height: 140%;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  /* 多行显示省略号 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.course-card .item p {
+  text-align: center;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ?star默认宽度是撑满父盒子item的？为什么不是靠本身内容撑开？ */
+.course-card .star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  /* border: 3px solid pink; */
+}
+
+.course-card .item4 {
+  background: linear-gradient(209.21deg, rgb(242, 136, 133) 13.57%, rgb(233, 79, 102) 98.38%);
+}
+
+@media (max-width: 768px) {
+  .course-card {
+    gap: 20px;
+    padding: 0 20px
+  }
+}
+
+/* *故事卡片 */
+.story-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 100px;
+  z-index: 999;
+}
+
+.story-l {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.story-card .top {
+  display: grid;
+  grid-template-columns: 42px auto;
+  gap: 20px;
+}
+
+.story-card .top .name {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+/* ?grid一列中，项目宽度自动填充，充满父盒子宽度？ */
+/* !middle盒子没有grid、flex布局，使用text-align: center到达水平居中效果（对图片、文字可以） */
+.story-card .middle {
+  height: 240px;
+  margin: 20px 0;
+  border-radius: 20px;
+  text-align: center;
+  background: rgb(165, 206, 255);
+}
+
+/* ?指定了最大高度，考虑到图片高度可能大于240px，所以设置最大高度？ */
+.story-card .middle img {
+  max-height: 240px;
+}
+
+.story-card .desc {
+  line-height: 130%;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.story-card button {
+  margin-top: 20px;
+  padding: 8px 15px;
+  border: 0;
+  border-radius: 30px;
+  font-size: 13px;
+  color: #fff;
+  text-transform: uppercase;
+  background: linear-gradient(rgba(24, 32, 79, 0.4) 0%, rgba(24, 32, 79, 0.4) 100%);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 20px 40px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
+}
+
+/* ?似乎有问题？f-s改变的是什么，参数是什么？ */
+.story-l-left .top .info {
+  font-style: 13px;
+}
+
+.story-l-left .top img {
+  border-radius: 50%;
+}
+
+  /* 右侧布局 */
+.story-r-top,
+.story-r-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-content: start;
+
+  border: 3px solid pink;
+}
+
+.story-r .pic {
+  overflow: hidden;
+  height: 240px;
+  border-radius: 20px;
+  /* 图片右侧部分是背景颜色，不是一整个图片 */
+  background: rgb(0, 0, 0);
+}
+
+.story-r .pic img {
+  max-height: 240px;
+}
+
+.story-r {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* 隐藏切换按钮，grid由3个项目改为2个，降为一行 */
+.story-r .toggle {
+  display: none;
+}
+
+.story-l>div,
+.story-r>div {
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 0.5px inset;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  
+  border: 2px solid skyblue;
+}
+
+@media (max-width: 1250px) {
+  .story-card {
+    grid-template-columns: 1fr;
+    max-width: 768px;
+  }
+}
+
+/* ?toggle由隐藏到grid显示时，拉动窗口，会产生一个“空白”？又没了，可能是网络、浏览器的原因？ */
+@media (max-width: 680px) {
+  .story-l {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  /* !显示按钮 */
+  .story-r .toggle {
+    display: grid;
+  }
+
+  /* 上面的显示，下面这个就隐藏 */
+  .story-r .info .top {
+    display: none;
+  }
+
+  .story-r-top,
+  .story-r-bottom {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+/* *底部模块 */
+.footer {
+  position: relative;
+  width: 100%;
+  height: 800px;
+  margin-top: 100px;
+  background: rgb(30, 19, 87);
+  /* 利用svg裁剪盒子 */
+  /* clip-path: url(#wave2); */
+
+  
+  /* ?为什么这里更改无效？ */
+  /* border: 3px solid white; */
+}
+
+/* ! 注意con的添加、为什么要添加？（最先是没有con的，为了波浪 裁剪、显示...才加的） */
+.footer .con {
+  overflow: hidden;
+  position: absolute;
+  top: -300px;
+  left: 0;
+  width: 100%;
+  /* background-color: pink; */
+  z-index: -1;
+}
+
+/* ?为什么不在上面footer里面定义clip-path？ */
+/* svg固定大小，多设置一个盒子，专门用来裁剪作为背景盒子 */
+.bolang {
+  position: absolute;
+  left: 0;
+  top: 150px;
+  width: 100%;
+  height: 600px;
+  background: linear-gradient(rgba(19, 12, 62, 0.8) 0%, rgb(30, 19, 87) 28%);
+  /* 利用svg裁剪盒子 */
+  clip-path: url(#wave2);
+}
+
+/* 如果超过1400像素，波浪放大 1.5倍（svg本身只有1400像素） */
+@media (min-width: 1400px) {
+  .bolang {
+    transform: scale(1.5);
+  }
+}
+
+.footer svg {
+  width: 100%;
+}
+
+.footer-con {
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  transform: translate(-50%, -50%);
+  width: 660px;
+  padding: 0 20px;
+
+  /* border: 2px solid pink; */
+}
+
+@media (max-width: 600px) {
+  .footer-con {
+    grid-template-columns: 1fr;
+    /* ?这里修改似乎没有影响？ */
+    justify-items: center;
+    /* ?max-width的使用时机？ */
+    /* 如果不加这一行，会产生盒子宽度超出屏幕，水平滚动条 */
+    max-width: 400px;
+  }
+}
+
+.footer-con-left {
+  display: grid;
+  grid-template-columns: 144px 144px;
+  gap: 20px;
+}
+
+/* !设置行数、行高、行间距 */
+.footer-con-left .item {
+  display: grid;
+  grid-template-rows: repeat(5, 44px);
+  row-gap: 20px;
+}
+
+.footer-con-left .item button {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  width: 144px;
+  height: 44px;
+  padding-left: 10px;
+  border-radius: 10px;
+  border: 0;
+  outline: 0;
+  /* ?这里none和transparent有什么区别？ */
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+/* !可以分别取消上下两个看看效果 */
+.footer-con-left .item button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: rgba(31, 47, 71, 0.25) 0px 20px 40px, rgba(0, 0, 0, 0.1) 0px 1px 5px, rgba(255, 255, 255, 0.4) 0px 0px 0px 0.5px inset;
+}
+
+.footer-con-left .item a {
+  text-decoration: none;
+  /* ?这里color没用吧？a中的字体需要单独拿出来设置？还是什么来着？ */
+  color: #fff;
+}
+
+.footer-con-left .item a p {
+  color: #fff;
+}
+
+.footer-con-left .item button img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.footer-con-right {
+  padding-top: 60px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
 
 
+.footer-con-right p:nth-child(3) {
+  margin: 20px 0;
+  font-weight: 500;
+}
 
-
+.footer-con-right p:nth-child(2) {
+  margin-top: 20px;
+}

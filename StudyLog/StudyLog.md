@@ -20,6 +20,8 @@ w100+h100
 .className+.className2
 ul>li*3
 
+i.bi.bi-facebook
+<i class="bi bi-facebook"></i>
 
 ## 杂项
 1. 

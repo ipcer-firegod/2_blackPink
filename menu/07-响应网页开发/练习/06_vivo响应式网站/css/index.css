@@ -1,0 +1,340 @@
+ :root {
+   --vivo-blue: #1976d2;
+   --vivo-cyan: #00e5ff;
+   --vivo-purple: #7b1fa2;
+   --vivo-dark: #121212;
+   --vivo-card-bg: #1e1e1e;
+   --neon-glow: 0 0 10px rgba(0, 229, 255, 0.7),
+     0 0 20px rgba(0, 229, 255, 0.5),
+     0 0 30px rgba(0, 229, 255, 0.3);
+ }
+
+ body {
+   font-family: 'Montserrat', sans-serif;
+   background-color: var(--vivo-dark);
+   color: #fff;
+   overflow-x: hidden;
+ }
+
+ /* *顶部导航栏 模块 */
+ .navbar {
+   padding: 15px 0;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+   /* !important */
+   background-color: rgba(18, 18, 18, 0.6) !important;
+   backdrop-filter: blur(5px);
+ }
+
+ /* 需要加上hover，不加hover时样式效果会消失 */
+ .navbar-brand,
+ .navbar-brand:hover {
+   font-size: 28px;
+   font-weight: 700;
+   background: linear-gradient(45deg, var(--vivo-cyan), var(--vivo-blue));
+   /* !文字裁剪 */
+   -webkit-background-clip: text;
+   background-clip: text;
+   color: transparent;
+   text-shadow: var(--neon-glow);
+ }
+
+ .nav-link {
+   position: relative;
+   margin: 0 12px;
+   color: rgba(255, 255, 255, 0.9);
+ }
+
+ .nav-link:hover {
+   /* !文字阴影 */
+   text-shadow: var(--neon-glow);
+ }
+
+ /* after的父盒子是after前面的本盒子· */
+ .nav-link::after {
+   content: '';
+   position: absolute;
+   left: 0;
+   bottom: -5px;
+   width: 0;
+   height: 2px;
+   background: linear-gradient(90deg, var(--vivo-cyan), var(--vivo-blue));
+   transition: all .3s;
+ }
+
+ .nav-link:hover::after {
+   width: 100%;
+ }
+
+ /* 和底部导航栏的icon a 类重叠了，这里也给那里初始化了 */
+ /*  .navbar  */
+ .icons a {
+   padding: 0 10px;
+   font-size: 1.4rem;
+   color: rgba(255, 255, 255, 0.9);
+ }
+
+ /*  .navbar  */
+ .icons a:hover {
+   color: var(--vivo-cyan);
+   text-shadow: var(--neon-glow);
+ }
+
+ /* *轮播图 模块 */
+ .banner {
+   width: 100%;
+   /* ?这里单位vw和其他地方又不统一了 */
+   height: 50vw;
+   /* ! 背景遮罩 */
+   /* mask-image: linear-gradient(rgb(0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
+   -webkit-mask-image: linear-gradient(rgb(0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%); */
+   mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgb(0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
+   -webkit-mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgb(0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
+
+   /* !使用mt-5代替，但是这里无法到达60px的效果，只有3rem（30px？） */
+   /* margin: 60px 0; */
+   /* 使用border border-white代替 */
+   /* border: 3px solid pink; */
+ }
+
+ .banner .carousel-item img {
+   width: 100%;
+   /* ?下面这里如果是100%，是使用父盒子的高度。用的哪个？会超过banner盒子高度 */
+   /* ?我想要达到撑满banner盒子高度，应该怎么写 */
+   /* ?这里写vw，下面又写rem，是否不太合适？（单位不一致） */
+   height: 50vw;
+ }
+
+ .carousel-caption {
+   bottom: 15rem;
+ }
+
+ .carousel-indicators {
+   margin-bottom: 15rem;
+ }
+
+ /* *热门产品 模块 */
+ .hot-product .p-info {
+   color: rgba(255, 255, 255, 0.7);
+ }
+
+ /* 卡片模块 */
+ .card {
+   overflow: hidden;
+   border: 1px solid rgba(255, 255, 255, 0.1);
+   border-radius: 15px;
+   background-color: var(--vivo-card-bg);
+   transition: all .3s;
+ }
+
+ .card:hover {
+   border-color: rgba(0, 229, 255, 0.3);
+   transform: translateY(-10px);
+ }
+
+ .card-img {
+   background-color: #292929;
+ }
+
+ .card-img img {
+   /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+   animation: move 5s ease-in-out infinite;
+ }
+
+ @keyframes move {
+   0% {
+     transform: translateY(0);
+   }
+
+   33% {
+     transform: translateY(-7.5px);
+   }
+
+   66% {
+     transform: translateY(7.5px);
+   }
+
+   100% {
+     transform: translateY(0);
+   }
+ }
+
+ .card-body .card-title {
+   font-size: 1.4rem;
+   color: #fff;
+ }
+
+ .card-body .card-text {
+   font-size: 0.9rem;
+   color: rgba(255, 255, 255, 0.7);
+ }
+
+ .card-body .card-price {
+   font-size: 1.5rem;
+   color: var(--vivo-cyan);
+ }
+
+ .card-body .btn {
+   width: 100%;
+   border: 2px solid var(--vivo-cyan);
+   border-radius: 30px;
+   background: none;
+   color: var(--vivo-cyan);
+ }
+
+ /* ?有关阴影效果，为什么有一些阴影可以看到效果，比如这里只有--neon-glow 能作用，其他似乎都不行？*/
+ .card-body .btn:hover {
+   box-shadow: var(--neon-glow);
+ }
+
+ /* *未来科技 模块 */
+ .future-tech {
+   position: relative;
+   margin-top: 100px;
+   /* padding-top，没什么区别 */
+   padding: 100px;
+
+   /* 写在一起，background 的属性值顺序：
+  background-color background-image -repeat -position -size -attachment */
+   background: url(../img/bg1.avif) no-repeat center/cover fixed;
+ }
+
+ /* !大盒子的before，里面盒子会被盖住。只需要把里盒子加一个定位，就会再盖住before了（定位使用bs的类） */
+ .future-tech::before {
+   content: '';
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(18, 18, 18, 0.9);
+ }
+
+ .future-icon {
+   font-size: 3rem;
+   color: var(--vivo-cyan);
+   text-shadow: var(--neon-glow);
+   margin-bottom: 20px;
+ }
+
+ /* *底部导航 模块 */
+ .footer {
+   background-color: #0a0a0a;
+ }
+
+ .footer dt::after {
+   content: '';
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   width: 40px;
+   height: 2px;
+   background: linear-gradient(90deg, var(--vivo-cyan), var(--vivo-blue));
+ }
+
+ .footer dd>a {
+   color: rgba(255, 255, 255, 0.7);
+   transition: all .3s;
+ }
+
+ .footer dd>a:hover {
+   color: var(--vivo-cyan);
+   transform: translateX(5px);
+ }
+
+ /* ?给了.icon一个flex布局，icon的项目a会转为行内块盒子 */
+ /* 此时没有给a也变成flex布局，只是一个块级盒子，所以给a设置a-center无效 */
+ .footer .icons a {
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   line-height: 40px;
+   /* ? i 图标的下划线 即使不去掉似乎也没有？看不到 */
+   /* text-decoration: none; */
+   background-color: rgba(255, 255, 255, 0.1);
+   transition: all 0.3s;
+ }
+
+ .footer .icons a:hover {
+   /* 因为在顶部导航栏设置了经过颜色，这里需要再改回来 */
+   color: #fff;
+   box-shadow: var(--neon-glow);
+   background: linear-gradient(45deg, var(--vivo-blue), var(--vivo-cyan));
+   transform: translateY(-3px);
+ }
+
+ .footer .p-news {
+   color: rgba(255, 255, 255, 0.7);
+ }
+
+ .form-control::placeholder {
+   color: rgba(255, 255, 255, 0.7);
+ }
+
+ .btn-outline-secondary {
+   padding: 12px 30px;
+   border-radius: 30px;
+   font-weight: 600;
+   color: #fff;
+   background: linear-gradient(45deg, var(--vivo-blue), var(--vivo-cyan));
+   transition: all 0.3s;
+ }
+
+
+ .btn-outline-secondary:hover {
+   box-shadow: var(--neon-glow);
+   transform: translateY(-3px);
+ }
+
+ .copyright {
+   border-top: 1px solid rgba(255, 255, 255, 0.1);
+   color: rgba(255, 255, 255, 0.7);
+ }
+
+ /* ! xl  lg  md  sm  xs >= 1200px 992px 768px 576px 0px */
+ @media (max-width: 768px) {
+   .navbar {
+     padding: 5px 0;
+   }
+
+   .carousel-caption,
+   .carousel-indicators {
+     display: none;
+   }
+ }
+
+ @media (max-width: 992px) {
+   .carousel-caption {
+     bottom: 8rem;
+   }
+
+   .carousel-indicators {
+     margin-bottom: 8rem;
+   }
+
+   /* 没用。因为bs的mt-5权重更高 */
+   /* .banner {
+     margin-top: 80px;
+   } */
+ }
+
+ /* 自定义滚动条样式 */
+ /* 滚动条设置宽度和高度 */
+ ::-webkit-scrollbar {
+   width: 10px;
+ }
+
+ /* 设置轨道背景色  */
+ ::-webkit-scrollbar-track {
+   background: var(--vivo-dark);
+ }
+
+ /* 设置滑块样式,圆角 */
+ ::-webkit-scrollbar-thumb {
+   background: linear-gradient(var(--vivo-blue), var(--vivo-cyan));
+   border-radius: 10px;
+ }
+
+ /* 鼠标经过滑块 */
+ ::-webkit-scrollbar-thumb:hover {
+   background: linear-gradient(var(--vivo-cyan), var(--vivo-blue));
+ }

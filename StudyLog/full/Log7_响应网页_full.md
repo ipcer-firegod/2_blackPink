@@ -157,6 +157,8 @@ Bootstrap栅格系统基于Flexbox，将每行分为12等份，通过“容器-�
 | 大屏（lg）   | `col-lg-`  | 992px     | `col-lg-4`                    |
 | 超大屏（xl） | `col-xl-`  | 1200px    | `col-xl-4`                    |
 
+- col-xl-2 col-lg-3 col-md-4 col-sm-6
+
 ##### （2）栅格布局示例（1行4列，中屏起生效）
 ```html
 <!-- 容器：中屏起固定宽度720px -->

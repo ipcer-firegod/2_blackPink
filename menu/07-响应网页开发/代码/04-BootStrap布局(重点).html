@@ -14,6 +14,17 @@
     .container-fluid {
       background-color: red;
     } */
+    .container {
+      border: 3px solid red;
+    }
+
+    .row {
+      border: 3px solid blue;
+    }
+
+    .item {
+      border: 3px solid green;
+    }
 
     /* 在 1200像素以上，一行摆放 6个盒子
     在 992像素以上，摆放 4个 
@@ -31,6 +42,7 @@
       background-color: pink;
     }
 
+    /* <!--!需要给行一个高度 */
     .box .row {
       height: 100px;
     }
@@ -49,7 +61,25 @@
   <div class="container">
     <!-- 2. 在写行盒子 -->
     <div class="row">
-      <!-- 3. 写列盒子 -->
+      <!--! 3. 写列盒子 -->
+      <!-- 分别代表列宽由大屏到小屏的占比：2/12,3/12,4/12,6/12，12/12(一列)是默认存在的 -->
+      <!-- sm:>=576px (<768px)时占6/12列 -->
+      <div class="item col-xl-1 col-lg-3 col-md-4 col-sm-6">1</div>
+      <div class="item col-xl-1 col-lg-3 col-md-4 col-sm-6">2</div>
+      <div class="item col-xl-1 col-lg-3 col-md-4 col-sm-6">3</div>
+      <div class="item col-xl-1 col-lg-3 col-md-4 col-sm-6">4</div>
+      <div class="item col-xl-1 col-lg-3 col-md-4 col-sm-6">5</div>
+      <div class="item col-xl-1 col-lg-3 col-md-4 col-sm-6">6</div>
+    </div>
+    <br>
+    <!-- ?容器中如果有两个row，在每一row响应变化时不能合适改变，所以只应该有一个row吗？ -->
+    <!-- 我的理解是，行就是行+列了。row中的列盒子会响应变化，一个row中列盒子变化，则会从一行到多行。 -->
+    <div class="row">
+      <!--! 3. 写列盒子 -->
+      <!-- 分别代表列宽由大屏到小屏的占比：2/12,3/12,4/12,6/12 -->
+      <!-- sm:>=576px (<768px)时占6/12列 -->
+      <!-- ! xl     lg    md    sm     xs >=-->
+      <!-- ! 1200px 992px 768px 576px  0    -->
       <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">1</div>
       <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">2</div>
       <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">3</div>
@@ -62,8 +92,10 @@
   <!-- 列对齐 -->
   <div class="container box">
     <div class="row align-items-center justify-content-between">
-      <div class="item col-xl-2">1</div>
-      <div class="item col-xl-2">2</div>
+      <!-- ! 理解：1.首先，默认有1列；2.当>=xl时，一列占2/12，即一行可以又六列 -->
+       <!-- 可以删去col-xl-2，则默认为1列 。即一行row中，默认是按照一列来排列的  -->
+      <div class="item col-xl-2 col-lg-3">1</div>
+      <div class="item col-xl-2 col-lg-3">2</div>
     </div>
   </div>
   <script src="./bootstrap/bootstrap.min.js"></script>
