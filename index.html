@@ -7,11 +7,32 @@
     <title>前端学习资料导航</title>
     <link rel="stylesheet" href="css/1_home_index.css">
     <script src="js/1_home_index.js" defer></script>
+    <script src="js/side_nav.js" defer></script>
 </head>
 
 <body>
     <div class="container">
-        <header>
+        <!-- 侧栏导航（固定定位） -->
+    <button class="side-toggle" aria-expanded="false" aria-controls="side-nav" aria-label="打开导航">☰</button>
+    <button class="side-collapse" aria-label="折叠/展开侧栏">▸</button>
+    <nav id="side-nav" class="side-nav" aria-label="页面快捷导航">
+            <h4>页面导航</h4>
+            <ul class="side-list">
+                <li class="side-item"><a href="#html-css">HTML/CSS 学习章节</a></li>
+                <li class="side-item has-children">
+                    <button class="side-parent" aria-expanded="true">JS 学习天数 ▾</button>
+                    <ul class="side-sublist">
+                        <li><a href="#js-basic">1. JavaScript基础</a></li>
+                        <li><a href="#js-webapi">2. web APIs</a></li>
+                        <li><a href="#js-advanced">3. JS进阶</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="side-bottom">
+                <a href="#top" class="side-top">回到顶部</a>
+            </div>
+        </nav>
+        <header id="top">
             <h1>前端学习资料导航</h1>
             <p class="subtitle">系统化学习HTML、CSS、JavaScript及现代前端技术</p>
         </header>
@@ -27,7 +48,7 @@
             </div>
         </section>
 
-        <h2 class="section-title">学习章节</h2>
+    <h2 id="html-css" class="section-title"> HTML/CSS 学习章节</h2>
         <section class="chapters">
             <div class="chapter-card">
                 <h2 class="chapter-title"><span class="chapter-number">1</span>HTML5语义标签</h2>
@@ -119,6 +140,195 @@
             </div>
         </section>
 
+    <h2 id="js-days" class="section-title"> JS 学习天数</h2>
+    <h3 id="js-basic" class="section-title"><small>1.JavaScript基础</small></h3>
+        <section class="chapters">
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">1</span>day1</h2>
+                <p class="chapter-desc">1.JavaScript基础第一天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/1.JavaScript基础/d1-JavaScript基础第一天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/1.JavaScript基础/d1-JavaScript基础第一天/03-笔记/README.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/1.JavaScript基础/d1-JavaScript基础第一天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/1.JavaScript基础/d1-JavaScript基础第一天/01-ppt/JavaScript基础第一天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">2</span>day2</h2>
+                <p class="chapter-desc">1.JavaScript基础第二天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/1.JavaScript基础/d2-JavaScript基础第二天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/1.JavaScript基础/d2-JavaScript基础第二天/03-笔记/javascript基础第二天笔记.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/1.JavaScript基础/d2-JavaScript基础第二天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/1.JavaScript基础/d2-JavaScript基础第二天/01-PPT/JavaScript基础第二天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">3</span>day3</h2>
+                <p class="chapter-desc">1.JavaScript基础第三天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/1.JavaScript基础/d3-JavaScript基础第三天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/1.JavaScript基础/d3-JavaScript基础第三天/02-笔记/README.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/1.JavaScript基础/d3-JavaScript基础第三天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/1.JavaScript基础/d3-JavaScript基础第三天/01-PPT/JavaScript基础第三天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">4</span>day4</h2>
+                <p class="chapter-desc">1.JavaScript基础第四天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/1.JavaScript基础/d4-JavaScript基础第四天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/1.JavaScript基础/d4-JavaScript基础第四天/03-笔记/js基础第四天.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/1.JavaScript基础/d4-JavaScript基础第四天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/1.JavaScript基础/d4-JavaScript基础第四天/01-PPT/JavaScript基础第四天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">5</span>day5</h2>
+                <p class="chapter-desc">1.JavaScript基础第五天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/1.JavaScript基础/d5-JavaScript基础第五天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/1.JavaScript基础/d5-JavaScript基础第五天/03-笔记/README.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/1.JavaScript基础/d5-JavaScript基础第五天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/1.JavaScript基础/d5-JavaScript基础第五天/01-PPT/JavaScript基础第五天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+        </section>
+
+    <h3 id="js-webapi" class="section-title"><small>2.web APIs</small></h3>
+        <section class="chapters">
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">1</span>day1</h2>
+                <p class="chapter-desc">web APIs 第一天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/2.web APIs/d1-web APIs第一天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/2.web APIs/d1-web APIs第一天/02-笔记/README.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/2.web APIs/d1-web APIs第一天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/2.web APIs/d1-web APIs第一天/01-PPT/web APIs第一天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">2</span>day2</h2>
+                <p class="chapter-desc">web APIs 第二天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/2.web APIs/d2-web APIs第二天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/2.web APIs/d2-web APIs第二天/02-笔记/README.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/2.web APIs/d2-web APIs第二天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/2.web APIs/d2-web APIs第二天/01-PPT/web APIs第二天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">3</span>day3</h2>
+                <p class="chapter-desc">web APIs 第三天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/2.web APIs/d3-web APIs第三天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/2.web APIs/d3-web APIs第三天/02-笔记/README.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/2.web APIs/d3-web APIs第三天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/2.web APIs/d3-web APIs第三天/01-PPT/web APIs第三天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">4</span>day4</h2>
+                <p class="chapter-desc">web APIs 第四天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/2.web APIs/d4-web APIs 第四天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/2.web APIs/d4-web APIs 第四天/02-笔记/README.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/2.web APIs/d4-web APIs 第四天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/2.web APIs/d4-web APIs 第四天/01-PPT/web APIs第四天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">5</span>day5</h2>
+                <p class="chapter-desc">web APIs 第五天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/2.web APIs/d5-web APIs第五天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/2.web APIs/d5-web APIs第五天/04-笔记/README.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/2.web APIs/d5-web APIs第五天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/2.web APIs/d5-web APIs第五天/01-PPT/web APIs第五天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">6</span>day6</h2>
+                <p class="chapter-desc">web APIs 第六天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/2.web APIs/d6-web APIs第六天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/2.web APIs/d6-web APIs第六天/02-笔记/README.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/2.web APIs/d6-web APIs第六天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/2.web APIs/d6-web APIs第六天/01-PPT/web APIs第六天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">7</span>day7</h2>
+                <p class="chapter-desc">web APIs 第七天（实战）</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/2.web APIs/d7-web APIs第七天实战/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/2.web APIs/d7-web APIs第七天实战/实战文档/个人实战文档.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/2.web APIs/d7-web APIs第七天实战/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/2.web APIs/d7-web APIs第七天实战/01-PPT/web APIs第七天实战.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+        </section>
+
+    <h3 id="js-advanced" class="section-title"><small>3.JS进阶</small></h3>
+        <section class="chapters">
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">1</span>day1</h2>
+                <p class="chapter-desc">JS 进阶 第一天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/3.JS进阶/d1_JavaScript进阶第一天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/3.JS进阶/d1_JavaScript进阶第一天/02-笔记/JavaScript进阶第一天.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/3.JS进阶/d1_JavaScript进阶第一天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/3.JS进阶/d1_JavaScript进阶第一天/01-PPT/JavaScript高级第一天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">2</span>day2</h2>
+                <p class="chapter-desc">JS 进阶 第二天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/3.JS进阶/d2_JavaScript进阶第二天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/3.JS进阶/d2_JavaScript进阶第二天/02-笔记/day02.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/3.JS进阶/d2_JavaScript进阶第二天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/3.JS进阶/d2_JavaScript进阶第二天/01-PPT/JavaScript高级第二天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">3</span>day3</h2>
+                <p class="chapter-desc">JS 进阶 第三天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/3.JS进阶/d3_JavaScript进阶第三天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/3.JS进阶/d3_JavaScript进阶第三天/02-笔记/day03.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/3.JS进阶/d3_JavaScript进阶第三天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/3.JS进阶/d3_JavaScript进阶第三天/01-PPT/JavaScript 进阶第三天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <h2 class="chapter-title"><span class="chapter-number">4</span>day4</h2>
+                <p class="chapter-desc">JS 进阶 第四天</p>
+                <div class="chapter-links">
+                    <a href="menu_JS/3.JS进阶/d4_JavaScript进阶第四天/04-code/index.html" class="btn">查看代码</a>
+                    <a href="menu_JS/3.JS进阶/d4_JavaScript进阶第四天/02-笔记/day04.md" class="btn btn-secondary">查看笔记</a>
+                    <a href="StudyLog_JS" class="btn btn-secondary">查看我的笔记</a>
+                    <a href="menu_JS/3.JS进阶/d4_JavaScript进阶第四天/06-练习/index.html" class="btn btn-primary">我的练习</a>
+                    <a href="menu_JS/3.JS进阶/d4_JavaScript进阶第四天/01-PPT/JavaScript高级第四天.pdf" class="btn btn-accent">查看PDF</a>
+                </div>
+            </div>
+        </section>
+
         <h2 class="section-title">学习工具</h2>
         <section class="utility-section">
             <div class="utility-grid">
@@ -132,7 +342,7 @@
                 <div class="utility-card">
                     <h3 class="utility-title">PDF资料</h3>
                     <div class="utility-links">
-                        <a href="menu/09-PDF/" class="utility-link-item">浏览所有PDF文件</a>
+                        <a href="menu/09-PDF/" class="utility-link-item">浏览HTML、CSS的PDF文件</a>
                     </div>
                 </div>
             </div>

@@ -10,10 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const completedElement = document.getElementById('completed-chapters');
   const percentageElement = document.getElementById('progress-percentage');
 
-  const percentage = (completedChapters.length / 8) * 100;
-  progressElement.style.width = percentage + '%';
+  // 动态计算总章节数，避免新增模块导致超过 100% 的问题
+  const totalChapters = document.querySelectorAll('.chapter-card').length || 1;
+  const percentage = (completedChapters.length / totalChapters) * 100;
+  progressElement.style.width = Math.min(percentage, 100) + '%';
   completedElement.textContent = completedChapters.length;
-  percentageElement.textContent = Math.round(percentage) + '%';
+  percentageElement.textContent = Math.round(Math.min(percentage, 100)) + '%';
 
   // 为章节添加完成标记功能
   const chapterCards = document.querySelectorAll('.chapter-card');
@@ -46,11 +48,12 @@ document.addEventListener('DOMContentLoaded', function () {
         // 保存进度
         localStorage.setItem('completedChapters', JSON.stringify(completedChapters));
 
-        // 更新进度显示
-        const newPercentage = (completedChapters.length / 8) * 100;
-        progressElement.style.width = newPercentage + '%';
+        // 更新进度显示（实时使用当前页面的章节总数）
+        const total = document.querySelectorAll('.chapter-card').length || 1;
+        const newPercentage = (completedChapters.length / total) * 100;
+        progressElement.style.width = Math.min(newPercentage, 100) + '%';
         completedElement.textContent = completedChapters.length;
-        percentageElement.textContent = Math.round(newPercentage) + '%';
+        percentageElement.textContent = Math.round(Math.min(newPercentage, 100)) + '%';
       }
     });
   });

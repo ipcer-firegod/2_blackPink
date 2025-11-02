@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  --side-top: 90px;
+  --side-right: 24px;
+}
+
 body {
   font-family: 'Microsoft YaHei', Arial, sans-serif;
   line-height: 1.6;
@@ -13,6 +18,11 @@ body {
 
 a {
   text-decoration: none;
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
 }
 
 .container {
@@ -267,4 +277,126 @@ footer {
   h1 {
     font-size: 2em;
   }
+}
+
+/* 侧栏导航 */
+.side-nav {
+  position: fixed;
+  right: var(--side-right);
+  top: var(--side-top);
+  width: 220px;
+  background: rgba(255,255,255,0.98);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  padding: 12px;
+  z-index: 1200;
+  font-size: 0.95em;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  transform-origin: right top;
+}
+.side-nav h4 {
+  margin: 6px 0 10px;
+  color: #667eea;
+  font-size: 1em;
+}
+.side-nav .side-list { list-style: none; padding: 0; margin: 0; }
+.side-nav .side-item > a,
+.side-nav .side-parent { display: block; padding: 8px 10px; color: #333; border-radius: 6px; margin-bottom: 6px; background: transparent; border: none; text-align: left; width: 100%; }
+.side-nav .side-item > a:hover,
+.side-nav .side-parent:hover { background: #f1f5ff; color: #222; cursor: pointer; }
+.side-nav .side-sublist { margin: 6px 0 0 8px; padding-left: 8px; border-left: 2px solid rgba(102,126,234,0.08); }
+.side-nav .side-sublist li a { padding: 6px 8px; display: block; color: #444; border-radius: 6px; }
+.side-nav .side-sublist li a:hover { background: #f6f8ff; }
+
+@media (max-width: 900px) {
+  :root { --side-top: 90px; --side-right: 12px; }
+  .side-nav { display: none; position: fixed; width: 200px; }
+  .side-nav.open { display: block; }
+  .side-toggle { display: block; }
+}
+
+.side-spacer { height: 8px; }
+
+/* 折叠侧栏按钮（用于将侧栏折叠为一个小按钮） */
+.side-collapse {
+  display: block;
+  position: fixed;
+  right: calc(var(--side-right) - 6px);
+  top: var(--side-top);
+  z-index: 1400;
+  background: #667eea;
+  color: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 1.0em;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease;
+  transform-origin: center;
+}
+
+/* 当页面处于折叠状态时，隐藏侧栏（通过 body.nav-collapsed 控制） */
+body.nav-collapsed .side-nav {
+  transform: translateX(260px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.nav-collapsed .side-collapse { right: 18px; }
+
+/* 箭头旋转：默认（侧栏可见）指向左（表示可以折叠），折叠后指向右，弹出时指向下/关闭 */
+.side-collapse { transform: rotate(180deg); }
+body.nav-collapsed .side-collapse { transform: rotate(0deg); }
+body.side-popup-open .side-collapse { transform: rotate(90deg); }
+
+.side-bottom { margin-top: 10px; }
+.side-top { display: inline-block; padding: 8px 10px; background: #f1f5ff; color: #333; border-radius: 6px; text-decoration: none; }
+.side-top:hover { background: #e9f0ff; }
+
+/* Toggle button (mobile) */
+.side-toggle {
+  display: none;
+  position: fixed;
+  right: calc(var(--side-right) - 6px);
+  top: calc(var(--side-top) - 40px);
+  z-index: 1300;
+  background: #667eea;
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  font-size: 1.2em;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+/* collapsed state for sublist */
+.side-sublist.collapsed { display: none; }
+
+/* 弹出遮罩层，当侧栏以弹窗形式打开时显示 */
+.side-overlay {
+  position: fixed;
+  inset: 0;
+  /* background: rgba(0,0,0,0.35); */
+  z-index: 1190;
+}
+
+/* 当以弹窗形式打开侧栏时，确保侧栏可见并带更强的阴影 */
+body.side-popup-open .side-nav {
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  display: block !important;
+  right: 12px;
+  top: 90px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+}
+
+/* 确保折叠按钮总在弹窗之上 */
+body.side-popup-open .side-collapse {
+  z-index: 1300;
 }
