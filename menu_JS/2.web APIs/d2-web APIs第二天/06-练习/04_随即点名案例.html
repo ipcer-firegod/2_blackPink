@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .box {
+            width: 600px;
+            margin: 50px auto;
+            display: flex;
+            font-size: 25px;
+            line-height: 40px;
+        }
+
+        .qs {
+
+            width: 450px;
+            height: 40px;
+            color: red;
+
+        }
+
+        .btns {
+            text-align: center;
+        }
+
+        .btns button {
+            width: 120px;
+            height: 35px;
+            margin: 0 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>随机点名</h2>
+    <div class="box">
+        <span>名字是：</span>
+        <div class="qs">这里显示姓名</div>
+    </div>
+    <div class="btns">
+        <button class="start">开始</button>
+        <button class="end">结束</button>
+    </div>
+
+    <script>
+        // 数据数组
+        const arr = ['马超', '黄忠', '赵云', '关羽', '张飞']
+
+        // const randomIndex = parseInt(Math.random() * arr.length)
+        // document.querySelector('.qs').innerHTML = arr[randomIndex]
+
+        // 1.获取元素
+        const qs = document.querySelector('.qs')
+        const startBtn = document.querySelector('.start')
+        const endBtn = document.querySelector('.end')
+
+        let timerId = 0
+        let randomIndex = 0
+
+        // 以下有一些问题：
+        /*startBtn.addEventListener('click', function () {
+            timerId = setInterval(() => {
+                randomIndex = parseInt(Math.random() * arr.length)
+                qs.innerHTML = arr[randomIndex]
+            }, 100);
+            if (arr.length === 1) {
+                startBtn.disabled = endBtn.disabled = true
+            }
+        })
+
+        endBtn.addEventListener('click', function () {
+            clearInterval(timerId)
+            arr.splice(randomIndex, 1)
+            console.log(arr);
+        })
+        */
+        
+        // 2.添加事件
+        startBtn.addEventListener('click', function () {
+            // <!--!如果已经有定时器在运行，则不执行任何操作
+            if (timerId) return;
+            
+            timerId = setInterval(() => {
+                randomIndex = parseInt(Math.random() * arr.length)
+                qs.innerHTML = arr[randomIndex]
+            }, 100);
+            if (arr.length === 1) {
+                startBtn.disabled = endBtn.disabled = true
+            }
+        })
+
+        endBtn.addEventListener('click', function () {
+            // <!--!只有当定时器正在运行时才执行清除操作
+            if (timerId) {
+                clearInterval(timerId)
+                timerId = 0 // 清除定时器ID
+                arr.splice(randomIndex, 1)
+                console.log(arr);
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

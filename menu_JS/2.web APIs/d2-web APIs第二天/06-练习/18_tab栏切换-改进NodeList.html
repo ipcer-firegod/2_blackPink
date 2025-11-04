@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tab栏切换（改进版）</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .tab {
+      width: 590px;
+      height: 340px;
+      margin: 20px;
+      border: 1px solid #e4e4e4;
+    }
+
+n    .tab-nav {
+      width: 100%;
+      height: 60px;
+      line-height: 60px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .tab-nav h3 {
+      font-size: 24px;
+      font-weight: normal;
+      margin-left: 20px;
+    }
+
+    .tab-nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .tab-nav ul li {
+      margin: 0 20px;
+      font-size: 14px;
+    }
+
+    .tab-nav ul li a {
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      color: #333;
+      outline: none;
+    }
+
+    .tab-nav ul li a.active {
+      border-color: #e1251b;
+      color: #e1251b;
+    }
+
+    .tab-content {
+      padding: 0 16px;
+    }
+
+    .tab-content .item {
+      display: none;
+    }
+
+    .tab-content .item.active {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="tab">
+    <div class="tab-nav">
+      <h3>每日特价</h3>
+      <ul>
+        <li><a class="active" href="javascript:;">精选</a></li>
+        <li><a href="javascript:;">美食</a></li>
+        <li><a href="javascript:;">百货</a></li>
+        <li><a href="javascript:;">个护</a></li>
+        <li><a href="javascript:;">预告</a></li>
+      </ul>
+    </div>
+    <div class="tab-content">
+      <div class="item active"><img src="./images/tab00.png" alt="" /></div>
+      <div class="item"><img src="./images/tab01.png" alt="" /></div>
+      <div class="item"><img src="./images/tab02.png" alt="" /></div>
+      <div class="item"><img src="./images/tab03.png" alt="" /></div>
+      <div class="item"><img src="./images/tab04.png" alt="" /></div>
+    </div>
+  </div>
+
+  <script>
+    // 改进说明：使用缓存的 NodeList（Array），避免频繁 querySelector，同时不依赖箭头函数的 this 语义。
+
+    const tabs = Array.from(document.querySelectorAll('.tab-nav a'));
+    const panels = Array.from(document.querySelectorAll('.tab-content .item'));
+
+    function activate(index) {
+      // 边界保护
+      if (index < 0 || index >= tabs.length) return;
+
+      // 移除旧的 active
+      const prevTab = document.querySelector('.tab-nav a.active');
+      if (prevTab) prevTab.classList.remove('active');
+      const prevPanel = document.querySelector('.tab-content .item.active');
+      if (prevPanel) prevPanel.classList.remove('active');
+
+      // 添加新的 active
+      const tab = tabs[index];
+      const panel = panels[index];
+      if (tab) tab.classList.add('active');
+      if (panel) panel.classList.add('active');
+    }
+
+    // 初始化（确保第一个为激活）
+    activate(0);
+
+    // 事件绑定：鼠标经过与键盘聚焦都切换（可访问性增强）
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener('mouseenter', () => activate(idx));
+      tab.addEventListener('focus', () => activate(idx));
+    });
+  </script>
+
+n</body>
+
+</html>

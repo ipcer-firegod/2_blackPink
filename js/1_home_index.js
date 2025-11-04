@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const totalChapters = document.querySelectorAll('.chapter-card').length || 1;
   const percentage = (completedChapters.length / totalChapters) * 100;
   progressElement.style.width = Math.min(percentage, 100) + '%';
-  completedElement.textContent = completedChapters.length;
+  completedElement.textContent = completedChapters.length + ' / ' + totalChapters;
   percentageElement.textContent = Math.round(Math.min(percentage, 100)) + '%';
 
   // 为章节添加完成标记功能

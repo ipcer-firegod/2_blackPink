@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tab栏切换</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .tab {
+      width: 590px;
+      height: 340px;
+      margin: 20px;
+      border: 1px solid #e4e4e4;
+    }
+
+    .tab-nav {
+      width: 100%;
+      height: 60px;
+      line-height: 60px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .tab-nav h3 {
+      font-size: 24px;
+      font-weight: normal;
+      margin-left: 20px;
+    }
+
+    .tab-nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .tab-nav ul li {
+      margin: 0 20px;
+      font-size: 14px;
+    }
+
+    .tab-nav ul li a {
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      color: #333;
+    }
+
+    .tab-nav ul li a.active {
+      border-color: #e1251b;
+      color: #e1251b;
+    }
+
+    .tab-content {
+      padding: 0 16px;
+    }
+
+    .tab-content .item {
+      display: none;
+    }
+
+    .tab-content .item.active {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="tab">
+    <div class="tab-nav">
+      <h3>每日特价</h3>
+      <ul>
+        <li><a class="active" href="javascript:;">精选</a></li>
+        <li><a href="javascript:;">美食</a></li>
+        <li><a href="javascript:;">百货</a></li>
+        <li><a href="javascript:;">个护</a></li>
+        <li><a href="javascript:;">预告</a></li>
+      </ul>
+    </div>
+    <div class="tab-content">
+      <div class="item active"><img src="./images/tab00.png" alt="" /></div>
+      <div class="item"><img src="./images/tab01.png" alt="" /></div>
+      <div class="item"><img src="./images/tab02.png" alt="" /></div>
+      <div class="item"><img src="./images/tab03.png" alt="" /></div>
+      <div class="item"><img src="./images/tab04.png" alt="" /></div>
+    </div>
+  </div>
+
+  <script>
+
+    function activate() {
+      // <!-- ! 是给 a 添加类，不是给 li(之前这里的a是li)
+      // <!-- ? 为什么不是 `.tab-nav a:nth-child(${i + 1})`
+      /*
+      原因：因为 nth-child 是相对于父元素的位置，.tab-nav a:nth-child(...) 试图对 a 在其父元素（li）中的位置计数，
+      但每个 a 都是其 li 的第 1 个子元素，所以不会得到期望的按序匹配。
+      解决：先选 li 的第 n 个，再选 li 里的 a：.tab-nav li:nth-child(${i + 1}) a；
+      或使用更清晰的 .tab-nav a.active 来寻找当前激活项，并添加空值检查与更稳健的切换逻辑
+      */
+      document.querySelector('.tab-nav li .active').classList.remove('active')
+      document.querySelector(`.tab-nav li:nth-child(${i + 1}) a`).classList.add('active')
+      document.querySelector('.tab-content .active').classList.remove('active')
+      document.querySelector(`.tab-content div:nth-child(${i + 1}) `).classList.add('active')
+    }
+    // <!-- ! 对上面的选择器，更好的实现：(使用更清晰的，使用类名而非标签)
+    // '.tab-nav a.active'
+    // `.tab-nav li:nth-child(${i + 1}) a`
+    // '.tab-content .item.active'
+    // `.tab-content .item:nth-child(${i + 1})`
+
+
+
+    /* <!--* 一。（包括上面的函数中的问题）
+    const lis = document.querySelectorAll('.tab-nav li')
+    lis.forEach((li, idx) => {
+      li.addEventListener('mouseenter', () => {
+        document.querySelector('.tab-nav a.active').classList.remove('active')
+        document.querySelector(`.tab-nav li:nth-child(${idx + 1}) a`).classList.add('active')
+        // this.classList.add('active') // <!-- ! 1.这里this是 li 不是 a 了？    2.即使不使用箭头，也不行
+        document.querySelector('.tab-content .item.active').classList.remove('active')
+        document.querySelector(`.tab-content .item:nth-child(${idx + 1}) `).classList.add('active')
+      })
+    })
+    */
+
+    // <!--* 二。this有关的问题
+    // <!--! 箭头函数没有自己的 this，因此事件处理器里用 this 会指向外层作用域而不是触发的 DOM 元素；
+    // 要么改用普通函数（function），
+    // 要么直接使用事件回调里已有的变量（比如 a），并对 querySelector 的结果做空值检查。
+    const as = document.querySelectorAll('.tab-nav a')
+    as.forEach((a, idx) => {
+      a.addEventListener('mouseenter',function () {
+        document.querySelector('.tab-nav a.active').classList.remove('active')
+        // document.querySelector(`.tab-nav li:nth-child(${idx + 1}) a`).classList.add('active')
+        this.classList.add('active')
+        document.querySelector('.tab-content .item.active').classList.remove('active')
+        document.querySelector(`.tab-content .item:nth-child(${idx + 1}) `).classList.add('active')
+      })
+    })
+
+    /*  <!--* 三。原代码
+    // 1. a 模块制作 要给 5个链接绑定鼠标经过事件       // 1.1 获取 a 元素 
+    const as = document.querySelectorAll('.tab-nav a')
+    for (let i = 0; i < as.length; i++) {
+      as[i].addEventListener('mouseenter', function () {
+        document.querySelector('.tab-nav .active').classList.remove('active')
+        this.classList.add('active')  // 我登基 我添加类 active  this 当前的那个 a 
+        document.querySelector('.tab-content .active').classList.remove('active')
+        document.querySelector(`.tab-content .item:nth-child(${i + 1})`).classList.add('active')
+      })
+    }
+    */
+  </script>
+
+</body>
+
+</html>
