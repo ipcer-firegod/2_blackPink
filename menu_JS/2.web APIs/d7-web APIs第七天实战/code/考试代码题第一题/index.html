@@ -86,16 +86,28 @@
     </ul>
 
     <script>
-        const lis = document.querySelectorAll('li')
-        for (let i = 0; i < lis.length; i++) {
-            lis[i].addEventListener('click', function () {
+        // const lis = document.querySelectorAll('li')
+        // for (let i = 0; i < lis.length; i++) {
+        //     lis[i].addEventListener('click', function () {
+        //         // 干掉上一个active
+        //         const ac = document.querySelector('.active')
+        //         if (ac) ac.classList.remove('active')
+        //         // 当前添加active
+        //         this.classList.add('active')
+        //     })
+        // }
+        // 上面是传统的做法，下面是用事件委托的做法
+        const ul = document.querySelector('.parentWrap')
+        ul.addEventListener('click', function (e) {
+            // 判断点击的是否是groupTitle
+            if (e.target.classList.contains('groupTitle')) {
                 // 干掉上一个active
                 const ac = document.querySelector('.active')
                 if (ac) ac.classList.remove('active')
                 // 当前添加active
-                this.classList.add('active')
-            })
-        }
+                e.target.parentNode.classList.add('active')
+            }
+        })
     </script>
 </body>
 

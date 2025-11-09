@@ -141,7 +141,7 @@ function activate(index) {
     // 2. 给按钮注册点击事件
     agree.addEventListener('click', function () {
       // 2.1 如果复选框选中，按钮就启用，如果复选框不选中，按钮就禁用
-      // 2.2 注意， 复选框选中是true， 按钮启用 disable 是false，是相反的要小心哦
+      //<!-- !  2.2 注意， 复选框选中是true， 按钮启用 disable 是false，是相反的要小心哦
       registerBtn.disabled = !this.checked
     })
 
@@ -158,7 +158,7 @@ function activate(index) {
       btn.innerHTML = `${i}秒之后重新获取`
       let timer = setInterval(function () {
         i--
-        // 在定时器里面不能用this，this执行的window
+        //<!-- !  在定时器里面不能用this，this执行的window
         btn.innerHTML = `${i}秒之后重新获取`
 
         // 4. 如果时间为0，则清除定时器，并且更改文字
@@ -181,7 +181,7 @@ function activate(index) {
     // 声明一个变量来控制
     let flag = true
     label.addEventListener('click', function () {
-        // classList.toggle 是切换类名，如果有就删除，没有就添加
+      // <!-- ! classList.toggle 是切换类名，如果有就删除，没有就添加
         this.classList.toggle('active')
         // 3. 因为要修改input的 type属性 text和password，可以使用一个变量来控制  flag ， 如果为true 就切换为text ，如果为false就修改为 password
         if (flag) {
@@ -193,3 +193,15 @@ function activate(index) {
     })
 
 ```
+
+# d3
+## data-id和id的区别
+<li><a href="javascript:;" data-id="1">美食</a></li>
+  const i = +e.target.dataset.id
+- data-id 是自定义属性，存储在 HTML 元素的 dataset 对象中
+- id 是标准属性，直接作为元素的属性存在
+- data-id 可以存储任意数据，id 只能存储唯一标识符
+- 访问方式不同：data-id 用 element.dataset.id，id 用 element.id
+- data-* 属性不会影响元素的默认行为，id 可能会被 CSS/JS 选择器使用
+- data-* 属性更灵活，适合存储自定义数据，id 更适合标识元素
+- 总结：data-id 用于存储自定义数据，id 用于标识元素，两者用途和访问方式不同。
