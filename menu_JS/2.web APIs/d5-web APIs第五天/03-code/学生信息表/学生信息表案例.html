@@ -59,34 +59,34 @@
         -->
     </tbody>
   </table>
+  <!-- 参考数据
+   const initData = [
+     {
+       stuId: 1001,
+       uname: '欧阳霸天',
+       age: 19,
+       gender: '男',
+       salary: '20000',
+       city: '上海',
+     }
+   ] 
+   -->
   <script>
-    // 参考数据
-    // const initData = [
-    //   {
-    //     stuId: 1001,
-    //     uname: '欧阳霸天',
-    //     age: 19,
-    //     gender: '男',
-    //     salary: '20000',
-    //     city: '上海',
-    //   }
-    // ]
-
     // 1. 读取本地存储的数据   student-data  本地存储的命名
+    // 2. <!--! 如果有就返回对象数组，没有就声明一个空的数组  arr 一会渲染的时候用的
     const data = localStorage.getItem('student-data')
-    // console.log(data)
-    // 2. 如果有就返回对象，没有就声明一个空的数组  arr 一会渲染的时候用的
     const arr = data ? JSON.parse(data) : []
-
-    // console.log(arr)
-    // 获取 tbody
     const tbody = document.querySelector('tbody')
+    const info = document.querySelector('.info')
+    // 获取表单form 里面带有 name属性的元素
+    const items = info.querySelectorAll('[name]')
+
     // 3. 渲染模块函数
     function render() {
       // 遍历数组 arr，有几个对象就生成几个 tr，然后追击给tbody
-      // map 返回的是个数组  [tr, tr]
+      // <!--! map 返回的是个数组  [tr, tr]
       const trArr = arr.map(function (item, i) {
-        // console.log(item)
+        console.log(item)
         // console.log(item.uname)  // 欧阳霸天
         return `
         <tr>
@@ -102,19 +102,16 @@
         </tr> 
         `
       })
-      // console.log(trArr)
+      console.log(trArr)
       // 追加给tbody
-      // 因为 trArr 是个数组， 我们不要数组，我们要的是 tr的字符串 join()
+      // <!--! 因为 trArr 是个数组， 我们不要数组，我们要的是 tr的字符串 join()
       tbody.innerHTML = trArr.join('')
     }
+
     render()
 
 
     // 4. 录入模块
-    const info = document.querySelector('.info')
-    // 获取表单form 里面带有 name属性的元素
-    const items = info.querySelectorAll('[name]')
-    // console.log(items)
     info.addEventListener('submit', function (e) {
       // 阻止提交
       e.preventDefault()

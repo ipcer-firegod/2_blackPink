@@ -43,6 +43,19 @@
   }
   ```
 
+#### 手动补充：时间的另一个写法
+```js
+    const date = new Date()
+    div.innerHTML = date.toLocaleString()  // 2022/4/1 09:41:21
+    setInterval(function () {
+      const date = new Date()
+      div.innerHTML = date.toLocaleString()  // 2022/4/1 09:41:21
+
+    }, 1000)
+    // div.innerHTML = date.toLocaleDateString()  // 2022/4/1
+    // div.innerHTML = date.toLocaleTimeString()  // 2022/4/1
+```
+
 #### （3）时间戳（倒计时核心）
 - 定义：从 1970 年 01 月 01 日 00:00:00 到目标时间的毫秒数，用于计算时间差。
 - 三种获取方式：

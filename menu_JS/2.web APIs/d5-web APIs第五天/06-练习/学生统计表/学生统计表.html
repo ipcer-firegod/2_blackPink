@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>学生就业统计表</title>
+  <link rel="stylesheet" href="./iconfont/iconfont.css">
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+
+<body>
+  <h1>学生就业统计表</h1>
+  <form class="info" autocomplete="off">
+    <input type="text" class="uname" name="uname" placeholder="姓名" />
+    <input type="text" class="age" name="age" placeholder="年龄" />
+    <input type="text" class="salary" name="salary" placeholder="薪资" />
+    <select name="gender" class="gender">
+      <option value="男">男</option>
+      <option value="女">女</option>
+    </select>
+    <select name="city" class="city">
+      <option value="北京">北京</option>
+      <option value="上海">上海</option>
+      <option value="广州">广州</option>
+      <option value="深圳">深圳</option>
+      <option value="曹县">曹县</option>
+    </select>
+    <button class="add">
+      <i class="iconfont icon-tianjia"></i>添加
+    </button>
+  </form>
+
+  <div class="title">共有数据<span>0</span>条</div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>薪资</th>
+        <th>就业城市</th>
+        <th>录入时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr>
+        <td>1</td>
+        <td>迪丽热巴</td>
+        <td>23</td>
+        <td>女</td>
+        <td>12000</td>
+        <td>北京</td>
+        <td>2099/9/9 08:08:08</td>
+        <td>
+          <a href="javascript:">
+            <i class="iconfont icon-shanchu"></i>
+            删除
+          </a>
+        </td>
+      </tr> -->
+    </tbody>
+  </table>
+
+  <script>
+    (function () {
+      const DATA_KEY = 'data'
+      const info = document.querySelector('.info')
+      const items = info.querySelectorAll('[name]') // <!--! 这里是 ALL；并且，可以使用info.elements代替querySelectorAll('[name]')，更简洁
+      const tbody = document.querySelector('tbody')
+      const countEl = document.querySelector('.title span')
+      const dataArr = getData() // 虽然getData函数在下面定义，但可以先调用，因为函数声明会被提升，具体见JS作用域章节
+
+      function getData() {
+        const data = localStorage.getItem(DATA_KEY)
+        return data ? JSON.parse(data) : []
+      }
+      function saveData(data) {
+        localStorage.setItem(DATA_KEY, JSON.stringify(data))
+      }
+
+      // 渲染，即把本地存储的数据最终渲染为页面中的元素，（对象数组转为字符串），即把页面元素的innerHTML = ...
+      function render() {
+        if (!tbody) return
+        const dataStr = dataArr.map((stu, idx) => `
+          <tr>
+            <td>${stu.stuID}</td>
+            <td>${stu.uname}</td>
+            <td>${stu.age}</td>
+            <td>${stu.gender}</td>
+            <td>${stu.salary}</td>
+            <td>${stu.city}</td>
+            <td>${stu.createdAt}</td>
+            <td>
+            <a href="javascript:" data-idx="${idx}">
+              <i class="iconfont icon-shanchu"></i>
+              删除
+            </a>
+            </td>
+          </tr>
+        `).join('')
+        tbody.innerHTML = dataStr
+        // if (countEl) countEl.textContent = String(dataArr.length)
+        countEl.innerHTML = dataArr.length
+      }
+
+      // 验证表单的数据，即items里面的每一项都不能为空
+      function validateForm() {
+        for (let i = 0; i < items.length; i++) { // <!--! 注意这里是 items 不是 dataArr
+          const it = items[i];
+          if (it.value.trim() === '') return { ok: false, first: it } // 注意这里需要.value.trim()
+        }
+        return { ok: true }
+      }
+
+      function buildObj() {
+        const obj = {}
+        obj.stuID = dataArr.length ? dataArr[dataArr.length - 1].stuID + 1 : 1;
+        items.forEach(item => { obj[item.name] = item.value.trim() });
+        obj.createdAt = new Date().toLocaleString()
+        return obj
+      }
+
+      function clearForm(form) {
+        form.reset()
+        items[0] && items[0].focus() // <!--! items 而非 item
+      }
+
+      function onSubmit(e) {
+        e.preventDefault() // 别忘了这个
+
+        const v = validateForm()
+        if (!v.ok) {
+          alert('不能提交空值')
+          v.first && v.first.focus()
+          return
+        }
+
+        dataArr.push(buildObj())
+        saveData(dataArr)
+        render()
+        clearForm(e.target) // <!--! 这里需要传入 e.target 而非 不传
+      }
+
+      // <!--! 注意这里的事件委托写法，尤其是如何获取目标元素的 -->
+      function onTbodyClick(e) {
+        // e.preventDefault() 这里又不需要了？
+        const a = e.target.closest('a') // <!--! 注意这里是 closest 不是 cloest
+        if (!a) return
+        const idx = a.dataset.idx
+        if (!confirm('确定要删除此条记录吗？')) return;
+        dataArr.splice(idx, 1)
+        saveData(dataArr)
+        render()
+      }
+
+      function bind() {
+        info.addEventListener('submit', onSubmit)
+        tbody.addEventListener('click', onTbodyClick)
+      }
+
+
+      function init() {
+        bind()
+        render()
+      }
+
+      init()
+    })()
+  </script>
+</body>
+
+</html>

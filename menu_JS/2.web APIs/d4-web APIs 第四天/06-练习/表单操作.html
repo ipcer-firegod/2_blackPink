@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>表单操作教学 - 增删改查示例</title>
+	<style>
+		body{font-family: "Microsoft YaHei", Arial, sans-serif; padding:18px; background:#f7f7f7; color:#333}
+		h1{font-size:20px;margin-bottom:12px}
+		.container{max-width:920px;margin:auto}
+		.panel{background:#fff;padding:12px;border-radius:6px;box-shadow:0 1px 0 rgba(0,0,0,0.04);margin-bottom:12px}
+		form{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+		label{font-size:13px}
+		input,select,button{padding:6px 8px;font-size:14px}
+		.field{display:flex;flex-direction:column}
+		.field input{min-width:180px}
+		table{width:100%;border-collapse:collapse;margin-top:12px}
+		th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+		.actions button{margin-right:6px}
+		.note{font-size:13px;color:#666;margin-top:8px}
+		.result{margin-top:8px;padding:8px;border:1px dashed #ddd;background:#fafafa}
+		.small{font-size:12px;color:#666}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>表单操作教学：增、删、改、查（CRUD）示例</h1>
+
+		<div class="panel">
+			<h2>输入表单（添加 / 编辑）</h2>
+			<form id="itemForm" onsubmit="return false">
+				<div class="field">
+					<label for="name">姓名</label>
+					<input id="name" name="name" type="text" placeholder="请输入姓名（必填）" required>
+				</div>
+				<div class="field">
+					<label for="email">邮箱</label>
+					<input id="email" name="email" type="email" placeholder="example@site.com">
+				</div>
+				<div class="field">
+					<label for="age">年龄</label>
+					<input id="age" name="age" type="number" min="0" max="120" placeholder="年龄">
+				</div>
+				<div style="display:flex;align-items:flex-end;gap:8px">
+					<button id="addBtn">添加</button>
+					<button id="updateBtn" disabled>更新（选中表格行后可用）</button>
+					<button id="clearBtn" type="button">重置表单</button>
+				</div>
+			</form>
+			<div class="note">说明：在本例中数据保存在内存数组中，演示表单验证、添加、编辑与删除的基本流程。</div>
+		</div>
+
+		<div class="panel">
+			<h2>搜索 / 操作</h2>
+			<div style="display:flex;gap:8px;align-items:center">
+				<input id="searchInput" placeholder="按姓名或邮箱搜索" style="flex:1;padding:6px 8px">
+				<button id="searchBtn">搜索</button>
+				<button id="showAllBtn">显示全部</button>
+				<button id="bulkAddBtn">批量添加示例数据（5条）</button>
+				<button id="deleteSelectedBtn" disabled>删除选中项</button>
+			</div>
+			<div class="small">提示：使用事件代理来监听表格内按钮，避免为每行绑定事件。</div>
+		</div>
+
+		<div class="panel">
+			<h2>数据表格（点击“编辑”在表单中修改）</h2>
+			<table id="dataTable">
+				<thead>
+					<tr><th style="width:36px"><input id="selectAll" type="checkbox"></th><th>姓名</th><th>邮箱</th><th>年龄</th><th style="width:180px">操作</th></tr>
+				</thead>
+				<tbody>
+          <!-- 数据行将由脚本动态生成 -->
+        </tbody>
+			</table>
+			<div class="result" id="opResult">初始化：当前无数据。</div>
+		</div>
+
+		<div class="panel small">
+			<strong>教学要点：</strong>
+			<ul>
+				<li>增：读取表单值，校验，创建对象 push 到数组，然后重新渲染表格。</li>
+				<li>删：通过 id 或数组索引删除并渲染；示例包含“删除选中项”。</li>
+				<li>改：把要编辑的项加载到表单，修改后提交更新数组并渲染。</li>
+				<li>查：本示例提供简单的前端过滤（按姓名/邮箱）。复杂场景通常需要后端查询。</li>
+				<li>性能小提示：大量数据渲染时用 DocumentFragment 或虚拟化（本例为教学，数据量小）。</li>
+			</ul>
+		</div>
+	</div>
+
+	<script>
+		// 简单的前端 CRUD 教学脚本
+		// data 存放当前表数据，每条记录包含 id, name, email, age
+		let data = [];
+		let editingId = null; // 当前处于编辑的 id
+
+		// DOM 缓存
+		const tbody = document.querySelector('#dataTable tbody');
+		const nameInput = document.getElementById('name');
+		const emailInput = document.getElementById('email');
+		const ageInput = document.getElementById('age');
+		const addBtn = document.getElementById('addBtn');
+		const updateBtn = document.getElementById('updateBtn');
+		const clearBtn = document.getElementById('clearBtn');
+		const opResult = document.getElementById('opResult');
+		const searchInput = document.getElementById('searchInput');
+		const searchBtn = document.getElementById('searchBtn');
+		const showAllBtn = document.getElementById('showAllBtn');
+		const bulkAddBtn = document.getElementById('bulkAddBtn');
+		const selectAll = document.getElementById('selectAll');
+		const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
+
+		// 工具函数：生成唯一 id（简单示例）
+		function genId(){
+			return 'id_' + Date.now().toString(36) + '_' + Math.floor(Math.random()*1000);
+		}
+
+		// 渲染表格（可传入过滤器函数）
+		function render(filterFn){
+			tbody.innerHTML = '';
+			const frag = document.createDocumentFragment();
+			const list = filterFn ? data.filter(filterFn) : data;
+			if (list.length === 0) {
+				opResult.textContent = '当前无数据';
+			} else {
+				opResult.textContent = `共 ${list.length} 条数据`;
+			}
+			list.forEach(item => {
+				const tr = document.createElement('tr');
+				tr.dataset.id = item.id;
+				tr.innerHTML = `
+					<td><input type="checkbox" class="row-select" data-id="${item.id}"></td>
+					<td>${escapeHtml(item.name)}</td>
+					<td>${escapeHtml(item.email || '')}</td>
+					<td>${item.age != null ? item.age : ''}</td>
+					<td class="actions">
+						<button class="editBtn">编辑</button>
+						<button class="deleteBtn">删除</button>
+					</td>`;
+				frag.appendChild(tr);
+			});
+			tbody.appendChild(frag);
+			// 更新全选和删除选中按钮状态
+			selectAll.checked = false;
+			updateDeleteSelectedState();
+		}
+
+		// 安全输出：避免 XSS（示例中的简单实现）
+		function escapeHtml(str){
+			return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[s]);
+		}
+
+		// 添加新项
+		addBtn.addEventListener('click', ()=>{
+			const name = nameInput.value.trim();
+			const email = emailInput.value.trim();
+			const age = ageInput.value ? Number(ageInput.value) : null;
+			if (!name) { alert('姓名为必填项'); nameInput.focus(); return; }
+			const item = { id: genId(), name, email, age };
+			data.push(item);
+			render();
+			opResult.textContent = '添加成功';
+			// 清空表单
+			clearForm();
+		});
+
+		// 编辑：把对应行数据加载到表单
+		tbody.addEventListener('click', (e)=>{
+			const tr = e.target.closest('tr');
+			if (!tr) return;
+			const id = tr.dataset.id;
+			if (e.target.classList.contains('editBtn')){
+				const item = data.find(d => d.id === id);
+				if (!item) return;
+				editingId = id;
+				nameInput.value = item.name;
+				emailInput.value = item.email || '';
+				ageInput.value = item.age != null ? item.age : '';
+				updateBtn.disabled = false;
+				addBtn.disabled = true;
+				opResult.textContent = '已加载到表单，编辑后点击 更新';
+			} else if (e.target.classList.contains('deleteBtn')){
+				if (!confirm('确定删除此项？')) return;
+				data = data.filter(d => d.id !== id);
+				render();
+				opResult.textContent = '删除成功';
+			}
+		});
+
+		// 更新（表单 -> 数据）
+		updateBtn.addEventListener('click', ()=>{
+			if (!editingId) return;
+			const name = nameInput.value.trim();
+			if (!name){ alert('姓名为必填项'); nameInput.focus(); return; }
+			const email = emailInput.value.trim();
+			const age = ageInput.value ? Number(ageInput.value) : null;
+			const idx = data.findIndex(d => d.id === editingId);
+			if (idx === -1) { opResult.textContent = '更新失败：未找到记录'; return; }
+			data[idx].name = name;
+			data[idx].email = email;
+			data[idx].age = age;
+			editingId = null;
+			addBtn.disabled = false;
+			updateBtn.disabled = true;
+			render();
+			opResult.textContent = '更新成功';
+			clearForm();
+		});
+
+		// 清空表单
+		clearBtn.addEventListener('click', clearForm);
+		function clearForm(){
+			editingId = null;
+			nameInput.value = '';
+			emailInput.value = '';
+			ageInput.value = '';
+			addBtn.disabled = false;
+			updateBtn.disabled = true;
+		}
+
+		// 搜索
+		searchBtn.addEventListener('click', ()=>{
+			const q = searchInput.value.trim().toLowerCase();
+			if (!q) { render(); return; }
+			render(item => (item.name && item.name.toLowerCase().includes(q)) || (item.email && item.email.toLowerCase().includes(q)));
+			opResult.textContent = `搜索关键字：${q}`;
+		});
+		showAllBtn.addEventListener('click', ()=>{ searchInput.value=''; render(); opResult.textContent='显示全部'; });
+
+		// 批量添加示例数据
+		bulkAddBtn.addEventListener('click', ()=>{
+			const sample = [
+				{ name:'张三', email:'zhang3@example.com', age:28 },
+				{ name:'李四', email:'li4@example.com', age:32 },
+				{ name:'王五', email:'wang5@example.com', age:21 },
+				{ name:'赵六', email:'zhao6@example.com', age:45 },
+				{ name:'小明', email:'xm@example.com', age:19 }
+			];
+			sample.forEach(s => data.push(Object.assign({id: genId()}, s)));
+			render();
+			opResult.textContent = '已添加 5 条示例数据';
+		});
+
+		// 选中与删除选中项（事件代理）
+		tbody.addEventListener('change', (e)=>{
+			if (e.target.classList.contains('row-select')) updateDeleteSelectedState();
+		});
+		selectAll.addEventListener('change', ()=>{
+			const checked = selectAll.checked;
+			document.querySelectorAll('.row-select').forEach(cb => cb.checked = checked);
+			updateDeleteSelectedState();
+		});
+
+		function updateDeleteSelectedState(){
+			const any = Array.from(document.querySelectorAll('.row-select')).some(cb => cb.checked);
+			deleteSelectedBtn.disabled = !any;
+		}
+
+		deleteSelectedBtn.addEventListener('click', ()=>{
+			const ids = Array.from(document.querySelectorAll('.row-select:checked')).map(cb => cb.dataset.id);
+			if (ids.length === 0) return;
+			if (!confirm(`确定删除 ${ids.length} 项？`)) return;
+			const idSet = new Set(ids);
+			data = data.filter(d => !idSet.has(d.id));
+			render();
+			opResult.textContent = `已删除 ${ids.length} 项`;
+		});
+
+		// 初始渲染（可以为空或添加示例）
+		render();
+
+		// 导出到控制台（教学时可用）
+		window._crudDemo = { data, render };
+	</script>
+</body>
+</html>

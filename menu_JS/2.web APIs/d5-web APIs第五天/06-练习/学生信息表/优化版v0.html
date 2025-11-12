@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>学生信息管理</title>
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+
+<body>
+  <h1>新增学员</h1>
+  <form class="info" autocomplete="off">
+    姓名：<input type="text" class="uname" name="uname" />
+    年龄：<input type="text" class="age" name="age" />
+    性别:
+    <select name="gender" class="gender">
+      <option value="男">男</option>
+      <option value="女">女</option>
+    </select>
+    薪资：<input type="text" class="salary" name="salary" />
+    就业城市：<select name="city" class="city">
+      <option value="北京">北京</option>
+      <option value="上海">上海</option>
+      <option value="广州">广州</option>
+      <option value="深圳">深圳</option>
+      <option value="曹县">曹县</option>
+    </select>
+    <button class="add">录入</button>
+  </form>
+
+  <h1>就业榜</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>薪资</th>
+        <th>就业城市</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 
+        <tr>
+          <td>1001</td>
+          <td>欧阳霸天</td>
+          <td>19</td>
+          <td>男</td>
+          <td>15000</td>
+          <td>上海</td>
+          <td>
+            <a href="javascript:">删除</a>
+          </td>
+        </tr> 
+        -->
+    </tbody>
+  </table>
+  <script>
+    (function () {
+      // 一：缓存 DOM 引用（更清晰并减少重复查询）
+      const STORAGE_KEY = 'student-data'
+      const info = document.querySelector('.info')
+      const items = info.querySelectorAll('[name]') // items 是表单中所有有 name 属性的输入元素集合
+      const tbody = document.querySelector('tbody')
+
+      // 二：数据读写（封装）
+      function getData() {
+        const raw = localStorage.getItem(STORAGE_KEY)
+        return raw ? JSON.parse(raw) : []
+      }
+      function saveData(arr) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(arr))
+      }
+      // 只从 localStorage 读取一次，后续使用内存 arr（避免重复读取/解析）。arr是一个对象数组，存储学生信息
+      const arr = getData()
+
+      // 三：渲染函数（只负责 DOM 更新）
+      function render() {
+        // 当表格主体存在时，更新表格内容；不存在则跳过渲染
+        if (!tbody) return
+        const arrStr = arr.map((stu, idx) => `
+          <tr>
+            <td>${stu.stuID}</td>
+            <td>${escapeHtml(stu.uname)}</td>
+            <td>${escapeHtml(stu.age)}</td>
+            <td>${escapeHtml(stu.gender)}</td>
+            <td>${escapeHtml(stu.salary)}</td>
+            <td>${escapeHtml(stu.city)}</td>
+            <td>
+              <a href="javascript:" data-idx="${idx}">删除</a>
+            </td>
+          </tr>
+        `).join('')
+        tbody.innerHTML = arrStr
+      }
+
+      // 辅助：防 XSS 输出。XSS输出是指用户输入的内容中包含恶意代码，直接插入到页面中执行，可能导致安全问题
+      function escapeHtml(str) {
+        if (str == null) return ''
+        return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[s])
+      }
+
+      // 四：表单处理辅助函数
+      // 验证：返回 {ok: boolean, first: element|null}
+      function validateForm() {
+        for (let i = 0; i < items.length; i++) {
+          const it = items[i]
+          if (it.value.trim() === '') return { ok: false, first: it }
+        }
+        return { ok: true }
+      }
+
+      // 从表单构建对象（假定已通过验证）
+      function buildObj() {
+        const obj = {}
+        obj.stuID = arr.length ? arr[arr.length - 1].stuID + 1 : 1
+        items.forEach(it => { obj[it.name] = it.value.trim() })
+        return obj
+      }
+
+      function clearForm(form) {
+        form.reset()
+        // 可选：把焦点放回第一个字段
+        items[0] && items[0].focus()
+      }
+
+      // 事件处理：提交
+      function onSubmit(e) {
+        e.preventDefault()
+        const v = validateForm()
+        if (!v.ok) {
+          alert('输入内容不能为空')
+          v.first && v.first.focus()
+          return
+        }
+
+        const obj = buildObj()
+        arr.push(obj)
+        saveData(arr)
+        render()
+        clearForm(e.target)
+      }
+
+      // 事件处理：删除（事件委托）
+      function onTbodyClick(e) {
+        // 在事件委托中，寻找最近的祖先 <a>（包括自身）。如果点击区域不是在 <a> 内，返回 null。
+        const a = e.target.closest('a')
+        if (!a) return
+        // 读取链接上 data-idx 属性（字符串），用 Number 转为数值索引。
+        const idx = Number(a.dataset.idx)
+        // 若转换后不是数字，则放弃
+        if (Number.isNaN(idx)) return
+        if (!confirm('确定要删除此条记录吗？')) return;
+        arr.splice(idx, 1)
+        saveData(arr)
+        render()
+      }
+
+      // 绑定事件
+      function bind() {
+        info.addEventListener('submit', onSubmit)
+        tbody.addEventListener('click', onTbodyClick)
+      }
+
+      // 初始化
+      function init() {
+        bind()
+        render()
+      }
+
+      init()
+    })()
+  </script>
+</body>
+
+</html>

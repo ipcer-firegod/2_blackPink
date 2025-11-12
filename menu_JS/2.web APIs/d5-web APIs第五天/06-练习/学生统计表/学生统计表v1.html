@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>学生就业统计表</title>
+  <link rel="stylesheet" href="./iconfont/iconfont.css">
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+
+<body>
+  <h1>学生就业统计表</h1>
+  <form class="info" autocomplete="off">
+    <input type="text" class="uname" name="uname" placeholder="姓名" />
+    <input type="text" class="age" name="age" placeholder="年龄" />
+    <input type="text" class="salary" name="salary" placeholder="薪资" />
+    <select name="gender" class="gender">
+      <option value="男">男</option>
+      <option value="女">女</option>
+    </select>
+    <select name="city" class="city">
+      <option value="北京">北京</option>
+      <option value="上海">上海</option>
+      <option value="广州">广州</option>
+      <option value="深圳">深圳</option>
+      <option value="曹县">曹县</option>
+    </select>
+    <button class="add" type="submit">
+      <i class="iconfont icon-tianjia" ></i><span class="addBtnText">添加</span>
+    </button>
+    <button class="cancelEdit" type="button" hidden>
+      取消编辑
+    </button>
+  </form>
+
+  <div class="title">共有数据<span>0</span>条</div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>薪资</th>
+        <th>就业城市</th>
+        <th>录入时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr>
+        <td>1</td>
+        <td>迪丽热巴</td>
+        <td>23</td>
+        <td>女</td>
+        <td>12000</td>
+        <td>北京</td>
+        <td>2099/9/9 08:08:08</td>
+        <td>
+          <a href="javascript:">
+            <i class="iconfont icon-shanchu" data-action="edit"></i>
+            编辑
+          </a>
+          <a href="javascript:">
+            <i class="iconfont icon-shanchu" data-action="delete"></i>
+            删除
+          </a>
+        </td>
+      </tr> -->
+    </tbody>
+  </table>
+
+  <script>
+    // <!--! 相比于v0，多了 编辑功能
+    (function () {
+      const DATA_KEY = 'data'
+      const info = document.querySelector('.info')
+      const items = info.querySelectorAll('[name]')
+      // const addBtnText = info.querySelector('.add .addBtnText')
+      const addBtn = info.querySelector('.add')
+      const cancelBtn = info.querySelector('.cancelEdit')
+      const tbody = document.querySelector('tbody')
+      const countEl = document.querySelector('.title span')
+      const dataArr = getData()
+
+      // <!--! 当前处于编辑的 stuId（null 表示非编辑模式）
+      let editingId = null
+
+      function getData() {
+        const data = localStorage.getItem(DATA_KEY)
+        return data ? JSON.parse(data) : []
+      }
+      function saveData(data) {
+        localStorage.setItem(DATA_KEY, JSON.stringify(data))
+      }
+
+      // <!--! 添加“编辑”，自定义属性 data-action="edit"
+      function render() {
+        if (!tbody) return
+        const dataStr = dataArr.map((stu, idx) => `
+          <tr>
+            <td>${stu.stuId}</td>
+            <td>${stu.uname}</td>
+            <td>${stu.age}</td>
+            <td>${stu.gender}</td>
+            <td>${stu.salary}</td>
+            <td>${stu.city}</td>
+            <td>${stu.createdAt}</td>
+            <td>
+            <a href="javascript:" data-idx="${idx}" data-action="edit">
+              <i class="iconfont icon-shanchu"></i>
+              编辑
+            </a>
+            <a href="javascript:" data-idx="${idx}" data-action="delete">
+              <i class="iconfont icon-shanchu"></i>
+              删除
+            </a>
+            </td>
+          </tr>
+        `).join('')
+        tbody.innerHTML = dataStr
+        // if (countEl) countEl.textContent = String(dataArr.length)
+        countEl.innerHTML = dataArr.length
+      }
+
+      function validateForm() {
+        for (let i = 0; i < items.length; i++) {
+          const it = items[i];
+          if (it.value.trim() === '') return { ok: false, first: it }
+        }
+        return { ok: true }
+      }
+
+      function buildObj() {
+        const obj = {}
+        obj.stuId = dataArr.length ? dataArr[dataArr.length - 1].stuId + 1 : 1;
+        items.forEach(item => { obj[item.name] = item.value.trim() });
+        obj.createdAt = new Date().toLocaleString()
+        return obj
+      }
+
+      function clearForm(form) {
+        form.reset()
+        items[0] && items[0].focus()
+      }
+
+      // <!--! 一
+      // 事件处理：提交（保存修改或录入）
+      function onSubmit(e) {
+        e.preventDefault()
+
+        const v = validateForm()
+        if (!v.ok) {
+          alert('输入内容不能为空')
+          v.first && v.first.focus()
+          return
+        }
+
+        // 如果处于编辑模式，则更新已有记录，（更新前是“保存修改”、“取消编辑” =》 “录入”）
+        if (editingId) {
+          const idx = dataArr.findIndex(it => it.stuId === editingId)
+          if (idx !== -1) {
+            const newObj = buildObj()
+            newObj.stuId = editingId
+            dataArr[idx] = newObj
+            saveData(dataArr)
+            render()
+
+            clearForm(e.target)
+            editingId = null
+            // <!--! 由于这里有<i>标签，所以不能使用 textContent，需要 innerHTML  
+            // => 把把文字单独放在一个节点，仍然可以使用 textContent 
+            // => “录入”、“保存修改”时图标不好同一，这里先统一使用innerHTML
+            if (addBtn) addBtn.innerHTML = '<i class="iconfont icon-tianjia"></i>添加'
+            if (cancelBtn) cancelBtn.hidden = true
+          }
+        }
+        else {
+          dataArr.push(buildObj())
+          saveData(dataArr)
+          render()
+          clearForm(e.target)
+        }
+
+      }
+
+      // <!--! 二
+      // 事件处理：表格内操作（编辑 / 删除）
+      function onTbodyClick(e) {
+        const a = e.target.closest('a')
+        if (!a) return
+        // <!--! const idx = a.dataset.idx 改为了以下，为了确保 idx 是数字
+        const idx = Number(a.dataset.idx)
+        if (Number.isNaN(idx)) return
+
+        // <!--! 获取自定义属性
+        const action = a.dataset.action
+        if (action === 'edit') {
+          const item = dataArr[idx]
+          if (!item) return
+          items.forEach(f => { f.value = item[f.name] != null ? item[f.name] : '' })
+          editingId = item.stuId
+          // <!--! "保存修改"时不需要i标签，不能只修改textContent，需要 innerHTML
+          if (addBtn) addBtn.textContent = '保存修改'
+          if (cancelBtn) cancelBtn.hidden = false
+        }
+        else if (action === 'delete') {
+          if (!confirm('确定删除此项？')) return
+          dataArr.splice(idx, 1)
+          saveData(dataArr)
+          render()
+        }
+        return
+      }
+
+      // <!--! 三
+      // 事件处理：取消编辑
+      function onCancelEdit(e) {
+        // <!--! 取消编辑：清空表单、恢复状态、隐藏取消按钮
+        clearForm(info) // <!--! 这里是info
+        editingId = null // <!--! 恢复编辑转态
+        if (addBtn) addBtn.innerHTML = '<i class="iconfont icon-tianjia"></i>添加' // <!--! 恢复“保存修改”为“录入”
+        if (cancelBtn) cancelBtn.hidden = true  // <!--! 隐藏取消按钮
+      }
+
+      function bind() {
+        info.addEventListener('submit', onSubmit)
+        tbody.addEventListener('click', onTbodyClick)
+        if (cancelBtn) cancelBtn.addEventListener('click', onCancelEdit)
+      }
+
+
+      function init() {
+        bind()
+        render()
+      }
+
+      init()
+    })()
+  </script>
+</body>
+
+</html>

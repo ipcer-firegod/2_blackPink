@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>学生信息管理</title>
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+
+<body>
+  <h1>新增学员</h1>
+  <form class="info" autocomplete="off">
+    姓名：<input type="text" class="uname" name="uname" />
+    年龄：<input type="text" class="age" name="age" />
+    性别:
+    <select name="gender" class="gender">
+      <option value="男">男</option>
+      <option value="女">女</option>
+    </select>
+    薪资：<input type="text" class="salary" name="salary" />
+    就业城市：<select name="city" class="city">
+      <option value="北京">北京</option>
+      <option value="上海">上海</option>
+      <option value="广州">广州</option>
+      <option value="深圳">深圳</option>
+      <option value="曹县">曹县</option>
+    </select>
+    <button class="add" type="submit">录入</button>
+    <button class="cancelEdit" type="button" hidden>取消编辑</button>
+  </form>
+
+  <h1>就业榜</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>薪资</th>
+        <th>就业城市</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 
+        <tr>
+          <td>1001</td>
+          <td>欧阳霸天</td>
+          <td>19</td>
+          <td>男</td>
+          <td>15000</td>
+          <td>上海</td>
+          <td>
+            <a href="javascript:">删除</a>
+          </td>
+        </tr> 
+        -->
+    </tbody>
+  </table>
+  <script>
+    //<!--! 相比于v0，多了 编辑功能，和更稳健的唯一ID生成
+    (function () {
+      // 一：缓存 DOM 引用（更清晰并减少重复查询）
+      const STORAGE_KEY = 'student-data2'
+      const info = document.querySelector('.info')
+      const items = info.querySelectorAll('[name]')
+      const addBtn = info.querySelector('.add')
+      const cancelBtn = info.querySelector('.cancelEdit')
+      const tbody = document.querySelector('tbody')
+      // 当前处于编辑的 stuId（null 表示非编辑模式）
+      let editingId = null
+
+      // 二：数据读写（封装）
+      function getData() {
+        const raw = localStorage.getItem(STORAGE_KEY)
+        return raw ? JSON.parse(raw) : []
+      }
+      function saveData(arr) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(arr))
+      }
+
+      const dataArr = getData()
+
+      // 三：渲染函数（只负责 DOM 更新）
+      function render() {
+
+        if (!tbody) return
+        const trStr = dataArr.map((stu, idx) => `
+            <tr>
+              <td>${stu.stuId}</td>
+              <td>${escapeHtml(stu.uname)}</td>
+              <td>${escapeHtml(stu.age)}</td>
+              <td>${escapeHtml(stu.gender)}</td>
+              <td>${escapeHtml(stu.salary)}</td>
+              <td>${escapeHtml(stu.city)}</td>
+              <td>
+                <a href="javascript:" data-action="edit" data-idx="${idx}">编辑</a>
+                &nbsp;|&nbsp;
+                <a href="javascript:" data-action="delete" data-idx="${idx}">删除</a>
+              </td>
+            </tr>
+          `).join('')
+        tbody.innerHTML = trStr
+      }
+
+      // 辅助：防 XSS 输出
+      function escapeHtml(str) {
+        if (str == null) return ''
+        return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[s])
+      }
+
+      // 验证：返回 {ok: boolean, first: element|null}
+      function validateForm() {
+        for (let i = 0; i < items.length; i++) {
+          const it = items[i]
+          if (it.value.trim() === '') return { ok: false, first: it }
+        }
+        return { ok: true }
+      }
+
+      // 从表单构建对象（假定已通过验证）
+      function buildObj() {
+        const obj = {}
+        // 生成更稳健的 id（基于时间戳 + 随机字符串）
+        obj.stuId = genId()
+        items.forEach(it => { obj[it.name] = it.value.trim() })
+        return obj
+      }
+
+      function genId() {
+        return Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8)
+      }
+
+      function clearForm(form) {
+        form.reset()
+        items[0] && items[0].focus()
+      }
+
+      // 事件处理：提交（录入或保存编辑）
+      function onSubmit(e) {
+        e.preventDefault()
+        const v = validateForm()
+        if (!v.ok) {
+          alert('输入内容不能为空')
+          v.first && v.first.focus()
+          return
+        }
+
+        // 如果处于编辑模式，则更新已有记录，（更新前是“保存修改”、“取消编辑”）
+        if (editingId) {
+          const idx = dataArr.findIndex(it => it.stuId === editingId)
+          if (idx !== -1) {
+            const newObj = buildObj()
+            newObj.stuId = editingId
+            dataArr[idx] = newObj
+            saveData(dataArr)
+            render()
+            
+            clearForm(e.target)
+            editingId = null
+            // 恢复按钮文字
+            // const submitBtn = info.querySelector('button') // // <!--? 这部分代码？submitBtn结果就一个么
+            if (addBtn) addBtn.textContent = '录入'
+            if (cancelBtn) cancelBtn.hidden = true
+          }
+        }
+        // 否则，录入
+        else {
+          const obj = buildObj()
+          dataArr.push(obj)
+          saveData(dataArr)
+          render()
+          clearForm(e.target)
+        }
+        return
+      }
+
+      // 事件处理：表格内操作（编辑 / 删除）
+      function onTbodyClick(e) {
+        const a = e.target.closest('a')
+        if (!a) return
+        const idx = Number(a.dataset.idx)
+        if (Number.isNaN(idx)) return
+
+        // const action = a.dataset.action || 'delete' // <!--? action不是有 edit/delete两种么？这里需要|| 'delete' 吗？  见Me.md
+        const action = a.dataset.action;
+        if (action === 'edit') {
+          const item = dataArr[idx]
+          if (!item) return
+          // 填充表单
+          items.forEach(f => { f.value = item[f.name] != null ? item[f.name] : '' })
+          editingId = item.stuId
+          // const submitBtn = info.querySelector('button')
+          if (addBtn) addBtn.textContent = '保存修改' // <!--? textContent、innerHTML、innertext？
+          // if (cancelBtn) cancelBtn.style.display = 'inline-block' // <!--?  最先就存在，只是display：none。存在即为真？cancelBtn一直存在吗？none时为真吗？
+          if (cancelBtn) cancelBtn.hidden = false
+          }
+        else if (action === 'delete') {
+          // 删除操作
+          if (!confirm('确定删除此项？')) return
+          dataArr.splice(idx, 1)
+          saveData(dataArr)
+          render()
+        }
+        return // 非法 action，忽略
+      }
+
+      // 事件处理：取消编辑
+      function onCancelEdit() {
+        // 取消编辑：清空表单、恢复状态、隐藏取消按钮
+        clearForm(info)
+        editingId = null
+        // const submitBtn = info.querySelector('button') // <!--? 这里submitBtn也包括cancelBtn吧？只有找到的第一个元素
+        if (addBtn) addBtn.textContent = '录入'
+        // if (cancelBtn) cancelBtn.style.display = 'none'
+        if (cancelBtn) cancelBtn.hidden = true
+      }
+
+      // 绑定事件
+      function bind() {
+        info.addEventListener('submit', onSubmit)
+        tbody.addEventListener('click', onTbodyClick)
+        if (cancelBtn) cancelBtn.addEventListener('click', onCancelEdit)
+      }
+
+      // 初始化
+      function init() {
+        bind()
+        render()
+      }
+
+      init()
+    })()
+  </script>
+</body>
+
+</html>

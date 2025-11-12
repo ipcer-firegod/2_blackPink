@@ -56,6 +56,22 @@ JS 是**单线程**（同一时间只能做一件事），为解决阻塞问题�
   console.log(3333);
   ```
 
+#### （3）location 对象、navigator对象、history对象
+- **location 对象**：操作 URL 地址，实现跳转、刷新等功能。
+  - `location.href`：获取/设置完整 URL 地址，设置时实现跳转。
+  - `location.search`：获取 URL 中 ? 后的查询参数字符串。
+  - `location.hash`：获取 URL 中 # 后的哈希值。
+  - `location.reload(true)`：强制刷新页面，忽略缓存。
+
+- **navigator 对象**：获取浏览器和设备信息，常用 `navigator.userAgent` 检测浏
+- 览器类型和版本。
+- **history 对象**：管理浏览器历史记录，实现前进、后退功能。
+  - `history.back()`：后退到上一页。
+  - `history.forward()`：前进到下一页。
+  - `history.go(n)`：前进或后退 n 页，n 为正数前进，负数后退。
+  - 注意：history 只能操作同源页面的历史记录，跨域页面无法前进/后退。
+
+
 
 ### 2. 本地存储（核心重点）
 本地存储用于在浏览器中持久化存储数据，页面刷新不丢失，容量约 5M，分两种类型：

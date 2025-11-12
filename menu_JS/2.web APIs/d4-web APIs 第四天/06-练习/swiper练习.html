@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Swiper 插件练习</title>
+	<!-- 引用本地的 swiper 样式（请确保路径 ./js/swiper.min.css 存在） -->
+	<link rel="stylesheet" href="./js/swiper.min.css">
+	<style>
+		body{font-family: "Microsoft YaHei", Arial, sans-serif; padding:16px; background:#f6f6f6}
+		h1{font-size:18px;margin-bottom:6px}
+		.example{background:#fff;padding:12px;margin:12px 0;border-radius:6px;box-shadow:0 1px 0 rgba(0,0,0,0.04)}
+		.example h2{font-size:16px;margin:6px 0}
+		.swiper-container{width:100%;height:240px;background:#eee}
+		.thumbs-container{height:100px;margin-top:10px}
+		.note{font-size:13px;color:#555;margin-top:8px}
+		.controls{margin-top:8px}
+		.controls button{margin-right:8px}
+	</style>
+</head>
+<body>
+
+	<h1>Swiper 插件练习（本地文件 ./js/swiper.min.js / swiper.min.css）</h1>
+
+	<div class="example" id="basicExample">
+		<h2>1. 基本用法：水平滑动 + 分页 + 导航</h2>
+		<div class="swiper-container" id="swiperBasic">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide" style="background:#f99;display:flex;align-items:center;justify-content:center">Slide 1</div>
+				<div class="swiper-slide" style="background:#9f9;display:flex;align-items:center;justify-content:center">Slide 2</div>
+				<div class="swiper-slide" style="background:#99f;display:flex;align-items:center;justify-content:center">Slide 3</div>
+			</div>
+			<!-- 如果需要分页器 -->
+			<div class="swiper-pagination"></div>
+			<!-- 如果需要导航按钮 -->
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+		</div>
+		<div class="note">说明：这是最常用的初始化方式，包含分页（pagination）与导航按钮（navigation）。</div>
+	</div>
+
+	<div class="example" id="autoplayLoop">
+		<h2>2. 自动播放 + 循环 + 懒加载示例</h2>
+		<div class="swiper-container" id="swiperAuto">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide"><img data-src="./images/tab00.png" class="swiper-lazy" alt="img1"><div class="swiper-lazy-preloader"></div></div>
+				<div class="swiper-slide"><img data-src="./images/tab01.png" class="swiper-lazy" alt="img2"><div class="swiper-lazy-preloader"></div></div>
+				<div class="swiper-slide"><img data-src="./images/tab02.png" class="swiper-lazy" alt="img3"><div class="swiper-lazy-preloader"></div></div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+		<div class="note">懒加载示例需要在初始化时启用 <code>lazy</code> 模块（适合大图或长列表）。</div>
+	</div>
+
+	<div class="example" id="thumbsExample">
+		<h2>3. 缩略图（主图 + 缩略图联动）</h2>
+		<div class="swiper-container" id="swiperThumbsMain">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide" style="display:flex;align-items:center;justify-content:center;background:#fae">Main 1</div>
+				<div class="swiper-slide" style="display:flex;align-items:center;justify-content:center;background:#efe">Main 2</div>
+				<div class="swiper-slide" style="display:flex;align-items:center;justify-content:center;background:#eef">Main 3</div>
+			</div>
+		</div>
+		<div class="swiper-container thumbs-container" id="swiperThumbs">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide" style="height:100%;display:flex;align-items:center;justify-content:center;background:#fae">T1</div>
+				<div class="swiper-slide" style="height:100%;display:flex;align-items:center;justify-content:center;background:#efe">T2</div>
+				<div class="swiper-slide" style="height:100%;display:flex;align-items:center;justify-content:center;background:#eef">T3</div>
+			</div>
+		</div>
+		<div class="note">缩略图通常使用另一个 Swiper 实例作为 <em>controller</em> 或 thumbs 参数。</div>
+	</div>
+
+	<div class="example" id="responsiveExample">
+		<h2>4. 响应断点示例（不同屏幕显示不同 slidesPerView）</h2>
+		<div class="swiper-container" id="swiperResponsive">
+			<div class="swiper-wrapper">
+				<!-- 生成 8 个 slide 以测试响应布局 -->
+				<div class="swiper-slide" style="background:#f5c;">1</div>
+				<div class="swiper-slide" style="background:#5cf;">2</div>
+				<div class="swiper-slide" style="background:#c5f;">3</div>
+				<div class="swiper-slide" style="background:#fc5;">4</div>
+				<div class="swiper-slide" style="background:#5fc;">5</div>
+				<div class="swiper-slide" style="background:#f55;">6</div>
+				<div class="swiper-slide" style="background:#55f;">7</div>
+				<div class="swiper-slide" style="background:#5f5;">8</div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+		<div class="note">通过 <code>breakpoints</code> 配置在不同宽度下改变 slidesPerView 等参数。</div>
+	</div>
+
+	<hr>
+	<div class="note">下面的脚本会初始化上面的几个示例。脚本假设已在本目录下提供 <code>./js/swiper.min.js</code>（通常从 Swiper 官方下载并放置到项目中）。</div>
+
+	<!-- 引入本地的 swiper 脚本 -->
+	<script src="./js/swiper.min.js"></script>
+	<script>
+		// 检查 Swiper 是否可用
+		if (typeof Swiper === 'undefined') {
+			console.error('Swiper 未找到，请确认 ./js/swiper.min.js 已加载');
+			document.getElementById('basicExample').insertAdjacentHTML('beforeend','<div style="color:#c00;margin-top:8px">错误：未找到 Swiper 脚本，请把 swiper.min.js 放到 ./js/ 目录并重载页面。</div>');
+		} else {
+			// 1. 基本示例
+			const swiperBasic = new Swiper('#swiperBasic', {
+				loop: true,
+				pagination: { el: '#swiperBasic .swiper-pagination', clickable: true },
+				navigation: { nextEl: '#swiperBasic .swiper-button-next', prevEl: '#swiperBasic .swiper-button-prev' },
+				keyboard: { enabled: true },
+			});
+
+			// 2. 自动播放 + 懒加载
+			const swiperAuto = new Swiper('#swiperAuto', {
+				loop: true,
+				autoplay: { delay: 2500, disableOnInteraction: false },
+				pagination: { el: '#swiperAuto .swiper-pagination', clickable: true },
+				lazy: { loadPrevNext: true },
+				preloadImages: false,
+			});
+
+			// 3. 缩略图（thumbs）
+			const thumbs = new Swiper('#swiperThumbs', {
+				spaceBetween: 8,
+				slidesPerView: 3,
+				watchSlidesVisibility: true,
+				watchSlidesProgress: true,
+			});
+			const main = new Swiper('#swiperThumbsMain', {
+				spaceBetween: 10,
+				thumbs: { swiper: thumbs }
+			});
+
+			// 4. 响应断点示例
+			const swiperResponsive = new Swiper('#swiperResponsive', {
+				slidesPerView: 1,
+				spaceBetween: 8,
+				pagination: { el: '#swiperResponsive .swiper-pagination', clickable: true },
+				breakpoints: {
+					480: { slidesPerView: 2 },
+					768: { slidesPerView: 3 },
+					1024: { slidesPerView: 4 }
+				}
+			});
+
+			// 额外：动态控制示例（在控制台测试）
+			window._swipers = { swiperBasic, swiperAuto, thumbs, main, swiperResponsive };
+		}
+	</script>
+
+</body>
+</html>

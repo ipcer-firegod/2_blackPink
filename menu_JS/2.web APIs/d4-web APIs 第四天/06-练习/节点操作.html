@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>节点操作 - 练习与教学</title>
+  <style>
+    body{font-family: Arial, "Microsoft YaHei", sans-serif; padding:20px; color:#333}
+    h1{font-size:20px;margin-bottom:8px}
+    .controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+    button,input,select{padding:6px 8px;font-size:14px}
+    #listWrap{border:1px solid #e4e4e4;padding:8px;max-width:820px;background:#fff}
+    ul#nodeList{list-style:none;padding:0;margin:0;min-height:40px}
+    ul#nodeList li{padding:8px 10px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between}
+    .meta{font-size:12px;color:#666}
+    .actions{display:flex;gap:8px}
+    .result{margin-top:12px;background:#f9f9f9;padding:8px;border:1px dashed #ddd;font-size:13px}
+    .note{margin-top:12px;color:#555;line-height:1.6}
+    .btn-remove{background:#f44336;color:#fff;border:none;padding:6px 8px;border-radius:4px;cursor:pointer}
+    .btn-small{padding:4px 6px;font-size:13px}
+    template{display:none}
+  </style>
+</head>
+<body>
+
+  <h1>节点操作（DOM 增删改查） — 练习页面</h1>
+
+  <div class="controls">
+    <button id="addOne">添加 1 个</button>
+    <button id="add100Direct">添加 100（直接 append）</button>
+    <button id="add100Frag">添加 100（DocumentFragment）</button>
+    <select id="countSelect">
+      <option value="100">100</option>
+      <option value="500">500</option>
+      <option value="1000">1000</option>
+    </select>
+    <button id="benchmarkInner">benchmark innerHTML</button>
+    <button id="benchmarkCreate">benchmark createElement</button>
+    <button id="clearAll">清空</button>
+    <button id="cloneFirst">克隆第一个（cloneNode）</button>
+  </div>
+
+  <div id="listWrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="meta">可点击每一行的“删除”按钮来删除；示例演示：createElement、innerHTML、DocumentFragment、cloneNode、replaceChild、insertBefore、事件代理等。</div>
+      <div class="meta">当前项数：<strong id="count">0</strong></div>
+    </div>
+
+    <ul id="nodeList" tabindex="0"></ul>
+  </div>
+
+  <div class="result" id="result">操作结果与性能将在这里显示。</div>
+
+  <div class="note">
+    <strong>说明（要点）：</strong>
+    <ul>
+      <li>直接多次调用 append 会导致多次回流/重绘；使用 <code>DocumentFragment</code> 聚合再一次性 append 性能更好。</li>
+      <li><code>innerHTML</code> 速度通常很快，但会重新解析 HTML，可能丢失事件绑定；createElement + append 更安全。</li>
+      <li>事件代理（把事件绑定到父容器）可以减少每个子元素绑定事件的开销。</li>
+    </ul>
+  </div>
+
+  <!-- 模板：用于演示 createElement 或 cloneNode -->
+  <template id="itemTpl">
+    <li>
+      <span class="text"></span>
+      <div class="actions">
+        <button class="btn-small btn-edit">编辑</button>
+        <button class="btn-small btn-remove">删除</button>
+      </div>
+    </li>
+  </template>
+
+  <script>
+    // 教学/练习脚本：展示常见节点操作并测量性能
+    const nodeList = document.getElementById('nodeList');
+    const countLabel = document.getElementById('count');
+    const result = document.getElementById('result');
+    const tpl = document.getElementById('itemTpl');
+
+    // 缓存按钮
+    const addOneBtn = document.getElementById('addOne');
+    const add100DirectBtn = document.getElementById('add100Direct');
+    const add100FragBtn = document.getElementById('add100Frag');
+    const benchmarkInnerBtn = document.getElementById('benchmarkInner');
+    const benchmarkCreateBtn = document.getElementById('benchmarkCreate');
+    const clearBtn = document.getElementById('clearAll');
+    const cloneBtn = document.getElementById('cloneFirst');
+    const countSelect = document.getElementById('countSelect');
+
+    // 工具：生成一个 li 元素（createElement 方式）
+    function createItem(text) {
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      span.className = 'text';
+      span.textContent = text;
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const editBtn = document.createElement('button');
+      editBtn.className = 'btn-small btn-edit';
+      editBtn.textContent = '编辑';
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'btn-small btn-remove';
+      removeBtn.textContent = '删除';
+      actions.appendChild(editBtn);
+      actions.appendChild(removeBtn);
+      li.appendChild(span);
+      li.appendChild(actions);
+      return li;
+    }
+
+    // 更新计数显示
+    function updateCount(){
+      countLabel.textContent = nodeList.children.length;
+    }
+
+    // 事件代理：统一处理编辑与删除
+    nodeList.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const li = btn.closest('li');
+      if (!li) return;
+      if (btn.classList.contains('btn-remove')) {
+        // 删除
+        nodeList.removeChild(li);
+        updateCount();
+        result.textContent = '删除一项';
+      } else if (btn.classList.contains('btn-edit')) {
+        const span = li.querySelector('.text');
+        const old = span.textContent;
+        const newText = prompt('修改文本：', old);
+        if (newText !== null) {
+          span.textContent = newText;
+          result.textContent = '编辑完成';
+        }
+      }
+    });
+
+    // 添加单个（使用模板 cloneNode）
+    addOneBtn.addEventListener('click', () => {
+      const clone = tpl.content.cloneNode(true);
+      clone.querySelector('.text').textContent = '项 #' + (nodeList.children.length + 1);
+      nodeList.appendChild(clone);
+      updateCount();
+      result.textContent = '使用 template 克隆并添加 1 项';
+    });
+
+    // 直接 append 多个（多次 DOM 操作）
+    function addManyDirect(count){
+      for (let i=0;i<count;i++){
+        const li = createItem('项 #' + (nodeList.children.length + 1));
+        nodeList.appendChild(li);
+      }
+      updateCount();
+    }
+    add100DirectBtn.addEventListener('click', () => {
+      const n = Number(countSelect.value);
+      const t0 = performance.now();
+      addManyDirect(n);
+      const t1 = performance.now();
+      result.textContent = `直接 append ${n} 项，耗时 ${(t1-t0).toFixed(2)} ms`;
+    });
+
+    // 使用 DocumentFragment 批量添加（性能更好）
+    function addManyFragment(count){
+      const frag = document.createDocumentFragment();
+      for (let i=0;i<count;i++){
+        const li = createItem('项 #' + (nodeList.children.length + frag.childNodes.length + 1));
+        frag.appendChild(li);
+      }
+      nodeList.appendChild(frag);
+      updateCount();
+    }
+    add100FragBtn.addEventListener('click', () => {
+      const n = Number(countSelect.value);
+      const t0 = performance.now();
+      addManyFragment(n);
+      const t1 = performance.now();
+      result.textContent = `DocumentFragment 添加 ${n} 项，耗时 ${(t1-t0).toFixed(2)} ms`;
+    });
+
+    // benchmark: innerHTML（一次性字符串）
+    benchmarkInnerBtn.addEventListener('click', ()=>{
+      const n = Number(countSelect.value);
+      // 先清空
+      nodeList.innerHTML = '';
+      const t0 = performance.now();
+      let html = '';
+      for (let i=0;i<n;i++){
+        html += `<li><span class="text">inner 项 #${i+1}</span><div class="actions"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-remove">删除</button></div></li>`;
+      }
+      nodeList.innerHTML = html; // 一次性写入
+      const t1 = performance.now();
+      updateCount();
+      result.textContent = `innerHTML 渲染 ${n} 项，耗时 ${(t1-t0).toFixed(2)} ms（注意：事件绑定需重新委托）`;
+    });
+
+    // benchmark: createElement（使用 fragment）
+    benchmarkCreateBtn.addEventListener('click', ()=>{
+      const n = Number(countSelect.value);
+      nodeList.innerHTML = '';
+      const t0 = performance.now();
+      const frag = document.createDocumentFragment();
+      for (let i=0;i<n;i++){
+        const li = createItem('create 项 #' + (i+1));
+        frag.appendChild(li);
+      }
+      nodeList.appendChild(frag);
+      const t1 = performance.now();
+      updateCount();
+      result.textContent = `createElement+Fragment 渲染 ${n} 项，耗时 ${(t1-t0).toFixed(2)} ms`;
+    });
+
+    // 清空
+    clearBtn.addEventListener('click', ()=>{
+      nodeList.innerHTML = '';
+      updateCount();
+      result.textContent = '已清空';
+    });
+
+    // cloneNode：克隆第一个并插入末尾
+    cloneBtn.addEventListener('click', ()=>{
+      const first = nodeList.querySelector('li');
+      if (!first) { result.textContent = '没有可克隆项'; return; }
+      const clone = first.cloneNode(true);
+      // 如果克隆后需要特定内容调整，可在此修改
+      const idx = nodeList.children.length + 1;
+      const span = clone.querySelector('.text');
+      if (span) span.textContent = span.textContent + '（克隆） #' + idx;
+      nodeList.appendChild(clone);
+      updateCount();
+      result.textContent = '克隆并添加一项';
+    });
+
+    // 页面初始化：添加少量示例项
+    (function init(){
+      for (let i=0;i<3;i++){
+        const clone = tpl.content.cloneNode(true);
+        clone.querySelector('.text').textContent = '项 #' + (i+1);
+        nodeList.appendChild(clone);
+      }
+      updateCount();
+      result.textContent = '初始化完成，示例项已添加';
+    })();
+
+    // 进阶示例：替换与插入（示范 replaceChild 与 insertBefore）
+    // 在页面任意时刻可在浏览器控制台运行以下示例：
+    // 1) replace：
+    // const oldNode = nodeList.children[0];
+    // const newNode = createItem('替换项');
+    // nodeList.replaceChild(newNode, oldNode);
+    // 2) insertBefore：
+    // const before = nodeList.children[1];
+    // nodeList.insertBefore(createItem('插入项'), before);
+
+  </script>
+
+</body>
+</html>
