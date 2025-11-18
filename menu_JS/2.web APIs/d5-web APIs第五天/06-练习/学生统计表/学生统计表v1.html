@@ -45,7 +45,7 @@
         <th>性别</th>
         <th>薪资</th>
         <th>就业城市</th>
-        <th>录入时间</th>
+        <th>添加时间</th>
         <th>操作</th>
       </tr>
     </thead>
@@ -147,7 +147,7 @@
       }
 
       // <!--! 一
-      // 事件处理：提交（保存修改或录入）
+      // 事件处理：提交（保存修改或添加）
       function onSubmit(e) {
         e.preventDefault()
 
@@ -158,7 +158,7 @@
           return
         }
 
-        // 如果处于编辑模式，则更新已有记录，（更新前是“保存修改”、“取消编辑” =》 “录入”）
+        // 如果处于编辑模式，则更新已有记录，（更新前是“保存修改”、“取消编辑” =》 “添加”）
         if (editingId) {
           const idx = dataArr.findIndex(it => it.stuId === editingId)
           if (idx !== -1) {
@@ -172,7 +172,7 @@
             editingId = null
             // <!--! 由于这里有<i>标签，所以不能使用 textContent，需要 innerHTML  
             // => 把把文字单独放在一个节点，仍然可以使用 textContent 
-            // => “录入”、“保存修改”时图标不好同一，这里先统一使用innerHTML
+            // => “添加”、“保存修改”时图标不好同一，这里先统一使用innerHTML
             if (addBtn) addBtn.innerHTML = '<i class="iconfont icon-tianjia"></i>添加'
             if (cancelBtn) cancelBtn.hidden = true
           }
@@ -221,14 +221,14 @@
         // <!--! 取消编辑：清空表单、恢复状态、隐藏取消按钮
         clearForm(info) // <!--! 这里是info
         editingId = null // <!--! 恢复编辑转态
-        if (addBtn) addBtn.innerHTML = '<i class="iconfont icon-tianjia"></i>添加' // <!--! 恢复“保存修改”为“录入”
+        if (addBtn) addBtn.innerHTML = '<i class="iconfont icon-tianjia"></i>添加' // <!--! 恢复“保存修改”为“添加”
         if (cancelBtn) cancelBtn.hidden = true  // <!--! 隐藏取消按钮
       }
 
       function bind() {
         info.addEventListener('submit', onSubmit)
-        tbody.addEventListener('click', onTbodyClick)
         if (cancelBtn) cancelBtn.addEventListener('click', onCancelEdit)
+        tbody.addEventListener('click', onTbodyClick)
       }
 
 

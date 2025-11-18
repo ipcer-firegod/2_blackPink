@@ -95,6 +95,7 @@
       </div>
     </div>
   </div>
+
   <div class="xtx-wrapper">
     <div class="container">
       <!-- 卡片 -->
@@ -139,6 +140,7 @@
       </div>
     </div>
   </div>
+  
   <!-- 公共底部 -->
   <div class="xtx_footer clearfix">
     <div class="wrapper">
@@ -203,6 +205,9 @@
     (function () {
       // 1. 发送短信验证码模块
       const code = document.querySelector('.code')
+
+      // <!--! 方法一：节流阀
+
       let flag = true  // 通过一个变量来控制   节流阀 
       //  1.1 点击事件
       code.addEventListener('click', function () {
@@ -227,6 +232,24 @@
           }, 1000)
         }
       })
+
+      // <!--! 方法二：
+      // let timerId = null
+      // code.addEventListener('click', function () {
+      //   if (timerId) return
+      //   let i = 5
+      //   code.innerHTML = `0${i}秒后重新获取`
+      //   timerId = setInterval(function () {
+      //     i--
+      //     code.innerHTML = `0${i}秒后重新获取`
+      //     if (i === 0) {
+      //       clearInterval(timerId)
+      //       code.innerHTML = `重新获取`
+            
+      //       timerId = null
+      //     }
+      //   }, 1000)
+      // })
     })();
 
 
@@ -329,6 +352,7 @@
       // console.log(11)
       const span = confirm.nextElementSibling
       // 6.4 当前表单的值不等于 密码框的值就是错误的
+      // <!--? 为什么不能用this？可以用：因为 this 指向了 confirm 输入框，this.value 就等同于 confirm.value。
       if (confirm.value !== password.value) {
         // console.log(11)
         span.innerText = '两次密码输入不一致'

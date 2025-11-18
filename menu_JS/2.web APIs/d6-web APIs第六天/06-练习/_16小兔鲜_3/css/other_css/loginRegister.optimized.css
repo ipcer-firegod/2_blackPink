@@ -1,0 +1,180 @@
+/* loginRegister.optimized.css
+   说明：优化版 CSS，保留了原样式主要布局，
+   但添加了注释与针对优化 HTML 的选择器。请与
+   `loginRegister.optimized.html` 配套使用（不修改原始文件）。
+*/
+
+.header {
+  position: relative;
+}
+
+.footer {
+  height: 165px;
+}
+
+.footer .copyright {
+  margin-top: 0;
+  padding-top: 30px;
+}
+
+.main {
+  height: 488px;
+  background: url(../images/login-bg.png) no-repeat center/cover;
+}
+
+.main .w {
+  position: relative;
+  height: 100%;
+}
+
+/* 通用 box 布局 */
+.main .w .box {
+  position: absolute;
+  top: 50%;
+  right: 100px;
+  width: 380px;
+  padding: 20px 40px;
+  background: #fff;
+  box-shadow: 0px 0px 25px 0px rgba(3, 3, 3, 0.14);
+  transform: translateY(-50%);
+}
+
+.box .tab-nav {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.box .tab-nav::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 1px;
+  height: 20px;
+  background: #17bb9b
+}
+
+.box .tab-nav a {
+  font-size: 18px;
+  height: 35px;
+  line-height: 35px
+}
+
+.box .tab-nav a.active {
+  border-bottom: 2px solid #17bb9b
+}
+
+/* --- 登录内面板 .tab-pane-login 使用以避免影响注册模块 --- */
+.tab-pane-login .input {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 36px;
+  margin-top: 24px;
+  border: 1px solid #17bb9b
+}
+
+.input .iconfont {
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center
+}
+
+.box .tab-pane-login .input input {
+  flex: 1
+}
+
+.input input::placeholder {
+  color: #B3B3B3 !important
+}
+
+.link {
+  margin-top: 24px;
+  text-align: right
+}
+
+.link a {
+  color: #17bb9b
+}
+
+.tab-pane .agree {
+  padding: 24px 0;
+  color: #B3B3B3
+}
+
+.tab-pane .agree a {
+  font-size: 14px;
+  color: #0673B1
+}
+
+.tab-pane .agree>label input:checked+span {
+  color: #17bb9b
+}
+
+.tab-pane .button .btnSubmit {
+  display: block;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 16px;
+  text-align: center;
+  background: #17bb9b;
+  color: #fff;
+  font-size: 16px
+}
+
+.button .else-btnSubmit {
+  display: flex;
+  justify-content: space-between
+}
+
+/* 登录二维码图片，独立类名 .qr-code */
+.qr-code {
+  display: block;
+  margin: 44px auto;
+  max-width: 100%
+}
+
+/* 注册模块样式（与登录模块隔离） */
+/* 提示信息 */
+.msg {
+  color: #ff4d4f;
+  position: absolute;
+  right: 2px;
+  bottom: -16px;
+  font-size: 14px
+}
+
+/* 注册内的 send-code 按钮，基于 .input 的 position:relative 定位 */
+.register .input {
+  margin-top: 20px;
+  position: relative
+}
+
+.register .input .send-code {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #27BA9B;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer
+}
+
+.register i {
+  color: #27BA9B;
+  font-size: 14px
+}
+
+/* 小屏适配（简单示例） */
+@media (max-width:480px) {
+  .main .w .box {
+    right: 20px;
+    width: 320px;
+    padding: 16px
+  }
+}

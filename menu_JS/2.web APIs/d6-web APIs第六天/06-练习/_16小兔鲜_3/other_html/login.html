@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小兔鲜儿 - 新鲜 惠民 快捷!</title>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./iconfont/iconfont.css">
+  <!-- <link rel="stylesheet" href="https://at.alicdn.com/t/font_2143783_iq6z4ey5vu.css"> -->
+  <!-- 引入基础样式，注意顺序 -->
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+
+  <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body>
+  <!-- -(括号中的是 common 模块) -->
+  <!-- 1登录头部-(header模块) -->
+  <header class="w header">
+    <div class="logo">
+      <h1><a href="index.html" title="小兔鲜儿">小兔鲜儿</a></h1>
+    </div>
+    <a class="home" href="./index.html">进入网站首页</a>
+  </header>
+
+  <!-- 2登录内容 -->
+  <main>
+    <div class="login-main">
+      <div class="w">
+        <form action="" autocomplete="off">
+          <div class="box">
+            <div class="tab-nav">
+              <a href="javascript:;" data-id="0" class="active">账户登录</a>
+              <a href="javascript:;" data-id="1">二维码登录</a>
+            </div>
+            <div class="tab-pane">
+              <div class="input">
+                <span class="iconfont icon-arrow-right-bold"></span>
+                <input required type="text" placeholder="请输入用户名称/手机号码" name="username">
+              </div>
+              <div class="input">
+                <span class="iconfont icon-arrow-right-bold"></span>
+                <input required type="password" placeholder="请输入密码" name="password">
+              </div>
+              <div class="link">
+                <a href="javascript:;">手机验证码登录</a>
+              </div>
+              <div class="agree">
+                <label for="my-checkbox">
+                  <input type="checkbox" value="1" id="my-checkbox" class="remember" name="agree">
+                  <span class="iconfont icon-xuanze"></span>
+                </label>
+                我已同意 <a href="javascript:;">《服务条款》</a href="javascript:;"> 和 <a>《服务条款》</a>
+              </div>
+              <div class="button">
+                <button type="submit" class="btnSubmit">登 录</button>
+                <!-- <a class="btnSubmit" href="./center.html">登 录</a> -->
+                <div class="else-btnSubmit">
+                  <a href="./forget.html">忘记密码？</a>
+                  <a href="./register.html">免费注册</a>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" style="display: none;">
+              <img class="code" src="./images/code.png" alt="">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- 3登录底部-(网页尾部) -->
+  <!-- ! 遇见一个bug：footer上方始终有一部分空白，找了半天，使用浏览器查找元素（点击的footer）也找不到，最后发现，是footer下的copyright有一个m-t:100px导致的 -->
+  <!-- 浏览器查找不到，是因为这是margin-top，不属于某一个元素 -->
+  <footer class="footer">
+    <div class="w">
+      <div class="copyright">
+        <p>
+          <a href="#">关于我们</a> |
+          <a href="#">联系我们</a> |
+          <a href="#">配送与验收</a> |
+          <a href="#">商务合作</a> |
+          <a href="#">搜索推荐</a> |
+          <a href="#">友情链接</a>
+        </p>
+        <p>CopyRight © &copy; 小兔鲜</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 旧版代码见 综合案例素材 -->
+
+  <script>
+    // 1. tab栏切换  事件委托
+    const tab_nav = document.querySelector('.tab-nav')
+    const pane = document.querySelectorAll('.tab-pane')
+    // 1.1 事件监听
+    tab_nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        // 取消上一个active
+        tab_nav.querySelector('.active').classList.remove('active')
+        // 当前元素添加active
+        e.target.classList.add('active')
+
+        // 先干掉所有人  for循环
+        for (let i = 0; i < pane.length; i++) {
+          pane[i].style.display = 'none'
+        }
+        // 让对应序号的 大pane 显示 
+        pane[e.target.dataset.id].style.display = 'block'
+      }
+    })
+
+    // 点击提交模块
+    const form = document.querySelector('form')
+    const agree = document.querySelector('[name=agree]')
+    const username = document.querySelector('[name=username]')
+    form.addEventListener('submit', function (e) {
+      e.preventDefault()
+      // 判断是否勾选同意协议
+      if (!agree.checked) {
+        return alert('请勾选同意协议')
+      }
+
+      // 记录用户名到本地存储
+      localStorage.setItem('uname', username.value)
+      // 跳转到首页
+      location.href = './index.html'
+    })
+  </script>
+</body>
+
+</html>

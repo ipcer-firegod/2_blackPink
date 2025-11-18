@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小兔鲜儿 - 新鲜 惠民 快捷!</title>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./iconfont/iconfont.css">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_2143783_iq6z4ey5vu.css">
+  <!-- 引入基础样式，注意顺序 -->
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+
+  <link rel="stylesheet" href="./css/loginRegister.css">
+
+</head>
+
+<body>
+  <!-- -(括号中的是 common 模块) -->
+  <!-- 1头部-(header模块) -->
+  <header class="w header">
+    <div class="logo">
+      <h1><a href="index.html" title="小兔鲜儿">小兔鲜儿</a></h1>
+    </div>
+    <a class="home" href="./index.html">进入网站首页</a>
+  </header>
+
+
+  <!-- 2主体 -->
+  <main>
+    <div class="w">
+      <form action="" autocomplete="off">
+        <!-- 2登录内容 -->
+        <div class="box login">
+          <div class="tab-nav">
+            <a href="javascript:;" data-id="0" class="active">账户登录</a>
+            <a href="javascript:;" data-id="1">二维码登录</a>
+          </div>
+          <div class="tab-pane" data-id="0">
+            <div class="input">
+              <span class="iconfont icon-arrow-right-bold"></span>
+              <input required type="text" placeholder="请输入用户名称/手机号码" name="username">
+            </div>
+            <div class="input">
+              <span class="iconfont icon-arrow-right-bold"></span>
+              <input required type="password" placeholder="请输入密码" name="password">
+            </div>
+            <div class="link">
+              <a href="javascript:;">手机验证码登录</a>
+            </div>
+            <div class="agree">
+              <label for="my-checkbox">
+                <input type="checkbox" value="1" id="my-checkbox" class="remember" name="agree">
+                <span class="iconfont icon-xuanze"></span>
+              </label>
+              我已同意 <a href="javascript:;">《服务条款》</a href="javascript:;"> 和 <a>《服务条款》</a>
+            </div>
+            <div class="button">
+              <button type="submit" class="btnSubmit">登 录</button>
+              <!-- <a class="btnSubmit" href="./center.html">登 录</a> -->
+              <div class="else-btnSubmit">
+                <a href="./forget.html">忘记密码？</a>
+                <!-- <a href="./register.html">免费注册</a> -->
+                <a class="toRegister" href="javascript:;">免费注册</a>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" data-id="1" style="display: none;">
+            <img class="qr-code" src="./images/code.png" alt="">
+          </div>
+        </div>
+
+        <!-- 2注册内容 -->
+        <div class="box register" hidden>
+          <h3>新用户注册</h3>
+          <div class="tab-pane">
+            <div class="input">
+              <span class="iconfont icon-zhanghao"></span>
+              <input name="username" type="text" placeholder="设置用户名称">
+              <span class="msg"></span>
+            </div>
+            <div class="input">
+              <span class="iconfont icon-shouji"></span>
+              <input name="phone" type="text" placeholder="输入手机号码  ">
+              <span class="msg"></span>
+            </div>
+            <div class="input">
+              <span class="iconfont icon-zhibiaozhushibiaozhu"></span>
+              <input name="code" type="text" placeholder="短信验证码">
+              <span class="msg"></span>
+              <a class="send-code" href="javascript:;">发送验证码</a>
+            </div>
+            <div class="input">
+              <span class="iconfont icon-suo"></span>
+              <input name="password" type="password" placeholder="设置6至20位字母、数字和符号组合">
+              <span class="msg"></span>
+            </div>
+            <div class="input">
+              <span class="iconfont icon-suo"></span>
+              <input name="confirm" type="password" placeholder="请再次输入上面密码">
+              <span class="msg"></span>
+            </div>
+
+            <div class="agree">
+              <i class="iconfont icon-queren"></i>
+              已阅读并同意<i>《用户服务协议》</i>
+            </div>
+            <div class="button">
+              <button type="submit" class="btnSubmit">注 册</button>
+            </div>
+            <div class="else-btnSubmit">
+              <a class="toLogin" href="javascript:;">已有账户，去登录</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+
+  <!-- 3底部-(网页尾部) -->
+  <footer class="footer">
+    <div class="w">
+      <div class="copyright">
+        <p>
+          <a href="#">关于我们</a> |
+          <a href="#">联系我们</a> |
+          <a href="#">配送与验收</a> |
+          <a href="#">商务合作</a> |
+          <a href="#">搜索推荐</a> |
+          <a href="#">友情链接</a>
+        </p>
+        <p>CopyRight © &copy; 小兔鲜</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- "手敲"前的copy -->
+  <script>
+    // 顶层 IIFE，内部模块化组织，避免全局污染
+    (function () {
+      // --- Login 模块 ---
+      const Login = (function () {
+        // 1. DOM 选择器集中在顶部
+        const box = document.querySelector('.login');
+        const tabNav = box.querySelector('.tab-nav');
+        const panes = box.querySelectorAll('.tab-pane');
+        const form = document.querySelector('form');
+        const agree = document.querySelector('[name=agree]');
+        const username = box.querySelector('[name=username]');
+        const toRegisterBtn = document.querySelector('.toRegister');
+        // 2. 逻辑函数
+        function showPane(index) {
+          panes.forEach((p, i) => {
+            p.style.display = i === index ? 'block' : 'none';
+          });
+        }
+        function onTabClick(e) {
+          if (e.target.tagName !== 'A') return;
+          tabNav.querySelector('.active').classList.remove('active');
+          e.target.classList.add('active');
+          showPane(Number(e.target.dataset.id));
+        }
+        function onSubmit(e) {
+          // 只处理登录模块提交
+          if (!box.hidden) {
+            e.preventDefault();
+            if (!agree.checked) return alert('请勾选同意协议');
+            localStorage.setItem('uname', username.value || '');
+            location.href = './index.html';
+          }
+        }
+        function onToRegister(e) {
+          e.preventDefault();
+          // 只设置 hash，由 Router 统一处理显示逻辑，保持职责单一
+          location.hash = 'register';
+        }
+        function bind() {
+          tabNav.addEventListener('click', onTabClick);
+          form.addEventListener('submit', onSubmit);
+          toRegisterBtn && toRegisterBtn.addEventListener('click', onToRegister);
+
+          // 给 panel 添加过渡样式类，启用 CSS 动画
+          box.classList.add('panel-transition');
+        }
+
+        function show() { box.hidden = false }
+        function hide() { box.hidden = true }
+        function resetToDefault() {
+          // 重置到第一个 tab（账户登录）
+          const active = tabNav.querySelector('.active')
+          if (active) active.classList.remove('active')
+          const first = tabNav.querySelector('[data-id="0"]')
+          if (first) first.classList.add('active')
+          showPane(0)
+        }
+
+        return { init: bind, box, show, hide, resetToDefault };
+      })();
+
+      // --- Register 模块 ---
+      const Register = (function () {
+        const box = document.querySelector('.register');
+        const form = document.querySelector('form');
+        const sendCodeBtn = box.querySelector('.send-code');
+        const toLoginBtn = document.querySelector('.toLogin');
+        const queren = box.querySelector('.icon-queren');
+        // 字段
+        const regUsername = box.querySelector('[name=username]');
+        const regPhone = box.querySelector('[name=phone]');
+        const regCode = box.querySelector('[name=code]');
+        const regPassword = box.querySelector('[name=password]');
+        const regConfirm = box.querySelector('[name=confirm]');
+        // 工具
+        function setMsg(el, text) {
+          if (!el) return;
+          const span = el.nextElementSibling;
+          if (span) span.innerText = text;
+        }
+        // 校验
+        function verifyName() {
+          const reg = /^[a-zA-Z0-9-_]{6,10}$/;
+          if (!reg.test(regUsername.value)) {
+            setMsg(regUsername, '输入不合法,请输入6~10位');
+            return false;
+          }
+          setMsg(regUsername, '');
+          return true;
+        }
+        function verifyPhone() {
+          const reg = /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/;
+          if (!reg.test(regPhone.value)) {
+            setMsg(regPhone, '输入不合法,请输入正确的11位手机号码');
+            return false;
+          }
+          setMsg(regPhone, '');
+          return true;
+        }
+        function verifyCode() {
+          const reg = /^\d{6}$/;
+          if (!reg.test(regCode.value)) {
+            setMsg(regCode, '输入不合法,6 位数字');
+            return false;
+          }
+          setMsg(regCode, '');
+          return true;
+        }
+        function verifyPwd() {
+          const reg = /^[a-zA-Z0-9-_]{6,20}$/;
+          if (!reg.test(regPassword.value)) {
+            setMsg(regPassword, '输入不合法,6~20位数字字母符号组成');
+            return false;
+          }
+          setMsg(regPassword, '');
+          return true;
+        }
+        function verifyConfirm() {
+          if (regConfirm.value !== regPassword.value) {
+            setMsg(regConfirm, '两次密码输入不一致');
+            return false;
+          }
+          setMsg(regConfirm, '');
+          return true;
+        }
+        // 事件
+        function onSendCode(e) {
+          e.preventDefault();
+          if (sendCodeBtn.dataset.sending === '1') return;
+          let i = 5;
+          sendCodeBtn.textContent = `0${i}秒后重新获取`;
+          sendCodeBtn.dataset.sending = '1';
+          let timerId = setInterval(function () {
+            i--;
+            sendCodeBtn.textContent = `0${i}秒后重新获取`;
+            if (i === 0) {
+              clearInterval(timerId);
+              sendCodeBtn.textContent = '重新获取';
+              sendCodeBtn.dataset.sending = '';
+            }
+          }, 1000);
+        }
+        function onToLogin(e) {
+          e.preventDefault();
+          // 只设置 hash，由 Router 负责显示切换
+          location.hash = 'login';
+        }
+        function onQuerenClick() {
+          this.classList.toggle('icon-queren2');
+        }
+        function onSubmit(e) {
+          if (!box.hidden) {
+            if (queren && !queren.classList.contains('icon-queren2')) {
+              alert('请勾选同意协议');
+              e.preventDefault();
+              return;
+            }
+            if (!verifyName()) e.preventDefault();
+            if (!verifyPhone()) e.preventDefault();
+            if (!verifyCode()) e.preventDefault();
+            if (!verifyPwd()) e.preventDefault();
+            if (!verifyConfirm()) e.preventDefault();
+          }
+        }
+        function bind() {
+          sendCodeBtn && sendCodeBtn.addEventListener('click', onSendCode);
+          toLoginBtn && toLoginBtn.addEventListener('click', onToLogin);
+          queren && queren.addEventListener('click', onQuerenClick);
+          regUsername && regUsername.addEventListener('change', verifyName);
+          regPhone && regPhone.addEventListener('change', verifyPhone);
+          regCode && regCode.addEventListener('change', verifyCode);
+          regPassword && regPassword.addEventListener('change', verifyPwd);
+          regConfirm && regConfirm.addEventListener('change', verifyConfirm);
+          form.addEventListener('submit', onSubmit);
+
+          // 启用过渡样式
+          box.classList.add('panel-transition');
+        }
+
+        function show() { box.hidden = false }
+        function hide() { box.hidden = true }
+        return { init: bind, box, show, hide };
+      })();
+
+      // --- Router 模块：统一处理基于 hash 的路由显示逻辑 ---
+      const Router = (function () {
+        function applyHash() {
+          const h = (location.hash || '').replace('#', '')
+          if (h === 'register') {
+            Login.hide();
+            Register.show();
+          } else {
+            Register.hide();
+            Login.show();
+            // 重置登录内部状态（tab/pane）
+            Login.resetToDefault && Login.resetToDefault();
+            // “如果存在就调用”。更可读的形式：if (Login.resetToDefault) { Login.resetToDefault(); }
+          }
+        }
+        function init() {
+          // 初次加载
+          applyHash()
+          // 监听 hash 改变
+          window.addEventListener('hashchange', applyHash)
+        }
+        return { init }
+      })();
+
+      // --- 初始化 ---
+      Login.init();
+      Register.init();
+      Router.init();
+
+    })();
+
+  </script>
+</body>
+
+</html>

@@ -1,3 +1,19 @@
+
+html {
+  scroll-behavior: smooth;
+}
+
+.back {
+  position: fixed;
+  right: 0;
+  bottom: 100px;
+  width: 40px;
+  height: 40px;
+  line-height: 20px;
+  text-align: center;
+  background-color: pink;
+}
+
 /* entry模块 */
 .entry {
   height: 500px;
@@ -58,6 +74,7 @@
 .banner {
   position: relative;
 }
+
 .banner .circleDot {
   display: flex;
   gap: 16px;
@@ -65,18 +82,21 @@
   bottom: 20px;
   right: 20px;
 }
+
 .banner .circleDot li {
   width: 14px;
   height: 14px;
   background-color: rgba(255, 255, 255, .5);
   border-radius: 50%;
 }
+
 /* 使用阴影效果实现扩散边框效果，避免抖动 */
-.banner .circleDot li:hover{
-  
+.banner .circleDot li:hover {
+
   box-shadow: 0 0 0 4px rgba(255, 255, 255, .5);
   background-color: #fff;
 }
+
 /* 使用outline */
 /* .banner .circleDot li:hover {
   outline: 4px solid rgba(255, 255, 255, .5);
@@ -97,9 +117,11 @@
   /* 第二种方法（更好）：transform */
   transform: translateY(-50%);
 }
+
 .banner .prev {
   left: 250px;
 }
+
 .banner .next {
   right: 0;
 }
@@ -153,17 +175,34 @@ h2 small {
   height: 404px;
   background-color: #EEF9F4;
   text-align: center;
+  transition: .3s;
 
   border: 2px solid skyblue;
 }
+
+/* 如果hover给li，则li的整个蓝边框会一起向上 */
+.box-bd ul li:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ! 如果hover给li中的a，则只有a会向上，蓝框留在原地 */
+/* .box-bd ul li a:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+} */
+
 .box-bd ul li a {
   display: block;
   height: 100%;
+  transition: .3s;
 }
+
 .box-bd ul li img {
   width: 304px;
   height: 304px;
 }
+
 /* .title => h3 */
 .box-bd ul li .title {
   margin: 18px 25px 18px;
@@ -179,6 +218,7 @@ li .price {
   font-size: 22px;
   color: #AA2113;
 }
+
 /* small标签会自动缩小。缩小多少？
 自己设置，不然就是默认的80%
 .box-bd ul li .price small {
@@ -203,13 +243,16 @@ li .price {
   padding-top: 10px;
   background-color: #fff;
 }
+
 .cloHead h2 {
   font-size: 30px;
 }
+
 .cloHead-right {
   display: flex;
   gap: 65px;
 }
+
 .cloHead-right a {
   font-size: 16px;
   color: #A1A1A1;
@@ -225,6 +268,7 @@ li .price {
 
   border: 2px solid skyblue;
 }
+
 /* .cloHead-right ul li {
   margin-right: 10px;
 } */
@@ -239,6 +283,7 @@ li .price {
 
   border: 2px solid #00BE9A;
 }
+
 .cloHead-right ul li a:hover {
   color: #fff;
   background-color: #00BE9A;
@@ -255,20 +300,46 @@ li .price {
   width: 248px;
   height: 610px;
 }
+
 .cloBody-right {
   display: flex;
   flex-wrap: wrap;
   width: 968px;
   height: 610px;
-  
+
 }
+
 .cloBody-right li {
+  overflow: hidden;
+  position: relative;
   width: 242px;
   height: 305px;
   padding: 10px 21px 0;
 
   border: 2px solid pink;
 }
+
+.cloBody-right li:hover {
+  border: 2px solid #00BE9A
+}
+
+.cloBody-right li:hover .mask {
+  transform: translateY(-88px);
+}
+
+.cloBody-right li .mask {
+  position: absolute;
+  bottom: -88px;
+  left: 0;
+  width: 100%;
+  height: 88px;
+  text-align: center;
+  line-height: 88px;
+  background-color: #00BE9A;
+  color: #fff;
+  transition: .3s;
+}
+
 /* 需要让 a 撑满父盒子 */
 .cloBody-right li a {
   display: block;
@@ -278,13 +349,16 @@ li .price {
 
   border: 2px solid skyblue;
 }
+
 .cloBody-right li img {
   width: 200px;
   height: 180px;
 }
+
 .cloBody-right li h3 {
   font-size: 16px;
 }
+
 .cloBody-right li .price {
   /* font-size: 22px; 上面已有设置*/
   margin-top: 12px;
@@ -299,13 +373,28 @@ li .price {
   display: flex;
   gap: 12px;
 }
+
 .news ul li {
   flex: 1;
   height: 355px;
 }
-.news ul li img {
-  width: 100%;
+
+/* ! 注意，这里是 .img，是一个类，不是下面的标签 */
+/* 对比 前面 li 和 a 向上移动 */
+.news .img {
+  overflow: hidden;
+  border: 2px solid pink;
 }
+
+.news ul li img {
+  /* width: 100%; */
+  transition: all .3s;
+}
+
+.news ul li:hover img {
+  transform: scale(1.2);
+}
+
 .news .con {
   display: flex;
   justify-content: space-between;
@@ -315,6 +404,7 @@ li .price {
   font-size: 14px;
   color: #666;
 }
+
 .news .con .like {
   margin-right: 20px;
 }

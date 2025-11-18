@@ -1,0 +1,155 @@
+/* *按需修改common公共模块 */
+/* sticky =》relative  */
+.header {
+  position: relative;
+}
+
+.footer {
+  /* 贴合下部分空白（footer颜色为淡灰色） */
+  height: 165px;
+  /* background-color: pink; */
+}
+
+.footer .copyright {
+  margin-top: 0;
+  padding-top: 30px;
+}
+
+/* *专门针对登录页面的样式 */
+.login-main {
+  height: 488px;
+  background: url(../images/login-bg.png) no-repeat center/cover;
+}
+
+/* .wrapper 就是版心 .w */
+/* .login-main .wrapper {
+  position: relative;
+  width: 1170px;
+  height: 100%;
+  margin: 0 auto;
+} */
+.login-main .w {
+  position: relative;
+  height: 100%;
+
+  border: 2px solid skyblue;
+}
+
+.login-main .w .box {
+  position: absolute;
+  top: 50%;
+  right: 100px;
+  width: 380px;
+  padding: 20px 40px;
+  background: #fff;
+  box-shadow: 0px 0px 25px 0px rgba(3, 3, 3, 0.14);
+  transform: translateY(-50%);
+}
+
+.box .tab-nav {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.box .tab-nav::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 1px;
+  height: 20px;
+  background: #17bb9b;
+}
+
+.box .tab-nav a {
+  font-size: 18px;
+  height: 35px;
+  line-height: 35px;
+}
+
+.box .tab-nav a.active {
+  border-bottom: 2px solid #17bb9b;
+}
+
+.tab-pane .input {
+  display: flex;
+  width: 100%;
+  height: 36px;
+  margin-top: 24px;
+  border: 1px solid #17bb9b;
+}
+
+.input .iconfont {
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  /* font-size: 20px; */
+  /* border: 2px solid #17bb9b; */
+}
+
+/* 需要让[input]占据整个输入框.input，否则点击为占据部分无法聚焦 */
+.box .tab-pane .input input {
+  flex: 1;
+  /* padding-left: 15px; */
+  /* background: pink; */
+}
+
+.input input::placeholder {
+  color: #B3B3B3 !important;
+}
+
+.link {
+  margin-top: 24px;
+  text-align: right;
+}
+
+.link a {
+  color: #17bb9b;
+}
+
+.tab-pane .agree {
+  padding: 24px 0;
+  color: #B3B3B3;
+}
+
+.tab-pane .agree a {
+  font-size: 14px;
+  color: #0673B1;
+}
+
+.tab-pane .agree>label input {
+  /* display: none; */
+}
+
+.tab-pane .agree>label input:checked+span {
+  color: #17bb9b;
+}
+
+/* .tab-pane .button {
+  margin-bottom: 15px;
+} */
+
+.tab-pane .button .btnSubmit {
+  display: block;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 16px;
+  text-align: center;
+  background: #17bb9b;
+  color: #fff;
+  font-size: 16px;
+}
+
+.button .else-btnSubmit {
+  display: flex;
+  justify-content: space-between;
+} 
+
+/* .code 是一个img标签，需要转为block，才可以进行居中 */
+.tab-pane .code {
+  display: block;
+  margin: 44px auto;
+}

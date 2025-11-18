@@ -1,0 +1,417 @@
+
+html {
+  scroll-behavior: smooth;
+}
+
+.back {
+  position: fixed;
+  right: 0;
+  bottom: 100px;
+  width: 40px;
+  height: 40px;
+  line-height: 20px;
+  text-align: center;
+  background-color: pink;
+}
+
+/* *entry模块 */
+.entry {
+  height: 500px;
+  /* color: pink; 注意：color是字体，bg-color才是背景色*/
+  background-color: #f5f5f5;
+}
+
+/* .w需要添加高度才能撑起来，为什么entry本身不能？ */
+/* 因为entry的高度是由内容决定的，而.w是一个子元素，需要明确指定高度才能撑起来 */
+.entry .w {
+  position: relative;
+  height: 100%;
+  /* background: url(../uploads/banner1.png) no-repeat; */
+}
+
+/* background和background-color区别？：复合与单一属性 */
+/* .w .category 都不用了，直接上.category  */
+.category {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* 提高定位层级！ */
+  z-index: 99;
+  width: 250px;
+  height: 500px;
+  background: rgba(0, 0, 0, .42);
+}
+
+/* .category ul {
+  height: 50px;
+} */
+
+/* 怎么给li撑起高度？需要用上面的，对ul添加高度。不能用display:block，因为需要flex
+不对，可以直接对flex中加height，加了flex就自动加上了block */
+.category ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 0 10px 0 20px;
+  color: #fff;
+}
+
+.category ul li a {
+  color: #fff;
+  font-size: 14px;
+}
+
+.category ul li a:first-child {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.category ul li:hover {
+  background-color: #00BE9A;
+}
+
+.banner {
+  position: relative;
+}
+
+.banner .circleDot {
+  display: flex;
+  gap: 16px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.banner .circleDot li {
+  width: 14px;
+  height: 14px;
+  background-color: rgba(255, 255, 255, .5);
+  border-radius: 50%;
+}
+
+/* 使用阴影效果实现扩散边框效果，避免抖动 */
+.banner .circleDot li:hover {
+
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, .5);
+  background-color: #fff;
+}
+
+/* 使用outline */
+/* .banner .circleDot li:hover {
+  outline: 4px solid rgba(255, 255, 255, .5);
+  background-color: #fff;
+} */
+
+
+/* 优化，提取公共部分 */
+.banner .prev,
+.banner .next {
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 60px;
+  background-color: rgba(0, 0, 0, .5);
+  /* 第一种方法：一半height */
+  /* margin-top: -30px; */
+  /* 第二种方法（更好）：transform */
+  transform: translateY(-50%);
+}
+
+.banner .prev {
+  left: 250px;
+}
+
+.banner .next {
+  right: 0;
+}
+
+.banner .prev i,
+.banner .next i {
+  text-align: center;
+  line-height: 60px;
+  color: #fff;
+  font-size: 35px;
+
+  /* ! 注释了的代码，在浏览器的调试中似乎也可以看到？ */
+  /* background-color: pink; */
+}
+
+
+/* *新鲜好物模块 */
+.box-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 112px;
+  /* background-color: skyblue; */
+}
+
+/* 不写box-hd也行。下面那个同样如此 */
+.box-hd h2 {
+  font-size: 30px;
+}
+
+h2 small {
+  font-size: 16px;
+  color: #A1A1A1;
+  margin-left: 30px;
+}
+
+.box-hd a {
+  font-size: 16px;
+  color: #A1A1A1;
+}
+
+.box-bd ul {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+
+  border: 2px solid pink;
+}
+
+.box-bd ul li {
+  width: 304px;
+  height: 404px;
+  background-color: #EEF9F4;
+  text-align: center;
+  transition: .3s;
+
+  border: 2px solid skyblue;
+}
+
+/* 如果hover给li，则li的整个蓝边框会一起向上 */
+.box-bd ul li:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ! 如果hover给li中的a，则只有a会向上，蓝框留在原地 */
+/* .box-bd ul li a:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+} */
+
+.box-bd ul li a {
+  display: block;
+  height: 100%;
+  transition: .3s;
+}
+
+.box-bd ul li img {
+  width: 304px;
+  height: 304px;
+}
+
+/* .title => h3 */
+.box-bd ul li .title {
+  margin: 18px 25px 18px;
+  font-size: 20px;
+  /* padding: 0 25px; 这个padding的效果可以有上面的margin实现。padding和margin使用区别？ */
+  /* padding是内边距，margin是外边距 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+li .price {
+  font-size: 22px;
+  color: #AA2113;
+}
+
+/* small标签会自动缩小。缩小多少？
+自己设置，不然就是默认的80%
+.box-bd ul li .price small {
+  font-size: 18px;
+} */
+
+/* *人气推荐模块 */
+.hot .box-bd ul li {
+  background-color: #fff;
+}
+
+.hot {
+  margin-bottom: 60px;
+}
+
+/* *服饰模块 */
+/* 头部 */
+.hd-ul {
+  /* box-hd 中已有这些属性 */
+  /* display: flex;
+  justify-content: space-between;
+  align-items: center; */
+  height: 102px;
+  padding-top: 10px;
+  /* ? 去掉b-g属性后，这里的b-g是是什么？使用js可以得到吗？ */
+  background-color: #fff;
+}
+
+/* box-hd h2 中已有这些属性 */
+/* .hd-ul h2 {
+  font-size: 30px;
+} */
+
+.hd-ul-right {
+  display: flex;
+  gap: 65px;
+}
+
+/* box-hd a 中已有这些属性 */
+/* .hd-ul-right a {
+  font-size: 16px;
+  color: #A1A1A1;
+  /* 不能用a，会让所有a都有左边距。使用其他方法（下面就是使用a） */
+  /* margin-left: 65px; 
+} */
+
+
+.hd-ul-right ul {
+  display: flex;
+  gap: 10px;
+  /* margin-right: 65px; 或者使用gap，见上一行 */
+
+  border: 2px solid skyblue;
+}
+
+/* .hd-ul-right ul li {
+  margin-right: 10px;
+} */
+/* 是li，而不是ul:first-child？ */
+/* .hd-ul-right ul li:first-child {
+  background: #00BE9A;
+  padding: 3px 8px;
+} */
+.hd-ul-right ul li a {
+  padding: 3px 8px;
+  border-radius: 5px;
+
+  border: 2px solid #00BE9A;
+}
+
+.hd-ul-right ul li a:hover {
+  color: #fff;
+  background-color: #00BE9A;
+  /* ! padding: 3px 8px; 为了防止抖动，放进上面的 a 中！*/
+}
+
+/* 身体 */
+.box-bd-2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.box-bd-2-left {
+  width: 248px;
+  height: 610px;
+}
+
+.box-bd-2-right {
+  display: flex;
+  flex-wrap: wrap;
+  width: 968px;
+  height: 610px;
+
+}
+
+.box-bd-2-right li {
+  overflow: hidden;
+  position: relative;
+  width: 242px;
+  height: 305px;
+  padding: 10px 21px 0;
+
+  border: 2px solid pink;
+}
+
+.box-bd-2-right li:hover {
+  border: 2px solid #00BE9A
+}
+
+.box-bd-2-right li:hover .mask {
+  transform: translateY(-88px);
+}
+
+.box-bd-2-right li .mask {
+  position: absolute;
+  bottom: -88px;
+  left: 0;
+  width: 100%;
+  height: 88px;
+  text-align: center;
+  line-height: 88px;
+  background-color: #00BE9A;
+  color: #fff;
+  transition: .3s;
+}
+
+/* 需要让 a 撑满父盒子 */
+.box-bd-2-right li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 19px;
+
+  border: 2px solid skyblue;
+}
+
+.box-bd-2-right li img {
+  width: 200px;
+  height: 180px;
+}
+
+.box-bd-2-right li h3 {
+  font-size: 16px;
+}
+
+.box-bd-2-right li .price {
+  /* font-size: 22px; 上面已有设置*/
+  margin-top: 12px;
+}
+
+.news {
+  margin-bottom: 60px;
+}
+
+/* *最新专题模块 */
+.news ul {
+  display: flex;
+  gap: 12px;
+}
+
+.news ul li {
+  flex: 1;
+  height: 355px;
+}
+
+/* ! 注意，这里是 .img，是一个类，不是下面的标签 */
+/* 对比 前面 li 和 a 向上移动 */
+.news .img {
+  overflow: hidden;
+  border: 2px solid pink;
+}
+
+.news ul li img {
+  /* 需要设置width:100%，否则会超出宽度 */
+  width: 100%;
+  transition: all .3s;
+}
+
+.news ul li:hover img {
+  transform: scale(1.2);
+}
+
+.news .con {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 67px;
+  padding: 0 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.news .con .like {
+  margin-right: 20px;
+}

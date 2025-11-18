@@ -1,0 +1,151 @@
+/* 商品评价 模块 所缺部分（原在index.css中） */
+.show {
+  display: block !important;
+}
+
+.goods-tabs {
+  width: 940px;
+  padding: 0 20px;
+  background-color: #fff;
+}
+
+.tabs-hd {
+  height: 60px;
+  line-height: 60px;
+  display: flex;
+  font-size: 14px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.tabs-hd span {
+  margin-left: 20px;
+}
+
+.tabs-hd ul {
+  display: flex;
+}
+
+.tabs-hd ul li {
+  margin-left: 30px;
+}
+
+.tabs-hd ul li.active a {
+  color: #27ba9b;
+}
+
+.tabs-hd ul li:hover a {
+  color: #27ba9b;
+}
+
+
+.tabs-bd {
+  min-height: 500px;
+}
+
+.tabs {
+  display: none;
+}
+
+.tabs-item {
+
+  display: flex;
+  align-items: flex-start;
+  padding: 25px 10px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.userInfo {
+  width: 160px;
+  display: flex;
+  align-items: center;
+}
+
+.userpic {
+  width: 40px;
+  height: 40px;
+
+}
+
+.userpic img {
+  width: 100%;
+  height: 100%;
+}
+
+.username {
+  margin-left: 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+.tbs-body {
+  flex: 1;
+  /* background-color: skyblue; */
+}
+
+.score {
+  line-height: 40px;
+  font-size: 14px;
+  color: #666;
+}
+
+.score .icon-xingxing,
+.score .icon-xingxing1 {
+  color: #ff9240;
+  font-size: 16px;
+  padding: 0 1.5px;
+}
+
+.score .attr {
+  padding-left: 10px;
+}
+
+.tbs-body .text {
+  line-height: 24px;
+  font-size: 14px;
+  color: #666;
+}
+
+
+.comment-image .list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.comment-image .list a {
+  width: 120px;
+  height: 120px;
+  margin-right: 20px;
+  border: 1px solid #e4e4e4;
+}
+
+.comment-image .list a img {
+  width: 100%;
+  height: 100%;
+}
+
+.tbs-body .time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #999;
+  margin-top: 10px;
+}
+
+
+.pagination {
+  padding: 30px;
+}
+
+.pagination ul {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination ul li {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 5px;
+  text-align: center;
+  border: 1px solid #e4e4e4;
+}
