@@ -9,6 +9,7 @@
 <body>
   <script>
     // 以下代码13行的this值是 window，说法对吗，为什么
+    // 答案：不对，this指向新创建的对象ldh
     function Star(name) {
       console.log(this);
       this.name = name

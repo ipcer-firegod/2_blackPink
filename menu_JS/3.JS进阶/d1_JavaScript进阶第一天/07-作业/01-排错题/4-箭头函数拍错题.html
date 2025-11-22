@@ -9,7 +9,9 @@
 <body>
   <script>
     // 请说出一下代码是否错误，如果有错如何改正，才能返回一个对象
+    // 答案：错误，箭头函数需要用圆括号包裹对象字面量，改为 const fn = x => ({name: x, age: x*2})
     const fn = x => {name: x, age: x*2}
+    // const fn = x => ({name: x, age: x*2})
   </script>
 </body>
 </html>

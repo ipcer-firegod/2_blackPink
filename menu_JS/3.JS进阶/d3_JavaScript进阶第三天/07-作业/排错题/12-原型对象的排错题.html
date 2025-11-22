@@ -10,6 +10,7 @@
 <body>
   <script>
     // 下面的ldh不能访问sing方法，说法对吗？
+    // 答案：不对，ldh可以访问sing方法，因为sing是定义在Star的原型对象上的
     function Star(name) {
       this.name = name
       this.song = function() {
@@ -19,9 +20,14 @@
 
     Star.prototype.sing = function() {
       console.log('唱歌');
+      // console.log(this)
     }
 
     const ldh = new Star('刘德华')
+    console.log('----------------------')
+    // console.log(ldh.sing)
+    // console.log('----------------------')
+    ldh.sing()
   </script>
 </body>
 </html>

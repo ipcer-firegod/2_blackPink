@@ -91,15 +91,28 @@
       // 循环绑定事件
       ele.addEventListener('click', function () {
         // 排他思想，当前高亮
-        document.querySelector('li.current').classList.remove('current')
+        this.parentElement.querySelectorAll('li').forEach(item => {
+          item.classList.remove('current')
+        })
         this.classList.add('current')
 
         // 筛选页面
-        // 初始值为总数组
-        const arr = heroArr
-        // console.log(this.dataset.ptype)  得到当前元素的自定义属性值
-        // 点击时候，利用当前自定属性值到数组里面筛选符合条件的
-        arr = heroArr.filter(ele => ele.pay_type === +this.dataset.ptype || ele.hero_type === +this.dataset.type)
+        let arr = [...heroArr]
+        
+        /* 获取付费类型筛选条件
+        const ptypeCurrent = document.querySelector('.types-ms:first-child .current')
+        如果选择了付费类型，则进行筛选
+        if (ptypeCurrent && ptypeCurrent.dataset.ptype) {
+          arr = arr.filter(ele => ele.pay_type === +ptypeCurrent.dataset.ptype)
+        }*/
+
+        // 获取英雄类型筛选条件
+        const typeCurrent = document.querySelector('.types-ms:last-child .current')
+        // 如果选择了英雄类型且不是"全部"，则进行筛选
+        if (typeCurrent && typeCurrent.dataset.type && typeCurrent.dataset.type !== '0') {
+          arr = arr.filter(ele => ele.hero_type === +typeCurrent.dataset.type)
+        }
+        
         render(arr)
       })
     })

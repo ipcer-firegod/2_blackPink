@@ -9,6 +9,7 @@
 <body>
   <script>
     // 以下代码的16行返回true，是否正确，为什么
+    // 答案：不对，obj.__proto__指向Star.prototype
     function Star() {}
     Star.prototype.sing = function(){}
 
