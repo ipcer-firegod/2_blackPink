@@ -85,7 +85,7 @@
   <div class="filter">
     <a href="javascript:;" data-type="0-100">0-100元</a>
     <a href="javascript:;" data-type="100-300">100-300元</a>
-    <a href="javascript:;" data-type="300+">300元以上</a>
+    <a href="javascript:;" data-type="300">300元以上</a>
     <a href="javascript:;">全部区间</a>
   </div>
   <div class="list">
@@ -150,43 +150,106 @@
       },
     ]
 
-    // 1. 渲染函数  封装
+    // 1.渲染函数。arr是一个对象数组，数组一个元素为对象，取出一个对象有多个属性值
     function render(arr) {
+      // <!--! 也可以在这里解构赋值
+      // arr.forEach(({ name, price, picture }) => {
+      // <!--! str在forEach外
       let str = ''
-      // arr.forEach(item => {
-      // const { name, picture, price } = item
-      arr.forEach(({ name, price, picture }) => {
-        //<!--? "${picture}"需要双引号吗？
+      arr.forEach(ele => {
+        const { price, picture, name } = ele
+        // <!--! 这里使用 +=
         str += `
-          <div class="item">
-            <img src="${picture}" alt="">
-            <p class="name">${name}</p>
-            <p class="price">${price}</p>
-          </div>
+        <div class="item">
+          <img src="${picture}" alt="">
+          <p class="name">${name}</p>
+          <p class="price">${price}</p>
+        </div>
         `
       })
+      // <!--! 注意此行在循环外面
       document.querySelector('.list').innerHTML = str
     }
+    // 第二种方法。使用map方法返回一个新数组，再join成字符串
+    /*
+    function render(arr) {
+      const html = arr.map(ele => {
+      const { price, picture, name } = ele
+      return `
+      <div class="item">
+        <img src="${item.picture}" alt="">
+        <p class="name">${item.name}</p>
+        <p class="price">${item.price}</p>
+      </div>
+      `
+      }).join('');
+      document.querySelector('.list').innerHTML = html;
+    }
+    */
 
-    // 2. 过滤筛选  
-    document.querySelector('.filter').addEventListener('click', e => {
-      const { tagName, dataset } = e.target
-      if (tagName === 'A') {
-        let arr = goodsList
-        if (dataset.type === '0-100') {
-          arr = goodsList.filter(item => item.price <= 100)
-        }
-        else if (dataset.type === '100-300') {
-          arr = goodsList.filter(item => item.price > 100 && item.price <= 300)
-        }
-        else if (dataset.type === '300+') {
-          arr = goodsList.filter(item => item.price > 300)
-        }
-        render(arr)
+    // 2.过滤函数。过滤数组后再渲染一遍。传参传什么？传事件对象 e
+    function tofilter(e) {
+      /* 第一种写法，原始版
+      const {tagName, dataset} = e.target
+      if (tagName !== 'A') return
+      // 如果没有过滤条件，默认为整个数组
+      let filtered = goodsList
+      // 否则根据自定义属性type进行过滤（过滤是数组的方法）
+      if (dataset.type === '0-100') {
+        filtered =  goodsList.filter(item => item.price <= 100)
       }
-    })
+      else if (dataset.type === '100-300') {
+        filtered =  goodsList.filter(item => item.price > 100 && item.price <= 300)
+      }
+      else if (dataset.type === '300') {
+        filtered =  goodsList.filter(item => item.price > 300)
+      }
+      // 渲染过滤后的数组
+     render(filtered) */
 
-    render(goodsList)  // 页面一打开就需要渲染
+      // 下面是一种优化的写法
+      /* // 这种初始写法（确认获取所需元素，保证点击其他元素不会误击）比较复杂，改成下面那样的解构赋值 
+      const a = e.target.closest('a')
+      if (!a || !document.querySelector('.filter').contains(a)) return
+      const type = e.target.getAttribute('data-type') 
+      // 上面一行：getAttribute是获取自定义属性的另一种方法。无则返回null，下面if (!type) 处需要使用type === null判断 */
+
+      const { tagName, dataset } = e.target
+      const { type } = dataset // type = dataset.type 解构如左
+      if (tagName !== 'A') return
+
+      let arr = []
+      // 如果没有过滤条件，默认为整个数组
+      if (!type) { // 不存在、空字符串都为假。这里具体为 typeof type === 'undefined'
+        arr = [...goodsList] //<!--? arr = goodsList 有什么区别？Me.md
+      } else if (type.includes('-')) {
+        // <!--! 数组解构、split分割返回数组
+        const [min, max] = type.split('-').map(ele => Number(ele))
+        arr = goodsList.filter(ele => {
+          const price = Number(ele.price)
+          return price >= min && price <= max
+        })
+      } else {
+        const min = Number(type)
+        arr = goodsList.filter(ele => {
+          const price = Number(ele.price)
+          return price >= min
+        })
+      }
+      render(arr)
+    }
+
+    function bind() {
+      // 点击一个 a 标签进行过滤，利用事件委托，只需要绑定事件在父元素上；同时注意这里函数没有参数列表
+      document.querySelector('.filter').addEventListener('click', tofilter)
+    }
+
+    function init() {
+      render(goodsList)
+      bind()
+    }
+
+    init()
 
   </script>
 </body>

@@ -79,35 +79,35 @@
     const dataArr = [
       {
         id: 1,
-        icon: 'http://autumnfish.cn/static/火龙果.png',
+        icon: 'https://yanxuan-item.nosdn.127.net/4356c9fc150753775fe56b465314f1eb.png',
         isChecked: true,
         num: 2,
         price: 6,
       },
       {
         id: 2,
-        icon: 'http://autumnfish.cn/static/荔枝.png',
+        icon: 'https://yanxuan-item.nosdn.127.net/4356c9fc150753775fe56b465314f1eb.png',
         isChecked: false,
         num: 7,
         price: 20,
       },
       {
         id: 3,
-        icon: 'http://autumnfish.cn/static/榴莲.png',
+        icon: 'https://yanxuan-item.nosdn.127.net/4356c9fc150753775fe56b465314f1eb.png',
         isChecked: false,
         num: 3,
         price: 40,
       },
       {
         id: 4,
-        icon: 'http://autumnfish.cn/static/鸭梨.png',
+        icon: 'https://yanxuan-item.nosdn.127.net/4356c9fc150753775fe56b465314f1eb.png',
         isChecked: true,
         num: 10,
         price: 3,
       },
       {
         id: 5,
-        icon: 'http://autumnfish.cn/static/樱桃.png',
+        icon: 'https://yanxuan-item.nosdn.127.net/4356c9fc150753775fe56b465314f1eb.png',
         isChecked: false,
         num: 20,
         price: 34,
@@ -116,12 +116,14 @@
 
     // 1. 渲染业务
     const tbody = document.querySelector('.tbody')
-    const price = document.querySelector('.price')
     const checkAll = document.querySelector('.check-all input')
+    const priceEl = document.querySelector('.price-box .price')
+    const emptyEl = document.querySelector('.empty')
+    const payBtn = document.querySelector('.pay')
 
-    function render() {
-      let total = 0
-      const strArr = dataArr.map(function (ele, index) {
+    // render 接受可选数组参数，默认渲染 dataArr
+    function render(arr = dataArr) {
+      const strArr = arr.map(function (ele, index) {
         return `
             <div class="tr" data-id="${index}">
               <div class="td"><input type="checkbox" ${ele.isChecked ? 'checked' : ''} /></div>
@@ -138,70 +140,83 @@
               <div class="td"><button class="button del">删除</button></div>
           </div> 
         `
-      })
-      tbody.innerHTML = strArr.join('')
+      }).join('')
+      tbody.innerHTML = strArr
 
       // 全选按钮设置
-      checkAll.checked = dataArr.every(ele => ele.isChecked === true)
-      // 总价模块：只选择勾选的商品
-      const newArr = dataArr.filter(ele => ele.isChecked)
-
-      const totalPrice = newArr.reduce((prev, item) => prev += item.num * item.price, 0)
-      document.querySelector('.price-box .price').innerHTML = totalPrice.toFixed(2)
-      const totalNum = newArr.reduce((prev, item) => prev += item.num, 0)
-      document.querySelector('.pay').innerHTML = `结算(${totalNum})`
+      checkAll.checked = arr.length > 0 && arr.every(ele => ele.isChecked === true)
+      // 处理数组，得到总价、总数量
+      const newArr = arr.filter(ele => ele.isChecked)
+      const totalPrice = newArr.reduce((prev, item) => prev + item.num * item.price, 0)
+      const totalNum = newArr.reduce((prev, item) => prev + item.num, 0)
+      priceEl.innerHTML = totalPrice.toFixed(2)
+      payBtn.innerHTML = `结算(${totalNum})`
       // 空空购物车是否显示
-      const empty = document.querySelector('.empty')
-      empty.style.display = dataArr.length === 0 ? 'block' : 'none'
+      emptyEl.style.display = arr.length === 0 ? 'block' : 'none'
     }
-    render()
 
+    // 2. 操作业务
+    function onTbodyClick(e) { // e是点击父元素tbody的事件，e.target是点击tbody的目标（具体）元素
+      console.log(e.target)
+      const tr = e.target.closest('.tr')
+      if (!tr) return
+      const id = Number(tr.dataset.id)
 
-    // 2. 事件委托
-    tbody.addEventListener('click', function (e) {
-      const id = e.target.parentNode.parentNode.dataset.id
-      // 删除业务
-      if (e.target.className === 'del') {
+      // 删除业务（使用 classList 判断，兼容多个 class）
+      if (e.target.classList && e.target.classList.contains('del')) {
+        if (!Number.isFinite(id)) return
         dataArr.splice(id, 1)
-        //渲染业务
         render()
+        return
       }
-      // 小复选框业务是否全选开控制总的复选框
-      if (e.target.tagName === 'INPUT') {
-        // alert(11)
+
+      // 小复选框业务：如果点击的是 input（checkbox）
+      if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
+        if (!Number.isFinite(id)) return
         dataArr[id].isChecked = e.target.checked
-        //渲染业务
         render()
+        return
       }
 
       // 增加数量业务
-      if (e.target.className === "increase") {
-        const idNum = e.target.parentNode.parentNode.parentNode.dataset.id
-        dataArr[idNum].num++
+      if (e.target.classList && e.target.classList.contains('increase')) {
+        if (!Number.isFinite(id)) return
+        dataArr[id].num++
         render()
+        return
       }
-      // 删除数量业务
-      if (e.target.className === "decrease") {
-        const idNum = e.target.parentNode.parentNode.parentNode.dataset.id
-        if (dataArr[idNum].num <= 1) {
-          dataArr[idNum].num = 1
+
+      // 减少数量业务
+      if (e.target.classList && e.target.classList.contains('decrease')) {
+        if (!Number.isFinite(id)) return
+        if (dataArr[id].num <= 1) {
+          dataArr[id].num = 1
         } else {
-      dataArr[idNum].num--  
-          render()
+          dataArr[id].num--
         }
+        render()
+        return
       }
-    })
+    }
 
-    // 3. 全选反选点击
-    // 3.1 点击全选修改数组所有选中状态为true
-    checkAll.addEventListener('click', function () {
-      dataArr.forEach(ele => ele.isChecked = this.checked)
-      // console.log(dataArr)
-      // 渲染页面
+    // 3. 全选反选点击  点击全选修改数组所有选中状态为true
+    function onCheckAllClick(e) {
+      const checked = e.target.checked // 如果把这个写在forEach里，每次循环都要取一次，效率低
+      dataArr.forEach(ele => ele.isChecked = checked)
       render()
-    })
+    }
 
+    function bind() {
+      tbody.addEventListener('click', onTbodyClick)
+      checkAll.addEventListener('click', onCheckAllClick)
+    }
 
+    function init() {
+      render(dataArr)
+      bind()
+    }
+
+    init()
 
 
   </script>

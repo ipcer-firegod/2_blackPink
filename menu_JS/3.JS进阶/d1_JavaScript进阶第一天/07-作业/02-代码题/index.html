@@ -18,13 +18,17 @@
         <li>定位</li>
       </ul>
       <ul class="clearfix types-ms">
-        <li data-ptype="10">
+        <li class="current" data-ptype="0">
+          <span class="ms-radio"><i class="i"></i></span>
+          <label>全部</label>
+        </li>
+        <li data-ptype="1">
           <span class="ms-radio"><i class="i"></i></span>
           <label>本周免费</label>
         </li>
-        <li data-ptype="11">
+        <li data-ptype="10">
           <span class="ms-radio"><i class="i"></i></span>
-          <label>新手推荐</label>
+          <label>付费英雄</label>
         </li>
       </ul>
       <ul class="clearfix types-ms">
@@ -70,53 +74,85 @@
   <!-- 数组比较多，放在了外接的js文件中 -->
   <script src="./hero.js"></script>
   <script>
-    // 1. 渲染函数 render 
-    function render(arr) {
-      const strArr = arr.map(ele => {
-        const { icon, name } = ele
-        return `
-        <li >
+    (function () {
+      const heroListEl = document.querySelector('.herolist')
+      const filtersContainer = document.querySelector('.herolist-types')
+
+      // 渲染函数：接收数组并渲染到 .herolist
+      function render(arr) {
+        const html = arr.map(({ icon, name }) => `
+        <li>
           <a href="#" target="_blank"><img src="${icon}" width="91" height="91" alt="${name}" />${name}</a>
-        </li> 
-        `
-      })
-      // 渲染
-      document.querySelector('.herolist').innerHTML = strArr.join('')
-    }
-    render(heroArr)
+        </li>
+        `).join('')
+        heroListEl.innerHTML = html
+      }
 
-    // 2. 点击可以进行筛选 利用循环绑定多个事件（注意这里li里面包含多个元素，事件委托比较麻烦）
-    const lis = document.querySelectorAll('.types-ms>li')
-    lis.forEach(ele => {
-      // 循环绑定事件
-      ele.addEventListener('click', function () {
-        // 排他思想，当前高亮
-        this.parentElement.querySelectorAll('li').forEach(item => {
-          item.classList.remove('current')
-        })
-        this.classList.add('current')
+      // 通用选择读取函数：按位置('first'|'last')读取对应 .types-ms 组内的 .current 节点
+      // dataKey 为 dataset 的 key（'ptype' 或 'type'），allValue 表示“全部”的数值（例如 0），如果匹配则视为不过滤，返回 null
+      function getSelectedByPosition(position, dataKey, allValue = 0) {
+        const groups = document.querySelectorAll('.types-ms')
+        if (!groups || groups.length === 0) return null
+        const group = position === 'first' ? groups[0] : groups[groups.length - 1]
+        const node = group.querySelector('.current')
+        if (!node) return null
+        const raw = node.dataset[dataKey] // <!--? dataset[key] = value (dataset.key = value) 有什么区别？
+        if (typeof raw === 'undefined') return null // <!--? 是否可以直接写成 !raw ？
+        const num = Number(raw)
+        if (!Number.isFinite(num)) return null  // <!--? isFinite 作用、为何？
+        // 如果指定了 allValue，且等于该值，则认为是“全部”，不应过滤
+        if (typeof allValue === 'number' && num === allValue) return null
+        return num
+      }
 
-        // 筛选页面
-        let arr = [...heroArr]
-        
-        /* 获取付费类型筛选条件
-        const ptypeCurrent = document.querySelector('.types-ms:first-child .current')
-        如果选择了付费类型，则进行筛选
-        if (ptypeCurrent && ptypeCurrent.dataset.ptype) {
-          arr = arr.filter(ele => ele.pay_type === +ptypeCurrent.dataset.ptype)
-        }*/
+      // 根据当前筛选条件对数组进行过滤并返回过滤后的新数组
+      function applyFilters(list) {
+        // 获取付费类型（第一组）和英雄类型（最后一组）
+        const ptype = getSelectedByPosition('first', 'ptype', 0)
+        const type = getSelectedByPosition('last', 'type', 0)
 
-        // 获取英雄类型筛选条件
-        const typeCurrent = document.querySelector('.types-ms:last-child .current')
-        // 如果选择了英雄类型且不是"全部"，则进行筛选
-        if (typeCurrent && typeCurrent.dataset.type && typeCurrent.dataset.type !== '0') {
-          arr = arr.filter(ele => ele.hero_type === +typeCurrent.dataset.type)
+        // 使用一次拷贝，随后按需过滤；对数据字段做安全转换
+        let result = list.slice() // <!--? slice()可浅拷贝数组。那为什么不直接 = 
+        if (ptype !== null) {
+          result = result.filter(ele => Number(ele.pay_type) === ptype) // 满足条件的才留下
         }
-        
-        render(arr)
-      })
-    })
+        if (type !== null) {
+          result = result.filter(ele => Number(ele.hero_type) === type)
+        }
+        return result
+      }
 
+      // 事件处理：使用事件委托，处理 types-ms 内的 li 点击
+      function handleTypeClick(e) {
+        // 获取最近的 li 元素（点击的）
+        const li = e.target.closest('li')
+        if (!li) return
+        const parent = li.parentElement
+        if (!parent || !parent.classList.contains('types-ms')) return
+
+        // 排他处理：给当前 li 加上 current，并移除兄弟的 current
+        parent.querySelectorAll('li').forEach(item => item.classList.remove('current'))
+        li.classList.add('current')
+
+        // 筛选并渲染
+        let arr = [...heroArr]
+        arr = applyFilters(arr)
+        render(arr)
+      }
+
+      function bind() {
+        // 在父容器上委托，避免为每个 li 单独绑定事件
+        filtersContainer.addEventListener('click', handleTypeClick)
+      }
+
+      function init() {
+        render(heroArr)
+        bind()
+      }
+
+      // 只在这里直接调用 init
+      init()
+    })()
   </script>
 </body>
 

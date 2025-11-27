@@ -333,3 +333,79 @@ new Modal('提示', '操作成功').open();
 3. **避免原型污染**：不修改原生对象（如 `Array`、`Object`）的原型，防止覆盖原生方法。
 4. **ES6 衔接**：原型是 ES6 `class` 的底层原理，掌握原型后学习 `class`、`extends` 会更轻松。
 5. **案例多练**：消息提示框案例是面向对象封装的典型应用，至少独立写 2 遍，熟练掌握“构造函数+原型方法”的封装思路。
+
+
+
+## 自测题回答
+### 1 面向对象的三大特性是什么？面向过程和面向对象的核心区别是什么？  
+- 三大特性：  
+  - 封装：把数据（属性）和操作（方法）组合到对象里，隐藏实现细节。  
+  - 继承：子对象可以重用/扩展父对象的属性和方法。  
+  - 多态：同一接口/方法在不同对象上有不同实现（运行期行为不同）。  
+- 核心区别：  
+  - 面向过程：按步骤组织代码，关注“过程/函数”，适合一次性脚本或性能关键流程。  
+  - 面向对象：按对象组织代码，关注“数据+行为”，增强复用、可维护性和扩展性。
+
+### 2 构造函数存在什么问题？如何通过原型解决？  
+- 问题：在构造函数内部把方法作为实例属性创建（this.fn = function(){ }）会导致每个实例都创建一份同样的函数，内存浪费且方法不可共享。  
+- 解决：把公共方法挂到构造函数的 `prototype` 上，实例通过原型链共享该方法（节省内存）。  
+  示例：
+  ```js
+  function A(){ this.x=1 }
+  A.prototype.foo = function(){ console.log(this.x) }; // 共享
+  ```
+
+### 3 `prototype`、`__proto__`、`constructor` 三者的关系是什么？  
+- `Function.prototype`：每个构造函数（如 `Foo`）都有一个属性 `Foo.prototype`，它是“原型对象”，用来挂载共享方法与属性。  
+- `instance.__proto__`：每个由构造函数创建的实例对象都有内部链接指向构造函数的原型对象（常用非标准属性 `__proto__` 或推荐的 `Object.getPrototypeOf(instance)`）。也就是说 instance.__proto__ === Foo.prototype。  
+- `prototype.constructor`：原型对象上通常有 `constructor` 属性，指回对应的构造函数（即 Foo.prototype.constructor === Foo）。  
+- 关系链示意： instance -> __proto__ -> Foo.prototype (有 constructor) -> ... -> Object.prototype -> null
+
+### 4 原型继承的实现步骤是什么？如何避免引用污染？  
+- 常见步骤（经典 ES5）：  
+  1. 定义父构造函数并在父 `prototype` 上挂载公共方法。  
+  2. 让子构造函数的 `prototype` 指向父构造函数的一个实例： `Child.prototype = new Parent()`，然后修正 `Child.prototype.constructor = Child`。  
+  3. 在子构造函数构造内部调用父构造以初始化实例属性（避免共享引用）：`Parent.call(this, args)`。  
+- 避免引用污染要点：  
+  - 把可变的实例属性（数组/对象）放在构造函数内部（每个实例独有）。  
+  - 不要把可变状态直接放到父的 prototype 上供所有子实例共享。  
+  - 如果用 `Object.create(Parent.prototype)`（或 `Child.prototype = Object.create(Parent.prototype)`）代替 `new Parent()`，能避免父构造中副作用。示例：
+    ```js
+    Child.prototype = Object.create(Parent.prototype);
+    Child.prototype.constructor = Child;
+    ```
+
+### 5 原型链的查找规则是什么？`Object.prototype.__proto__` 指向什么？  
+- 查找规则（属性/方法访问）：  
+  1. 先在对象自身查找属性。  
+  2. 找不到则沿着对象的原型链（object.__proto__）向上查找。  
+  3. 一直查到 `Object.prototype`，仍未找到则返回 `undefined`。  
+- `Object.prototype.__proto__` 的值为 `null`（原型链的末端）。
+
+### 6 `instanceof` 运算符的原理是什么？如何判断一个对象是否是某个构造函数的实例？  
+- 原理：`obj instanceof Constructor` 会检查 Constructor.prototype 是否存在于 obj 的原型链上（沿着 obj.__proto__ 向上遍历并做严格相等比较）。  
+- 等价手动实现（概念）：
+  ```js
+  function myInstanceOf(obj, Ctor) {
+    let proto = Object.getPrototypeOf(obj);
+    const target = Ctor.prototype;
+    while (proto) {
+      if (proto === target) return true;
+      proto = Object.getPrototypeOf(proto);
+    }
+    return false;
+  }
+  ```
+- 注意：`instanceof` 受跨全局/iframe 环境影响（不同全局的构造函数不同），以及如果原型被动态修改也会影响结果。
+
+### 7 如何安全地获取/设置对象的原型（替代非标准 `__proto__`）？  
+- 推荐方法：使用标准 API  
+  - 获取原型：`Object.getPrototypeOf(obj)`  
+  - 设置原型：`Object.setPrototypeOf(obj, proto)`（注意性能与兼容性，频繁设置原型会很慢）  
+- 更安全的继承创建方式：使用 `Object.create(proto)` 创建新对象并指定原型，而不是频繁修改已有对象的原型。  
+  示例：
+  ```js
+  const p = { hello(){} };
+  const o = Object.create(p); // o.__proto__ === p
+  Object.getPrototypeOf(o) === p; // true
+  ```

@@ -150,13 +150,15 @@
 
     // map 处理对象数组 => join('') 把对象数组转为字符串嵌入innerHTML
 
-    // 1. 根据数据渲染页面
-    document.querySelector('.list').innerHTML = goodsList.map(item => {
-      const { name, price, picture, count, spec, gift } = item
-      // 字符串 spilt 》 数组 map 》处理数组 join 》字符串
-      const gifts = gift ? gift.split(',').map(g => `<span class="tag">【赠品】${g}</span>`).join('') : ''
-      const subTotal = ((price * count * 100) / 100).toFixed(2)
-      return `
+    // 1. 根据数据渲染页面(修改页面的innerHTML)
+    function render(arr) {
+      // map处理数组，再join转为字符串
+      const strArr = arr.map(ele => {
+        const { name, price, picture, count, spec, gift } = ele
+        // 字符串 spilt 》 数组 map 》处理数组 join 》字符串
+        const gifts = gift ? gift.split(',').map(g => `<span class="tag">【赠品】${g}</span>`).join('') : ''
+        const subTotal = ((price * count * 100) / 100).toFixed(2)
+        return `
         <div class="item">
           <img src="${picture}" alt="">
           <p class="name">${name}${gifts}</p>
@@ -165,14 +167,19 @@
           <p class="count">x${count}</p>
           <p class="sub-total">${subTotal}</p>
         </div>
-      `
+        `
+      }).join('')
+      document.querySelector('.list').innerHTML = strArr
+      // 2. 合计模块，使用reduce
+      const total = goodsList.reduce((prev, ele) => prev + (ele.price * ele.count * 100) / 100, 0)
+      document.querySelector('.total').innerHTML = total.toFixed(2)
     }
-    ).join('')
 
-    // 3. 合计模块
-    const total = goodsList.reduce((prev, item) => prev + (item.price * item.count * 100) / 100, 0)
-    document.querySelector('.total').innerHTML = total.toFixed(2)
+    function init() {
+      render(goodsList)
+    }
 
+    init()
   </script>
 </body>
 

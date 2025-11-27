@@ -1,5 +1,5 @@
 /* 
-pay_type :  10 本周免费  11 新手推荐
+pay_type :  1 本周免费  10 付费
 hero_type : 3:坦克  1:战士  4:刺客  2:法师   5:射手   6:辅助
 */
 const heroArr = [{
@@ -25,7 +25,7 @@ const heroArr = [{
 }, {
     "icon": "./images/109.jpg",
     "name": "妲己",
-    "pay_type": 11,
+    "pay_type": 10,
     "hero_type": 2,
 }, {
     "icon": "./images/110.jpg",
@@ -135,7 +135,7 @@ const heroArr = [{
 }, {
     "icon": "./images/133.jpg",
     "name": "狄仁杰",
-    "pay_type": 11,
+    "pay_type": 10,
     "hero_type": 5,
 }, {
     "icon": "./images/134.jpg",
@@ -235,18 +235,18 @@ const heroArr = [{
 }, {
     "icon": "./images/166.jpg",
     "name": "亚瑟",
-    "pay_type": 11,
+    "pay_type": 10,
     "hero_type": 1,
 }, {
     "icon": "./images/167.jpg",
     "name": "孙悟空",
     "hero_type": 4,
-    "pay_type": 1
+    "pay_type": 10
 }, {
     "icon": "./images/168.jpg",
     "name": "牛魔",
     "hero_type": 3,
-    "pay_type": 1
+    "pay_type": 10
 }, {
     "icon": "./images/169.jpg",
     "name": "后羿",
