@@ -170,8 +170,9 @@
         `
       }).join('')
       document.querySelector('.list').innerHTML = strArr
+
       // 2. 合计模块，使用reduce
-      const total = goodsList.reduce((prev, ele) => prev + (ele.price * ele.count * 100) / 100, 0)
+      const total = arr.reduce((prev, ele) => prev + (ele.price * ele.count * 100) / 100, 0)
       document.querySelector('.total').innerHTML = total.toFixed(2)
     }
 

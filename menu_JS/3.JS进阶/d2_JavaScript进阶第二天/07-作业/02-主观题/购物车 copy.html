@@ -1,3 +1,4 @@
+<!-- ! “不可变更新” -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,7 +77,7 @@
     <div class="empty" style="display: none;">🛒空空如也</div>
   </div>
   <script>
-    const dataArr = [
+    let dataArr = [
       {
         id: 1,
         icon: 'https://yanxuan-item.nosdn.127.net/4356c9fc150753775fe56b465314f1eb.png',
@@ -123,9 +124,9 @@
 
     // render 接受可选数组参数，默认渲染 dataArr
     function render(arr = dataArr) {
-      const strArr = arr.map(function (ele, index) {
+      const strArr = arr.map(function (ele) {
         return `
-            <div class="tr" data-id="${index}">
+            <div class="tr" data-item-id="${ele.id}">
               <div class="td"><input type="checkbox" ${ele.isChecked ? 'checked' : ''} /></div>
               <div class="td"><img src="${ele.icon}" alt="" /></div>
               <div class="td">${ele.price}</div>
@@ -156,46 +157,49 @@
     }
 
     // 2. 操作业务
-    // <!--! 现在是对原数组进行操作的。尝试过“不可变更新”，但是总感觉十分奇怪，故暂时抛弃；同时，现在的id获取、处理也似乎不太好，暂时忽略
-    function onTbodyClick(e) { // e是点击父元素tbody的事件，e.target是点击tbody的目标（具体）元素
-      console.log(e.target)
+    // <!--! 现在是对原数组进行操作的
+    function onTbodyClick(e) { // 事件委托：所有行操作统一处理
       const tr = e.target.closest('.tr')
       if (!tr) return
-      // const id = Number(tr.dataset.id) <!--? 更严谨的检查，如下（参考index100行）
-      const rawId = tr.dataset.id
-      if (rawId == null || rawId.trim() === '') return
-      const id = Number(rawId)
-      if (!Number.isFinite(id)) return
 
-      // 业务复杂了可以再把下面的业务分出成 业务函数
-      // 删除业务（使用 classList 判断，兼容多个 class）
+      const rawItemId = tr.dataset.itemId
+      if (rawItemId == null || rawItemId.trim() === '') return
+      const itemId = Number(rawItemId)
+      if (!Number.isFinite(itemId)) return
+
+      // 找到在 dataArr 中对应的索引（基于真实 id，避免使用数组索引作为映射）
+      const idx = dataArr.findIndex(it => Number(it.id) === itemId)
+      if (idx === -1) return
+
+      // 删除业务：用不可变方式创建新数组
       if (e.target.classList && e.target.classList.contains('del')) {
-        dataArr.splice(id, 1)
+        dataArr = dataArr.filter(it => Number(it.id) !== itemId)
         render()
         return
       }
 
-      // 小复选框业务：如果点击的是 input（checkbox）
+      // 小复选框业务：如果点击的是 input（checkbox），用 map 创建新数组并更新对应项
       if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
-        dataArr[id].isChecked = e.target.checked
+        const checked = e.target.checked
+        dataArr = dataArr.map(it => it.id === itemId ? { ...it, isChecked: checked } : it)
         render()
         return
       }
 
       // 增加数量业务
       if (e.target.classList && e.target.classList.contains('increase')) {
-        dataArr[id].num++
+        dataArr = dataArr.map(it => it.id === itemId ? { ...it, num: it.num + 1 } : it)
         render()
         return
       }
 
       // 减少数量业务
       if (e.target.classList && e.target.classList.contains('decrease')) {
-        if (dataArr[id].num <= 1) {
-          dataArr[id].num = 1
-        } else {
-          dataArr[id].num--
-        }
+        dataArr = dataArr.map(it => {
+          if (it.id !== itemId) return it
+          const newNum = Math.max(1, it.num - 1)
+          return { ...it, num: newNum }
+        })
         render()
         return
       }

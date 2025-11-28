@@ -80,12 +80,12 @@
 
       // 渲染函数：接收数组并渲染到 .herolist
       function render(arr) {
-        const html = arr.map(({ icon, name }) => `
+        const strArr = arr.map(({ icon, name }) => `
         <li>
           <a href="#" target="_blank"><img src="${icon}" width="91" height="91" alt="${name}" />${name}</a>
         </li>
         `).join('')
-        heroListEl.innerHTML = html
+        heroListEl.innerHTML = strArr
       }
 
       // 通用选择读取函数：按位置('first'|'last')读取对应 .types-ms 组内的 .current 节点
@@ -97,7 +97,7 @@
         const node = group.querySelector('.current')
         if (!node) return null
         const raw = node.dataset[dataKey] // <!--? dataset[key] = value (dataset.key = value) 有什么区别？
-        if (typeof raw === 'undefined') return null // <!--? 是否可以直接写成 !raw ？
+        if (typeof raw === 'undefined') return null // dataset不存在时 只返回 undefined，没有null的情况 <!--? 是否可以直接写成 !raw ？
         const num = Number(raw)
         if (!Number.isFinite(num)) return null  // <!--? isFinite 作用、为何？
         // 如果指定了 allValue，且等于该值，则认为是“全部”，不应过滤
@@ -112,7 +112,8 @@
         const type = getSelectedByPosition('last', 'type', 0)
 
         // 使用一次拷贝，随后按需过滤；对数据字段做安全转换
-        let result = list.slice() // <!--? slice()可浅拷贝数组。那为什么不直接 = 
+        let result = list.slice() // <!--? slice()可浅拷贝数组。那为什么不直接 = - 引用赋值
+        // let result = [...list] // 和上行等价
         if (ptype !== null) {
           result = result.filter(ele => Number(ele.pay_type) === ptype) // 满足条件的才留下
         }
@@ -124,14 +125,22 @@
 
       // 事件处理：使用事件委托，处理 types-ms 内的 li 点击
       function handleTypeClick(e) {
-        // 获取最近的 li 元素（点击的）
-        const li = e.target.closest('li')
+        // 获取最近的 li 元素（点击的） <!--? 这部分判断何意味？
+        /*const li = e.target.closest('li')
         if (!li) return
         const parent = li.parentElement
         if (!parent || !parent.classList.contains('types-ms')) return
 
-        // 排他处理：给当前 li 加上 current，并移除兄弟的 current
         parent.querySelectorAll('li').forEach(item => item.classList.remove('current'))
+        li.classList.add('current')*/
+
+        const li = e.target.closest('li')
+        if (!li) return
+        const group = li.closest('.types-ms')   // 寻找包含该 li 的 types-ms 祖先
+        if (!group) return
+
+        // 排他处理：给当前 li 加上 current，并移除兄弟的 current
+        group.querySelectorAll('li').forEach(item => item.classList.remove('current'))
         li.classList.add('current')
 
         // 筛选并渲染

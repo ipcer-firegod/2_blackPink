@@ -155,11 +155,11 @@
       // <!--! 也可以在这里解构赋值
       // arr.forEach(({ name, price, picture }) => {
       // <!--! str在forEach外
-      let str = ''
+      let strArr = ''
       arr.forEach(ele => {
         const { price, picture, name } = ele
         // <!--! 这里使用 +=
-        str += `
+        strArr += `
         <div class="item">
           <img src="${picture}" alt="">
           <p class="name">${name}</p>
@@ -168,12 +168,12 @@
         `
       })
       // <!--! 注意此行在循环外面
-      document.querySelector('.list').innerHTML = str
+      document.querySelector('.list').innerHTML = strArr
     }
     // 第二种方法。使用map方法返回一个新数组，再join成字符串
     /*
     function render(arr) {
-      const html = arr.map(ele => {
+      const strArr = arr.map(ele => {
       const { price, picture, name } = ele
       return `
       <div class="item">
@@ -183,7 +183,7 @@
       </div>
       `
       }).join('');
-      document.querySelector('.list').innerHTML = html;
+      document.querySelector('.list').innerHTML = strArr;
     }
     */
 
@@ -221,7 +221,7 @@
       let arr = []
       // 如果没有过滤条件，默认为整个数组
       if (!type) { // 不存在、空字符串都为假。这里具体为 typeof type === 'undefined'
-        arr = [...goodsList] //<!--? arr = goodsList 有什么区别？Me.md
+        arr = [...goodsList] //<!--? arr = goodsList 有什么区别？Me.md - 浅拷贝 && 引用赋值
       } else if (type.includes('-')) {
         // <!--! 数组解构、split分割返回数组
         const [min, max] = type.split('-').map(ele => Number(ele))
