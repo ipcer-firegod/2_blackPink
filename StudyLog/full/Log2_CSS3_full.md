@@ -309,10 +309,10 @@ CSS 三大特性（继承、层叠、优先级）是控制样式生效规则的�
 | 属性               | 作用                                  | 常用取值                          | 示例代码                          |
 |--------------------|---------------------------------------|-----------------------------------|-----------------------------------|
 | `color`            | 设置文字颜色                          | 十六进制（#ff6700，最常用）、RGB（rgb(255,103,0)）、RGBA（rgba(255,103,0,0.5)，含透明度） | `color: #333;`（正文）、`color: #ff6700;`（强调色） |
-| `font-family`      | 设置字体系列（字体）                  | 无衬线字体（如 "Microsoft YaHei", Arial, sans-serif，网页推荐） | `body { font-family: "Microsoft YaHei", sans-serif; }` |
-| `font-size`        | 设置文字大小                          | `px`（像素，如 14px、16px，浏览器默认 16px） | `p { font-size: 14px; }`、`h1 { font-size: 24px; }` |
 | `font-style`       | 设置文字风格（斜体/正常）             | `normal`（正常）、`italic`（斜体） | `em { font-style: normal; }`（取消 `<em>` 默认斜体） |
 | `font-weight`      | 设置文字粗细                          | 数字（400=normal，700=bold，常用）、关键字（normal、bold） | `h2 { font-weight: 400; }`（取消标题默认加粗）、`.strong { font-weight: 700; }` |
+| `font-size`        | 设置文字大小                          | `px`（像素，如 14px、16px，浏览器默认 16px） | `p { font-size: 14px; }`、`h1 { font-size: 24px; }` |
+| `font-family`      | 设置字体系列（字体）                  | 无衬线字体（如 "Microsoft YaHei", Arial, sans-serif，网页推荐） | `body { font-family: "Microsoft YaHei", sans-serif; }` |
 | `text-decoration`  | 设置文字装饰（下划线/删除线等）       | `none`（无装饰，常用）、`underline`（下划线）、`line-through`（删除线） | `a { text-decoration: none; }`（取消链接下划线）、`.old-price { text-decoration: line-through; }`（原价删除线） |
 
 
