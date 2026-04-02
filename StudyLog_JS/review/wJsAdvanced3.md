@@ -327,12 +327,47 @@ new Modal('提示', '操作成功').open();
 7. 如何安全地获取/设置对象的原型（替代非标准 `__proto__`）？
 
 
+
+
+### 1. 面向对象三大特性；面向过程 vs 面向对象
+- 三大特性：**封装、继承、多态**。
+- 核心区别：面向过程**按步骤实现**，代码复用差；面向对象**按对象拆分功能**，易维护、易复用、易扩展。
+
+### 2. 构造函数问题；原型解决
+- 问题：方法在**每个实例重复创建**，浪费内存。
+- 解决：把**公共方法写在原型 prototype** 上，所有实例共享。
+
+### 3. prototype、__proto__、constructor 关系
+- 函数有 `prototype`（原型对象）；
+- 实例有 `__proto__`，指向**构造函数的 prototype**；
+- 原型对象里有 `constructor`，指回**构造函数本身**。
+
+### 4. 原型继承步骤；避免引用污染
+- 步骤：1. 子构造函数内调用父构造函数（`Parent.call(this)`）；2. 子原型 = `new Parent()`；3. 修正子原型的 `constructor`。
+- 避免引用污染：**先创建空对象继承父原型，再赋值给子原型**（`Child.prototype = Object.create(Parent.prototype)`）。
+
+### 5. 原型链查找规则；Object.prototype.__proto__
+- 查找规则：先找实例自身 → 实例 `__proto__` → 上层原型，直到 `Object.prototype`，找不到返回 `undefined`。
+- 指向：`null`。
+
+### 6. instanceof 原理；判断实例
+- 原理：检查**右侧构造函数的 prototype** 是否在**左侧实例的原型链**上。
+- 判断：`实例 instanceof 构造函数`，返回布尔值。
+
+### 7. 安全获取/设置原型
+- 获取：`Object.getPrototypeOf(obj)`
+- 设置：`Object.setPrototypeOf(obj, 原型对象)`
+- 替代非标准 `__proto__`，更规范、更安全。
+
+
 ## 十、复习小贴士
 1. **原型关系记忆技巧**：实例的 `__proto__` 指向构造函数的 `prototype`，原型的 `constructor` 指向构造函数。
 2. **原型继承核心**：子原型必须指向父实例，而非父原型对象，避免多个子构造函数共享同一原型。
 3. **避免原型污染**：不修改原生对象（如 `Array`、`Object`）的原型，防止覆盖原生方法。
 4. **ES6 衔接**：原型是 ES6 `class` 的底层原理，掌握原型后学习 `class`、`extends` 会更轻松。
 5. **案例多练**：消息提示框案例是面向对象封装的典型应用，至少独立写 2 遍，熟练掌握“构造函数+原型方法”的封装思路。
+
+
 
 
 
@@ -409,3 +444,98 @@ new Modal('提示', '操作成功').open();
   const o = Object.create(p); // o.__proto__ === p
   Object.getPrototypeOf(o) === p; // true
   ```
+
+
+
+
+
+
+
+
+
+
+## 补充1 （有关Parent.call (this, args) ）
+
+四、最精简总结（面试背诵版）
+
+### Parent.call (this, args) 的作用：
+
+1. **继承父构造函数里的实例属性**
+2. **让每个子类实例拥有独立属性，不共享引用类型**
+3. **避免一改全改的 bug**
+
+------
+
+五、完整版标准原型继承（背会）
+
+js
+
+```
+function Parent(name) {
+  this.name = name
+  this.list = [1,2]
+}
+Parent.prototype.say = function() {}
+
+function Child(name, age) {
+  Parent.call(this, name) // ✅ 第3点：继承属性 + 防共享
+  this.age = age
+}
+
+Child.prototype = Object.create(Parent.prototype) // 更标准
+Child.prototype.constructor = Child
+```
+
+
+
+## 补充2
+
+### 1. 最核心区别
+
+- **new Parent()**：会**执行父构造函数**，把父类的**实例属性**挂到子类原型上 → **会造成不必要的属性、浪费内存、容易共享引用污染**。
+- **Object.create(Parent.prototype)**：**不执行父构造函数**，只继承**父原型对象** → 干干净净只继承方法，不继承多余属性。
+
+### 4. 最标准、最安全的继承写法（背会）
+
+   js
+
+   ```
+   // 1. 只继承原型，不执行父构造
+   Child.prototype = Object.create(Parent.prototype)
+
+   // 2. 修正 constructor
+   Child.prototype.constructor = Child
+
+   // 3. 继承实例属性（独立不共享）
+   function Child() {
+     Parent.call(this) 
+   }
+   ```
+
+------
+
+   ### 面试简短回答（直接背）
+
+   1. **Object.create (Parent.prototype) 只继承父原型，不执行父构造，不会把父实例属性挂到子原型上；**
+   2. **new Parent () 会执行父构造，带来多余属性、可能造成引用共享污染，不纯净；**
+      3. **所以原型继承必须用 Object.create，这是规范写法。**
+
+
+
+## 补充3
+
+4. 最终结论（最精简、最核心）
+
+**Object.create 继承方法（原型）**
+
+**Parent.call (this) 继承属性（实例）**
+
+合在一起，才是**完整继承**！
+
+------
+
+5. 一句话背诵版（面试直接说）
+
+- **Object.create (Parent.prototype) 继承父类原型上的方法；**
+- **Parent.call (this) 继承父类构造里的实例属性，让每个子类实例拥有独立属性，不共享；**
+- **两者作用不同、缺一不可，合起来才是完整的原型继承。**

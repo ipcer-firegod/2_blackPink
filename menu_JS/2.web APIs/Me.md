@@ -61,7 +61,7 @@ function activate(index) {
 ## 2
 ### a.active 是什么选择器，选择的是什么？
 - 语法构成：`a.active` = 元素类型选择器（a） + 类选择器（.active）。  
-  它会匹配所有标签名为 `<a>` 且 class 列表中包含 `active` 的元素。例如：<a class="active">或<a class="foo active bar">都会被匹配。
+  它会匹配所有标签名为 `<a>` 且 class 列表中包含 `active` 的元素。例如：`<a class="active">` 或 `<a class="foo active bar">` 都会被匹配。
 
 - 在复合选择器 `.tab-nav a.active` 中：
   - `.tab-nav` 是父级选择器（或祖先选择器）。
@@ -77,11 +77,13 @@ function activate(index) {
 
 ### 在你当前 HTML（示例）里的行为
 你的 HTML 片段：
+```html
 <ul>
   <li><a class="active" href="...">精选</a></li>
   <li><a href="...">美食</a></li>
   ...
 </ul>
+```
 
 - `.tab-nav a.active` 会匹配第一个 `<a class="active">`（“精选”）——因为它是 `.tab-nav` 的后代并且是带 active 类的 a。
 - `.tab-nav a:nth-child(2)` 不会匹配“美食”的 a，因为 nth-child 是相对于父元素的位置（a 在 li 中通常是 li 的第一个子节点），这与之前问题的原因一致。
@@ -196,8 +198,11 @@ function activate(index) {
 
 # d3
 ## data-id和id的区别
+```html
 <li><a href="javascript:;" data-id="1">美食</a></li>
   const i = +e.target.dataset.id
+```
+
 - data-id 是自定义属性，存储在 HTML 元素的 dataset 对象中
 - id 是标准属性，直接作为元素的属性存在
 - data-id 可以存储任意数据，id 只能存储唯一标识符
@@ -205,7 +210,6 @@ function activate(index) {
 - data-* 属性不会影响元素的默认行为，id 可能会被 CSS/JS 选择器使用
 - data-* 属性更灵活，适合存储自定义数据，id 更适合标识元素
 - 总结：data-id 用于存储自定义数据，id 用于标识元素，两者用途和访问方式不同。
-
 
 # d4 
 _(:з」∠)_
@@ -624,8 +628,8 @@ if (!Number.isInteger(idx) || idx < 0 || idx >= arr.length) return;
 
 逐项区别（要点）
 - 目标元素匹配
-  - 第一种：if (e.target.tagName === 'A') 只能在点击正好落在 <a> 本身时生效；若 <a> 内有子元素（比如图标 <svg>、<span>），点击子元素时会失效。
-  - 第二种：e.target.closest('a') 会找到最近的祖先 <a>，更可靠（事件委托常用）。
+  - 第一种：if (e.target.tagName === 'A') 只能在点击正好落在 `<a>` 本身时生效；若 `<a>` 内有子元素（比如图标 `<svg>`、`<span>`），点击子元素时会失效。
+  - 第二种：e.target.closest('a') 会找到最近的祖先 `<a>`，更可靠（事件委托常用）。
 
 - 索引类型与校验
   - 第一种：直接使用 e.target.dataset.idx（字符串）传给 splice，依赖隐式类型转换，遇到空串或非数字会产生意外（"" -> 0，"abc" -> NaN 导致 splice 不生效或删除错误项）。
@@ -694,6 +698,7 @@ function onTbodyClick(e) {
    - 优点：非阻塞但仍能等待用户决策（通过 Promise），风格一致，可做可访问性增强（焦点管理、ARIA）。
 
 下面给出可直接集成到你页面的示例代码片段（HTML / CSS / JS）。你只需要把 HTML 插入合适位置，把 CSS 放到 <style> 或 css 文件，并把 JS 函数合并入现有脚本（或替换 onSubmit/onTbodyClick 对应部分）。
+
 ### 一、HTML（在表单下方插入行内消息区域；在 body 末尾插入 modal）
 ```html
 <!-- 在 <form class="info"> 之后，或合适位置 -->

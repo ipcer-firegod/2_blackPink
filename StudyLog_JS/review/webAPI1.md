@@ -318,6 +318,38 @@ const timer = setInterval(function() {
 7. 如何获取标签上的 `data-age="18"` 自定义属性？
 
 
+### 1. const/let 选择原则；const 对象可改属性原因
+- 选择：**优先用 const**（声明后不重新赋值的变量，如固定值、对象/数组）；**let 用于需要重新赋值/更新的变量**（如循环变量、状态值）。
+- 原因：const 仅限制**变量指向的内存地址不可变**，对象/数组是引用类型，内存地址指向堆内存，修改内部属性不会改变地址，因此允许修改。
+
+### 2. querySelector/querySelectorAll 区别；伪数组遍历
+- 区别：`querySelector` 匹配**第一个**符合CSS选择器的元素，返回单个DOM节点；`querySelectorAll` 匹配**所有**符合的元素，返回**NodeList伪数组**。
+- 遍历：① for 循环；② forEach 遍历（NodeList原生支持）；③ 展开为真数组 `[...nodes].forEach()`/`Array.from(nodes).forEach()`。
+
+### 3. innerText/innerHTML 核心区别；innerHTML 实现加粗+换行
+- 核心区别：`innerText` 仅操作**纯文本**，会忽略HTML标签、保留文本格式；`innerHTML` 可解析**HTML标签**，能渲染富文本，直接操作DOM结构。
+- 实现：`元素.innerHTML = '这是<b>加粗文字</b><br>这是换行后的文字'`（`<b>` 加粗，`<br>` 换行）。
+
+### 4. JS 修改 style.margin-top:20px 的写法+原因
+- 写法：`元素.style.marginTop = '20px'`（**驼峰命名**，值必须加单位）。
+- 原因：JS中标识符不允许包含`-`（会被解析为减号），因此CSS行内样式的连字符属性，在JS中需转为**驼峰命名法**；style属性设置样式时，必须显式指定单位（如px），浏览器不会默认补充。
+
+### 5. classList 常用方法；点击按钮切换active类
+- 常用方法：`add(类名)`（添加）、`remove(类名)`（移除）、`toggle(类名)`（切换，有则删无则加）、`contains(类名)`（判断是否包含，返回布尔值）。
+- 切换实现：
+  ```js
+  按钮.onclick = () => { 目标元素.classList.toggle('active'); }
+  ```
+
+### 6. 定时器开启/关闭语法；避免定时器叠加
+- 语法：① 开启：`let timer = setInterval(执行函数, 时间毫秒数)`（间歇定时器）/`setTimeout(执行函数, 时间毫秒数)`（延时定时器）；② 关闭：`clearInterval(timer)`/`clearTimeout(timer)`。
+- 避免叠加：**开启新定时器前，先关闭旧定时器**（声明全局定时器变量，开启前执行`clearInterval(timer)`）。
+
+### 7. 获取标签自定义属性 data-age="18" 的方法
+两种常用方法：
+1. **dataset 属性（推荐）**：`元素.dataset.age`（返回字符串'18'，可转数字`Number(元素.dataset.age)`）；
+2. **getAttribute 方法**：`元素.getAttribute('data-age')`（直接获取属性值，返回字符串'18'）。
+
 ## 十、复习小贴士
 1. **善用调试工具**：F12→Elements 面板查看 DOM 结构，Console 面板测试代码（如 `document.querySelector('.box')` 验证是否获取成功）。
 2. **样式操作优先 classList**：修改多个样式时，用 CSS 类+classList 更简洁，避免 style 属性堆砌代码。
